@@ -1,2 +1,2 @@
 # Methods
-This is the github repository for the grad level Experimental Methods course
+This is the github repository for the Experimental Methods course
