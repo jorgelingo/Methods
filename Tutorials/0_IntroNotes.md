@@ -15,7 +15,7 @@ By now you should have installed both **R** and **R Studio**. Why do we need bot
 
 ![RStudio_opening](Images/Rstudio_beginning.png)
 
-You can think of the **R Studio** as divided into 4 quadrants although currently there are only 3 areas that are visible. The left hand space is currently taken up by the *Console*. This is where you can enter R commands directly. You can enter any commands at the cursor:
+You can think of the **R Studio** interface as divided into 4 quadrants although currently there are only 3 areas that are visible. The left hand space is currently taken up by the *Console*. This is where you can enter R commands directly. You can enter any commands at the cursor:
 
 > \>
 
@@ -87,8 +87,8 @@ rnorm(10)
 ```
 
 ```
-##  [1] -0.20926103  0.03624583  0.93121676 -0.16292529 -0.22294079
-##  [6]  0.84661801  1.17901967  0.78530403 -2.00554983  0.31077098
+##  [1] -0.9137662  0.1613082 -1.8690501  1.7126662 -0.6415173  0.6183115
+##  [7] -0.5071873  0.4357965 -2.8076870 -1.7920176
 ```
 
 Notice that with the last command, we got multiple values in our output, and consequently, the values inside of the brackets have changed. 
@@ -102,7 +102,7 @@ Whenever working with unknown commands (or needing to look up how the command is
 * navigate to the help tab in the lower right quadrant and type in the command name
 * Google it!
 
-The help files are a little daunting at first, but they contain some important information. In this case, we see that `rnorm()` is a part of a family of commands that work with the *normal distribution* (a statistical concept that we'll cover later, but think 'bell curve'). For `rnorm()`, we see specifically the following **Usage** documentation:
+The help files are a little daunting at first, but they contain some important information. In this case, we see that `rnorm()` is a part of a family of functions that work with the *normal distribution* (a statistical concept that we'll cover later, but think 'bell curve'). For `rnorm()`, we see specifically the following **Usage** documentation:
 
 > `rnorm(n, mean = 0, sd = 1)`
 
@@ -116,8 +116,8 @@ rnorm(10, mean = 1000, sd = 300)
 ```
 
 ```
-##  [1]  819.3036 1360.5991  472.3931 1021.0689 1202.2296 1200.3562  848.2317
-##  [8] 1153.2032 1038.2028 1312.2092
+##  [1] 1410.3168 1342.2309  710.5754  798.9921  931.1750 1218.9568  840.5260
+##  [8] 1076.9945 1729.6061  687.2982
 ```
 
 Notice that these values are much larger than the original values because of how we changed the arguments. 
@@ -175,8 +175,8 @@ seq2 - seq1
 ```
 
 ```
-##  [1] 22.99285 22.96456 19.28526 18.16679 24.95087 15.39667 20.00083
-##  [8] 22.91581 19.35752 22.39958
+##  [1] 18.13813 18.71555 20.28965 22.99943 18.29509 21.19205 21.94445
+##  [8] 19.79231 22.84329 22.86323
 ```
 
 ```r
@@ -184,8 +184,8 @@ seq2/4
 ```
 
 ```
-##  [1] 5.469013 5.014504 5.035284 4.719880 5.533096 4.092985 5.042888
-##  [8] 5.368894 5.066184 5.398631
+##  [1] 4.679699 4.820827 5.144691 5.966788 4.410772 5.332354 5.446753
+##  [8] 5.399585 5.648625 5.639344
 ```
 
 ```r
@@ -198,12 +198,12 @@ seq3 - seq2
 ```
 
 ```
-##  [1]  1.245436 11.679691  7.615803 11.298968  5.886715 14.982148  7.351361
-##  [8]  1.645913 11.472972  6.162416
+##  [1]  9.504992 10.221061  8.667740  3.660174  7.170315 14.686322 10.513911
+##  [8]  6.625448  6.909868  6.689125
 ```
 Notice that we get a warning message in the last operation. What do we do with warnings and errors? Don't ignore them! They can be helpful even if they take a while to get used to. If all else fails, copy the error message into google and see what pops up!
 
-Let's learn one other useful function for variables. One combining multiple values, you will need to *concatenate* these values. We use the `c()` command to do so. 
+Let's learn one other useful function for variables. When combining multiple values, you will need to *concatenate* these values. We use the `c()` command to do so. 
 
 ```r
 values <- c(2,7,8,3,2,9,7)
@@ -226,7 +226,7 @@ bmi
 ## [1] 19.59184 22.22222 20.93664 24.93075 31.37799 19.73630
 ```
 
-We haven't significantly talked about 2 other panes. One is the **Editor** pane, which is where we will be writing our scripts and notebooks. This will become relevant later. Then, in pane where we found the Help files contains other useful functions. I call it the **Kitchen Sink** pane. Besides the help files, any plots (graphs) that we build will show up here as well as a navigation pane for file directories and for packages (we'll discuss this more later in the semester). 
+We haven't significantly talked about 2 other panes. One is the **Source** pane, which is where we will be writing our scripts and notebooks. This will become relevant later. Then, the pane where we found the Help files also contains other useful functions. I call it the **Kitchen Sink** pane. Besides the help files, any plots (graphs) that we build will show up here as well as a navigation pane for file directories and for packages (we'll discuss this more later in the semester). 
 
 ## Importing Data, Indexing, and Subsetting
 
@@ -313,9 +313,9 @@ summary(sample) #gives summary for each column
 ##  Max.   :100.00            
 ## 
 ```
-The `str()` function is extremely valuable because it lets you knw what type of column R thinks you have. We'll work a lot more with this concept in 2 weeks but for the time being, it's sufficient to know that we have the following columns:
+The `str()` function is extremely valuable because it lets you knw what type of column R thinks you have. We'll work a lot more with this concept in 2 weeks but for the time being, it's sufficient to know that the following are the most typical variable classes:
 
-* *factor*: these are systematic, categorical variables (like Sex, Race, Political Party)
+* *factor*: these are systematic, categorical variables (like Sex, Race, Political Party, Proficiency)
 * *integer*: these are whole numbers
 * *numeric/double*: these are numbers with decimal values
 * *logical*: binary variable with TRUE/FALSE or 0/1 outcome levels
@@ -419,7 +419,7 @@ sample[sample$response_accuracy == "correct",]
 ## 51                    65cc        H           correct    14  87.50  late
 ```
 
-Notice that the conditional is in the bracket and that we are still using the comma. essentially, the syntax reads: give me all rows where response_accuracy equals "correct". Notice that we had to use 2 equal signs. What happens if you only write what is inside of the brackets without the comma?
+Notice that the conditional is in the bracket and that we are still using the comma. Essentially, the syntax reads: give me all rows in the data frame `sample` where `response_accuracy` equals "correct". Notice that we had to use 2 equal signs. Although it is a little bit confusing, in R, you need to write `==` to mean 'equals.' Use a single `=` to change default arguments, provide new arguments, or name new column headers (to be discussed later). What happens if you only write what is inside of the brackets without the comma?
 
 An even more typical operation for us would be to get the mean proportion of correct answers for the entire experiment. 
 

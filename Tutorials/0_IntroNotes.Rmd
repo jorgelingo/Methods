@@ -17,7 +17,7 @@ By now you should have installed both **R** and **R Studio**. Why do we need bot
 
 ![RStudio_opening](Images/Rstudio_beginning.png)
 
-You can think of the **R Studio** as divided into 4 quadrants although currently there are only 3 areas that are visible. The left hand space is currently taken up by the *Console*. This is where you can enter R commands directly. You can enter any commands at the cursor:
+You can think of the **R Studio** interface as divided into 4 quadrants although currently there are only 3 areas that are visible. The left hand space is currently taken up by the *Console*. This is where you can enter R commands directly. You can enter any commands at the cursor:
 
 > \>
 
@@ -51,7 +51,7 @@ Whenever working with unknown commands (or needing to look up how the command is
 * navigate to the help tab in the lower right quadrant and type in the command name
 * Google it!
 
-The help files are a little daunting at first, but they contain some important information. In this case, we see that `rnorm()` is a part of a family of commands that work with the *normal distribution* (a statistical concept that we'll cover later, but think 'bell curve'). For `rnorm()`, we see specifically the following **Usage** documentation:
+The help files are a little daunting at first, but they contain some important information. In this case, we see that `rnorm()` is a part of a family of functions that work with the *normal distribution* (a statistical concept that we'll cover later, but think 'bell curve'). For `rnorm()`, we see specifically the following **Usage** documentation:
 
 > `rnorm(n, mean = 0, sd = 1)`
 
@@ -104,7 +104,7 @@ seq3 - seq2
 ```
 Notice that we get a warning message in the last operation. What do we do with warnings and errors? Don't ignore them! They can be helpful even if they take a while to get used to. If all else fails, copy the error message into google and see what pops up!
 
-Let's learn one other useful function for variables. One combining multiple values, you will need to *concatenate* these values. We use the `c()` command to do so. 
+Let's learn one other useful function for variables. When combining multiple values, you will need to *concatenate* these values. We use the `c()` command to do so. 
 ```{r}
 values <- c(2,7,8,3,2,9,7)
 #try doing so without the c() command
@@ -121,7 +121,7 @@ bmi <- weight/height^2
 bmi
 ```
 
-We haven't significantly talked about 2 other panes. One is the **Editor** pane, which is where we will be writing our scripts and notebooks. This will become relevant later. Then, in pane where we found the Help files contains other useful functions. I call it the **Kitchen Sink** pane. Besides the help files, any plots (graphs) that we build will show up here as well as a navigation pane for file directories and for packages (we'll discuss this more later in the semester). 
+We haven't significantly talked about 2 other panes. One is the **Source** pane, which is where we will be writing our scripts and notebooks. This will become relevant later. Then, the pane where we found the Help files also contains other useful functions. I call it the **Kitchen Sink** pane. Besides the help files, any plots (graphs) that we build will show up here as well as a navigation pane for file directories and for packages (we'll discuss this more later in the semester). 
 
 ## Importing Data, Indexing, and Subsetting
 
@@ -148,9 +148,9 @@ tail(sample) #prints last 6 rows
 str(sample) #gives structure of data columns
 summary(sample) #gives summary for each column
 ```
-The `str()` function is extremely valuable because it lets you knw what type of column R thinks you have. We'll work a lot more with this concept in 2 weeks but for the time being, it's sufficient to know that we have the following columns:
+The `str()` function is extremely valuable because it lets you knw what type of column R thinks you have. We'll work a lot more with this concept in 2 weeks but for the time being, it's sufficient to know that the following are the most typical variable classes:
 
-* *factor*: these are systematic, categorical variables (like Sex, Race, Political Party)
+* *factor*: these are systematic, categorical variables (like Sex, Race, Political Party, Proficiency)
 * *integer*: these are whole numbers
 * *numeric/double*: these are numbers with decimal values
 * *logical*: binary variable with TRUE/FALSE or 0/1 outcome levels
@@ -183,7 +183,7 @@ This part may not seem useful on its own but what makes indexing powerful is tha
 sample[sample$response_accuracy == "correct",]
 ```
 
-Notice that the conditional is in the bracket and that we are still using the comma. essentially, the syntax reads: give me all rows where response_accuracy equals "correct". Notice that we had to use 2 equal signs. What happens if you only write what is inside of the brackets without the comma?
+Notice that the conditional is in the bracket and that we are still using the comma. Essentially, the syntax reads: give me all rows in the data frame `sample` where `response_accuracy` equals "correct". Notice that we had to use 2 equal signs. Although it is a little bit confusing, in R, you need to write `==` to mean 'equals.' Use a single `=` to change default arguments, provide new arguments, or name new column headers (to be discussed later). What happens if you only write what is inside of the brackets without the comma?
 
 An even more typical operation for us would be to get the mean proportion of correct answers for the entire experiment. 
 ```{r}
