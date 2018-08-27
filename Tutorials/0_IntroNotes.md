@@ -13,7 +13,7 @@ output:
 ## Introduction
 By now you should have installed both **R** and **R Studio**. Why do we need both? **R** is a programming language (think, something like an Operating System, OS) and comes with a basic graphical interface, but it's quite challenging to use because it is very bare bones. Consequently, several *integrated development environments* (IDEs) have been developed that make it easier to interact with **R**--**R Studio** is one such IDE. In this case, you can think of the IDE like the device that you personally use to run your OS.  Let's start by opening the **R Studio** application. You should see something like this:
 
-![RStudio_opening](Images/Rstudio_beginning.png)
+![RStudio First Screen](Images/RStudio_beginning.png)
 
 You can think of the **R Studio** interface as divided into 4 quadrants although currently there are only 3 areas that are visible. The left hand space is currently taken up by the *Console*. This is where you can enter R commands directly. You can enter any commands at the cursor:
 
@@ -87,8 +87,8 @@ rnorm(10)
 ```
 
 ```
-##  [1] -0.9137662  0.1613082 -1.8690501  1.7126662 -0.6415173  0.6183115
-##  [7] -0.5071873  0.4357965 -2.8076870 -1.7920176
+##  [1] 0.43441403 1.33340681 0.79566085 1.68456708 0.34268390 0.33074656
+##  [7] 0.41503805 0.09299538 0.11703515 1.43185692
 ```
 
 Notice that with the last command, we got multiple values in our output, and consequently, the values inside of the brackets have changed. 
@@ -116,8 +116,8 @@ rnorm(10, mean = 1000, sd = 300)
 ```
 
 ```
-##  [1] 1410.3168 1342.2309  710.5754  798.9921  931.1750 1218.9568  840.5260
-##  [8] 1076.9945 1729.6061  687.2982
+##  [1] 1532.9626  504.4266  838.2373  942.7460 1229.2366 1128.2782 1307.4450
+##  [8] 1274.1483  531.7910  627.2215
 ```
 
 Notice that these values are much larger than the original values because of how we changed the arguments. 
@@ -175,8 +175,8 @@ seq2 - seq1
 ```
 
 ```
-##  [1] 18.13813 18.71555 20.28965 22.99943 18.29509 21.19205 21.94445
-##  [8] 19.79231 22.84329 22.86323
+##  [1] 19.38703 18.67259 17.58591 23.14948 20.47642 19.18438 18.60640
+##  [8] 18.97595 18.78781 17.89886
 ```
 
 ```r
@@ -184,8 +184,8 @@ seq2/4
 ```
 
 ```
-##  [1] 4.679699 4.820827 5.144691 5.966788 4.410772 5.332354 5.446753
-##  [8] 5.399585 5.648625 5.639344
+##  [1] 4.656821 4.715144 4.033727 5.515861 5.011262 4.643057 5.090844
+##  [8] 4.660111 4.905908 4.432198
 ```
 
 ```r
@@ -198,8 +198,8 @@ seq3 - seq2
 ```
 
 ```
-##  [1]  9.504992 10.221061  8.667740  3.660174  7.170315 14.686322 10.513911
-##  [8]  6.625448  6.909868  6.689125
+##  [1]  3.282816 10.138266 15.194680  4.750372  8.671978 15.673941 12.927946
+##  [8]  3.269654  9.375210 13.600799
 ```
 Notice that we get a warning message in the last operation. What do we do with warnings and errors? Don't ignore them! They can be helpful even if they take a while to get used to. If all else fails, copy the error message into google and see what pops up!
 

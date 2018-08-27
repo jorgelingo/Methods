@@ -15,7 +15,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ## Introduction
 By now you should have installed both **R** and **R Studio**. Why do we need both? **R** is a programming language (think, something like an Operating System, OS) and comes with a basic graphical interface, but it's quite challenging to use because it is very bare bones. Consequently, several *integrated development environments* (IDEs) have been developed that make it easier to interact with **R**--**R Studio** is one such IDE. In this case, you can think of the IDE like the device that you personally use to run your OS.  Let's start by opening the **R Studio** application. You should see something like this:
 
-![RStudio_opening](Images/Rstudio_beginning.png)
+![RStudio First Screen](Images/RStudio_beginning.png)
 
 You can think of the **R Studio** interface as divided into 4 quadrants although currently there are only 3 areas that are visible. The left hand space is currently taken up by the *Console*. This is where you can enter R commands directly. You can enter any commands at the cursor:
 
