@@ -5,14 +5,16 @@ date: "8/29/2018"
 output: 
   html_document: 
     keep_md: yes
+    fig_width: 5
+    fig_height: 3
 ---
 
-##Why R Markdown?
+## Why R Markdown?
 why should we use R Markdown? It provides a unified framework for authoring documents that contain the code, the output of the code, and any additional commentary or text that we would want to include. It's written in a simple markdown language (this is what the *md* stands for). This requires a smooth learning curve, which is not too hard to pick up with a little practice. With this single document we can:
 
-*communicate our findings to a senior author/collaborator or other interested party who may not necessarily be interested in the specifics of how the analysis is carried out (you can hide the code chunks)  
-* as a write-up for collaborators who are interested in the code and the results (this could even be you in a future study)  
-* As a self-containing environment for conducting data science
+* communicate our findings to a senior author/collaborator or other interested party who may not necessarily be interested in the specifics of how the analysis is carried out (you can hide the code chunks)
+* as a write-up for collaborators who are interested in the code and the results (this could even be you in a future study)
+* as a self-contained environment for conducting data science
 
 I can't emphasize enough how much of a difference using R Markdown has made to my own workflow, in making my code more efficient (in conjunction with `tidyverse`) and in simplifying my own ability to look back on what I did. 
 
@@ -33,7 +35,7 @@ Including my file directory:
 
 So I really want to highly encourage you to use the R Markdown funcitonality even beyond my class. It's essentially like keeping a lab notebook, which can easily be converted into a final product. In fact, it's possible to write-up journal article submissions and even conference presentations all within R Studio. These are obviously more advanced topics, but it's something you can look forward to as you progress with your own skillset!
 
-##Getting Started
+## Getting Started
 Open _R Studio_ and go to _File > New File > R Markdown_. You'll see the Source pane take over (the Console will become hidden) and you'll see a simple (nearly) blank template. You can also try _R Notebook_. Go ahead and open an _R Notebook_ file and compare the differences across both templates. 
 
 What you now have is an [R Markdown](http://rmarkdown.rstudio.com) document. When you execute code within the document, the results appear beneath the code. There are three important types of content.
@@ -62,19 +64,19 @@ When you save an R notebook, an HTML file containing the code and output will be
 #Tutorial
 Here are some text formatting aspects that can be done within the text portion of the notebook:
 
-##Headings
+## Headings
 # 1st Level Header
 ## 2nd Level Header
 ### 3rd Level Header
 
-##Formatting
+## Formatting
 *italic* or _italic_
 **bold** or __bold__
 `code`
 superscript^2^ 
 subscript~2~
 
-##Lists
+## Lists
 * Bulleted Item 1
 * Item 2
   + Item 2a
@@ -83,7 +85,7 @@ subscript~2~
 1. Numbered Item 1
 1. Item 2. (numbering is automatic)
 
-##Links and images
+## Links and images
 For links:
 <http://docs.ggplot2.org>
 
@@ -91,14 +93,14 @@ For links:
 
 ![Valparaiso](Images/Paseo21mayo.jpg)
 
-##Tables
+## Tables
 
 First | Second
 ------ | ------
 a | b
 c | d
 
-##Other
+## Other
 You can write in-line equations using $\LaTeX$ formatting: $SEM = \sigma/\sqrt n$. 
 
 Create a horizontal rule:
@@ -109,7 +111,7 @@ Create a block quote:
 
 > Important stuff was said
 
-##Inserting chunks
+## Inserting chunks
 Use **CMD/CTRL+OPTION/ALT+i** to insert a code chunk:
 ```{r Example1}
 a <- 3
@@ -120,7 +122,7 @@ c
 You can give an R chunk a name by adding above within `{}` after the **r**.
 Use **CMD/CTRL+SHIFT+ENTER** to run code chunk. Results will appear after chunk in notebooks!
 
-##Basic Shortcuts Summary
+## Basic Shortcuts Summary
 These are in my opinion, the most important shortcut keys to remember in R:
 
 * __OPTION/ALT+-__ creates the assignment operator `<-`  
@@ -154,7 +156,7 @@ t.test(fake_data$Fake_RT[fake_data$Condition == "easy"], fake_data$Fake_RT[fake_
 ```
 You see that in both instances of running the `t.test()` that we got the same results. Because all of our dependent variable is contained in one column, I would recommend using the *formula syntax* method. The *indexing* method is more helpful when you have your dependent variables split across two columns. 
 
-##Chunk options
+## Chunk options
 There is a lot of flexibility to customize what the code chunks do. Probably the most important are `eval = FALSE` `echo = FALSE` and `results = 'hide'`. These each respectively, suppress code from running but print it, hides the code but produces the output, runs the code but hides the output. Just add these additional arguments to the end of the chunk name. Let's prevent output from printing.
 
 ```{r Suppress output visiblity, results = 'hide'}
@@ -170,13 +172,13 @@ third^2
 
 Some of these options may be useful for writing up reports that don't need to show code (maybe for a class paper or for a senior colleague/advisor) or if you don't need to show intermediate steps that may make the output document very long.
 
-##Additional Resources
+## Additional Resources
 Here are some additional resources that are very helpful. The first link is for a simple tutorial that we are going to practice in class today. The second is for a reference sheet published through R Studio.
 
 * [Markdown Tutorial](https://www.markdowntutorial.com/)  
 * [R Markdown cheatsheet](https://rmarkdown.rstudio.com/lesson-15.html)
 
-##Your turn
+## Your turn
 Now that you have the beginning steps to create your own document, I want you to "write up a report" on a dataset titled **CSLex_subset.csv** that can be found in the _data_ folder in our _Methods_ repository on GitHub. 
 
 Download this dataset to a local directory. Set your workind directory to that directory path and import the dataset. Then, just play around with some of functions that we learned last week to get a sense for the _structure_ of the data set. Just remember to write some prose on what you are trying to do, then insert code chunks to do things, then execute the code within each chunk. You can turn in your final report to me as a pdf or word document. 
