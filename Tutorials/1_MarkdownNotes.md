@@ -10,7 +10,7 @@ output:
 ---
 
 ## Why R Markdown?
-why should we use R Markdown? It provides a unified framework for authoring documents that contain the code, the output of the code, and any additional commentary or text that we would want to include. It's written in a simple markdown language (this is what the *md* stands for). This requires a smooth learning curve, which is not too hard to pick up with a little practice. With this single document we can:
+Why should we use R Markdown? It provides a unified framework for authoring documents that contain the code, the output of the code, and any additional commentary or text that we would want to include. It's written in a simple markdown language (this is what the *md* stands for). This requires a smooth learning curve, which is not too hard to pick up with a little practice. With this single document we can:
 
 * communicate our findings to a senior author/collaborator or other interested party who may not necessarily be interested in the specifics of how the analysis is carried out (you can hide the code chunks)
 * as a write-up for collaborators who are interested in the code and the results (this could even be you in a future study)
@@ -186,26 +186,26 @@ print(fake_data)
 ## # A tibble: 20 x 3
 ##    Subject Condition Fake_RT
 ##      <int> <chr>       <dbl>
-##  1       1 easy         245.
-##  2       2 easy         248.
-##  3       3 easy         248.
-##  4       4 easy         245.
-##  5       5 easy         249.
-##  6       6 easy         250.
-##  7       7 easy         251.
+##  1       1 easy         247.
+##  2       2 easy         249.
+##  3       3 easy         253.
+##  4       4 easy         254.
+##  5       5 easy         253.
+##  6       6 easy         249.
+##  7       7 easy         250.
 ##  8       8 easy         249.
-##  9       9 easy         252.
+##  9       9 easy         253.
 ## 10      10 easy         249.
-## 11       1 hard         295.
-## 12       2 hard         298.
-## 13       3 hard         293.
-## 14       4 hard         298.
-## 15       5 hard         294.
-## 16       6 hard         291.
-## 17       7 hard         290.
+## 11       1 hard         294.
+## 12       2 hard         293.
+## 13       3 hard         295.
+## 14       4 hard         292.
+## 15       5 hard         295.
+## 16       6 hard         290.
+## 17       7 hard         292.
 ## 18       8 hard         293.
-## 19       9 hard         293.
-## 20      10 hard         292.
+## 19       9 hard         292.
+## 20      10 hard         293.
 ```
 Now let's do something very simple with `tidyverse` in a code chunk. Let's summarize the *mean* and *sd* for our fake data by the levels of **Condition**:
 
@@ -220,8 +220,8 @@ print(group_fake_data)
 ## # A tibble: 2 x 3
 ##   Condition meanRT  sdRT
 ##   <chr>      <dbl> <dbl>
-## 1 easy        249.  2.34
-## 2 hard        294.  2.81
+## 1 easy        251.  2.48
+## 2 hard        293.  1.41
 ```
 And let's end by running a paired t-test, since there are two data points per Participant, one for the *easy* condition and one for the *hard* condition.
 
@@ -235,13 +235,13 @@ t.test(Fake_RT ~ Condition, data = fake_data, paired = TRUE)
 ## 	Paired t-test
 ## 
 ## data:  Fake_RT by Condition
-## t = -30.278, df = 9, p-value = 2.288e-10
+## t = -49.49, df = 9, p-value = 2.817e-12
 ## alternative hypothesis: true difference in means is not equal to 0
 ## 95 percent confidence interval:
-##  -48.53895 -41.79021
+##  -44.37993 -40.50009
 ## sample estimates:
 ## mean of the differences 
-##               -45.16458
+##               -42.44001
 ```
 
 ```r
@@ -254,13 +254,13 @@ t.test(fake_data$Fake_RT[fake_data$Condition == "easy"], fake_data$Fake_RT[fake_
 ## 	Paired t-test
 ## 
 ## data:  fake_data$Fake_RT[fake_data$Condition == "easy"] and fake_data$Fake_RT[fake_data$Condition == "hard"]
-## t = -30.278, df = 9, p-value = 2.288e-10
+## t = -49.49, df = 9, p-value = 2.817e-12
 ## alternative hypothesis: true difference in means is not equal to 0
 ## 95 percent confidence interval:
-##  -48.53895 -41.79021
+##  -44.37993 -40.50009
 ## sample estimates:
 ## mean of the differences 
-##               -45.16458
+##               -42.44001
 ```
 You see that in both instances of running the `t.test()` that we got the same results. Because all of our dependent variable is contained in one column, I would recommend using the *formula syntax* method. The *indexing* method is more helpful when you have your dependent variables split across two columns. 
 
@@ -287,10 +287,11 @@ third^2
 Some of these options may be useful for writing up reports that don't need to show code (maybe for a class paper or for a senior colleague/advisor) or if you don't need to show intermediate steps that may make the output document very long.
 
 ## Additional Resources
-Here are some additional resources that are very helpful. The first link is for a simple tutorial that we are going to practice in class today. The second is for a reference sheet published through R Studio.
+Here are some additional resources that are very helpful. The first link is for a simple tutorial that we are going to practice in class today. The second is for a reference sheet published through R Studio. The third is a definitive guide (an e-book) to R Markdown by the developer for R Studio, Yihui Xie. 
 
 * [Markdown Tutorial](https://www.markdowntutorial.com/)  
 * [R Markdown cheatsheet](https://rmarkdown.rstudio.com/lesson-15.html)
+* [*R Markdown: The Definitive Guide*](https://bookdown.org/yihui/rmarkdown/)
 
 ## Your turn
 Now that you have the beginning steps to create your own document, I want you to "write up a report" on a dataset titled **CSLex_subset.csv** that can be found in the _data_ folder in our _Methods_ repository on GitHub. 

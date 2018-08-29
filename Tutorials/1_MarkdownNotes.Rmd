@@ -10,7 +10,7 @@ output:
 ---
 
 ## Why R Markdown?
-why should we use R Markdown? It provides a unified framework for authoring documents that contain the code, the output of the code, and any additional commentary or text that we would want to include. It's written in a simple markdown language (this is what the *md* stands for). This requires a smooth learning curve, which is not too hard to pick up with a little practice. With this single document we can:
+Why should we use R Markdown? It provides a unified framework for authoring documents that contain the code, the output of the code, and any additional commentary or text that we would want to include. It's written in a simple markdown language (this is what the *md* stands for). This requires a smooth learning curve, which is not too hard to pick up with a little practice. With this single document we can:
 
 * communicate our findings to a senior author/collaborator or other interested party who may not necessarily be interested in the specifics of how the analysis is carried out (you can hide the code chunks)
 * as a write-up for collaborators who are interested in the code and the results (this could even be you in a future study)
@@ -173,10 +173,11 @@ third^2
 Some of these options may be useful for writing up reports that don't need to show code (maybe for a class paper or for a senior colleague/advisor) or if you don't need to show intermediate steps that may make the output document very long.
 
 ## Additional Resources
-Here are some additional resources that are very helpful. The first link is for a simple tutorial that we are going to practice in class today. The second is for a reference sheet published through R Studio.
+Here are some additional resources that are very helpful. The first link is for a simple tutorial that we are going to practice in class today. The second is for a reference sheet published through R Studio. The third is a definitive guide (an e-book) to R Markdown by the developer for R Studio, Yihui Xie. 
 
 * [Markdown Tutorial](https://www.markdowntutorial.com/)  
 * [R Markdown cheatsheet](https://rmarkdown.rstudio.com/lesson-15.html)
+* [*R Markdown: The Definitive Guide*](https://bookdown.org/yihui/rmarkdown/)
 
 ## Your turn
 Now that you have the beginning steps to create your own document, I want you to "write up a report" on a dataset titled **CSLex_subset.csv** that can be found in the _data_ folder in our _Methods_ repository on GitHub. 
