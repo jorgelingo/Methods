@@ -23,15 +23,15 @@ In my own pre-R markdown/tidyverse world, I used to work with the script editor.
 Take a look at my prior workflow.
 
 1. I would write code where it was hard to visualize where the different sections occured.
-![Script Screenshot 1](Images/Script1_screenshot.png)
+![Script Screenshot 1](Images/Script1_screenshot.png){width = 20%}
 
 2. Then, I would have a very messy file directory with a whole bunch of intermediate files.
-![File Directory 1](Images/directory_1.png)
+![File Directory 1](Images/directory_1.png){width = 20%}
 
 Now, everything is much more simplified.
-![R Markdown screenshot](Images/Script2_screenshot.png)
+![R Markdown screenshot](Images/Script2_screenshot.png){width = 20%}
 Including my file directory:
-![file directory 2](Images/directory_2.png)
+![file directory 2](Images/directory_2.png){width = 20%}
 
 So I really want to highly encourage you to use the R Markdown funcitonality even beyond my class. It's essentially like keeping a lab notebook, which can easily be converted into a final product. In fact, it's possible to write-up journal article submissions and even conference presentations all within R Studio. These are obviously more advanced topics, but it's something you can look forward to as you progress with your own skillset!
 
@@ -106,7 +106,7 @@ For links:
 
 [ggplot2 documentation](https:/docs.ggplot2.org)
 
-![Valparaiso](Images/Paseo21mayo.jpg)
+![Valparaiso](Images/Paseo21mayo.jpg){width = 30%}
 
 ## Tables
 
@@ -186,26 +186,26 @@ print(fake_data)
 ## # A tibble: 20 x 3
 ##    Subject Condition Fake_RT
 ##      <int> <chr>       <dbl>
-##  1       1 easy         247.
-##  2       2 easy         251.
-##  3       3 easy         246.
-##  4       4 easy         254.
-##  5       5 easy         246.
-##  6       6 easy         253.
-##  7       7 easy         252.
-##  8       8 easy         250.
-##  9       9 easy         248.
-## 10      10 easy         247.
-## 11       1 hard         291.
-## 12       2 hard         292.
-## 13       3 hard         296.
-## 14       4 hard         292.
+##  1       1 easy         245.
+##  2       2 easy         248.
+##  3       3 easy         248.
+##  4       4 easy         245.
+##  5       5 easy         249.
+##  6       6 easy         250.
+##  7       7 easy         251.
+##  8       8 easy         249.
+##  9       9 easy         252.
+## 10      10 easy         249.
+## 11       1 hard         295.
+## 12       2 hard         298.
+## 13       3 hard         293.
+## 14       4 hard         298.
 ## 15       5 hard         294.
-## 16       6 hard         296.
-## 17       7 hard         294.
-## 18       8 hard         292.
-## 19       9 hard         299.
-## 20      10 hard         291.
+## 16       6 hard         291.
+## 17       7 hard         290.
+## 18       8 hard         293.
+## 19       9 hard         293.
+## 20      10 hard         292.
 ```
 Now let's do something very simple with `tidyverse` in a code chunk. Let's summarize the *mean* and *sd* for our fake data by the levels of **Condition**:
 
@@ -220,8 +220,8 @@ print(group_fake_data)
 ## # A tibble: 2 x 3
 ##   Condition meanRT  sdRT
 ##   <chr>      <dbl> <dbl>
-## 1 easy        249.  2.82
-## 2 hard        294.  2.55
+## 1 easy        249.  2.34
+## 2 hard        294.  2.81
 ```
 And let's end by running a paired t-test, since there are two data points per Participant, one for the *easy* condition and one for the *hard* condition.
 
@@ -235,13 +235,13 @@ t.test(Fake_RT ~ Condition, data = fake_data, paired = TRUE)
 ## 	Paired t-test
 ## 
 ## data:  Fake_RT by Condition
-## t = -35.472, df = 9, p-value = 5.562e-11
+## t = -30.278, df = 9, p-value = 2.288e-10
 ## alternative hypothesis: true difference in means is not equal to 0
 ## 95 percent confidence interval:
-##  -47.37409 -41.69394
+##  -48.53895 -41.79021
 ## sample estimates:
 ## mean of the differences 
-##               -44.53402
+##               -45.16458
 ```
 
 ```r
@@ -254,13 +254,13 @@ t.test(fake_data$Fake_RT[fake_data$Condition == "easy"], fake_data$Fake_RT[fake_
 ## 	Paired t-test
 ## 
 ## data:  fake_data$Fake_RT[fake_data$Condition == "easy"] and fake_data$Fake_RT[fake_data$Condition == "hard"]
-## t = -35.472, df = 9, p-value = 5.562e-11
+## t = -30.278, df = 9, p-value = 2.288e-10
 ## alternative hypothesis: true difference in means is not equal to 0
 ## 95 percent confidence interval:
-##  -47.37409 -41.69394
+##  -48.53895 -41.79021
 ## sample estimates:
 ## mean of the differences 
-##               -44.53402
+##               -45.16458
 ```
 You see that in both instances of running the `t.test()` that we got the same results. Because all of our dependent variable is contained in one column, I would recommend using the *formula syntax* method. The *indexing* method is more helpful when you have your dependent variables split across two columns. 
 

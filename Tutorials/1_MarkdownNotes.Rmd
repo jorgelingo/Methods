@@ -23,15 +23,15 @@ In my own pre-R markdown/tidyverse world, I used to work with the script editor.
 Take a look at my prior workflow.
 
 1. I would write code where it was hard to visualize where the different sections occured.
-![Script Screenshot 1](Images/Script1_screenshot.png)
+![Script Screenshot 1](Images/Script1_screenshot.png){width = 20%}
 
 2. Then, I would have a very messy file directory with a whole bunch of intermediate files.
-![File Directory 1](Images/directory_1.png)
+![File Directory 1](Images/directory_1.png){width = 20%}
 
 Now, everything is much more simplified.
-![R Markdown screenshot](Images/Script2_screenshot.png)
+![R Markdown screenshot](Images/Script2_screenshot.png){width = 20%}
 Including my file directory:
-![file directory 2](Images/directory_2.png)
+![file directory 2](Images/directory_2.png){width = 20%}
 
 So I really want to highly encourage you to use the R Markdown funcitonality even beyond my class. It's essentially like keeping a lab notebook, which can easily be converted into a final product. In fact, it's possible to write-up journal article submissions and even conference presentations all within R Studio. These are obviously more advanced topics, but it's something you can look forward to as you progress with your own skillset!
 
@@ -91,7 +91,7 @@ For links:
 
 [ggplot2 documentation](https:/docs.ggplot2.org)
 
-![Valparaiso](Images/Paseo21mayo.jpg)
+![Valparaiso](Images/Paseo21mayo.jpg){width = 30%}
 
 ## Tables
 
