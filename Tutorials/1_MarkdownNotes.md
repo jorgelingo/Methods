@@ -9,7 +9,7 @@ output:
 
 This is an [R Markdown](http://rmarkdown.rstudio.com) document. When you execute code within the document, the results appear beneath the code. 
 
-Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Cmd+Shift+Enter*. 
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Cmd/CTRL+Shift+Enter*. 
 
 
 ```r
@@ -133,26 +133,26 @@ print(fake_data)
 ## # A tibble: 20 x 3
 ##    Subject Condition Fake_RT
 ##      <int> <chr>       <dbl>
-##  1       1 easy         251.
+##  1       1 easy         245.
 ##  2       2 easy         251.
 ##  3       3 easy         250.
-##  4       4 easy         247.
-##  5       5 easy         245.
-##  6       6 easy         251.
-##  7       7 easy         246.
-##  8       8 easy         249.
-##  9       9 easy         254.
-## 10      10 easy         248.
-## 11       1 hard         293.
-## 12       2 hard         299.
-## 13       3 hard         291.
-## 14       4 hard         293.
-## 15       5 hard         292.
-## 16       6 hard         297.
-## 17       7 hard         301.
-## 18       8 hard         295.
+##  4       4 easy         249.
+##  5       5 easy         250.
+##  6       6 easy         246.
+##  7       7 easy         255.
+##  8       8 easy         251.
+##  9       9 easy         250.
+## 10      10 easy         251.
+## 11       1 hard         294.
+## 12       2 hard         296.
+## 13       3 hard         295.
+## 14       4 hard         295.
+## 15       5 hard         296.
+## 16       6 hard         298.
+## 17       7 hard         291.
+## 18       8 hard         296.
 ## 19       9 hard         293.
-## 20      10 hard         289.
+## 20      10 hard         295.
 ```
 Now let's do something very simple with `tidyverse` in a code chunk. Let's summarize the *mean* and *sd* for our fake data by the levels of **Condition**:
 
@@ -167,8 +167,8 @@ print(group_fake_data)
 ## # A tibble: 2 x 3
 ##   Condition meanRT  sdRT
 ##   <chr>      <dbl> <dbl>
-## 1 easy        249.  2.81
-## 2 hard        294.  3.70
+## 1 easy        250.  2.71
+## 2 hard        295.  1.81
 ```
 And let's end by running a paired t-test, since there are two data points per Participant, one for the *easy* condition and one for the *hard* condition.
 
@@ -182,13 +182,13 @@ t.test(Fake_RT ~ Condition, data = fake_data, paired = TRUE)
 ## 	Paired t-test
 ## 
 ## data:  Fake_RT by Condition
-## t = -30.544, df = 9, p-value = 2.116e-10
+## t = -36.35, df = 9, p-value = 4.469e-11
 ## alternative hypothesis: true difference in means is not equal to 0
 ## 95 percent confidence interval:
-##  -48.32464 -41.66012
+##  -47.79515 -42.19487
 ## sample estimates:
 ## mean of the differences 
-##               -44.99238
+##               -44.99501
 ```
 
 ```r
@@ -201,13 +201,13 @@ t.test(fake_data$Fake_RT[fake_data$Condition == "easy"], fake_data$Fake_RT[fake_
 ## 	Paired t-test
 ## 
 ## data:  fake_data$Fake_RT[fake_data$Condition == "easy"] and fake_data$Fake_RT[fake_data$Condition == "hard"]
-## t = -30.544, df = 9, p-value = 2.116e-10
+## t = -36.35, df = 9, p-value = 4.469e-11
 ## alternative hypothesis: true difference in means is not equal to 0
 ## 95 percent confidence interval:
-##  -48.32464 -41.66012
+##  -47.79515 -42.19487
 ## sample estimates:
 ## mean of the differences 
-##               -44.99238
+##               -44.99501
 ```
 You see that in both instances of running the `t.test()` that we got the same results. Because all of our dependent variable is contained in one column, I would recommend using the *formula syntax* method. The *indexing* method is more helpful when you have your dependent variables split across two columns. 
 
