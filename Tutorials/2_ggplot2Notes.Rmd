@@ -1,13 +1,13 @@
 ---
-title: "2_DataVis_notes"
+title: "Data visualization notes"
 author: "Jorge Valdes"
 date: "9/5/2018"
 output:
   html_document:
-    keep_md: yes
+    keep_md: TRUE
 ---
 
-##Introduction
+## Introduction
 
 This week we will begin to work with one of the core packages of the `tidyverse` suite. Whenever we begin a new R session, we will need to "call" any libraries that we need to use. Because `ggplot2`, the data visualization package that we will use, is a part of `tidyverse` we can just call the entire `tidyverse` suite. If the following code does not work, then it is probably because you do not have `tidyverse` installed and you will need to begin with that step. 
 
@@ -131,7 +131,7 @@ ggplot(data = diamonds) +
 3 classes of graphs are mentioned in Chapter 1:
 
 * __bar charts, histograms, and frequency polygons__, which bin data and plot counts (or density/proportions) for each bin
-* __smoothers__ fit a model to the dta and plot predictions from model
+* __smoothers__ fit a model to the data and plot predictions from model
 * __boxplots__ and error barscompute summary statistics of distribution, mean/median, and outliers
 
 ```{r boxplot}
