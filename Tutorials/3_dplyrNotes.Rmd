@@ -1,0 +1,96 @@
+---
+title: "3_dplyr_notes"
+author: "Jorge Valdes"
+date: "9/12/2018"
+output: 
+  html_document: 
+    keep_md: yes
+---
+
+# Introduction
+
+These notes are primarily built from Chapter 3 in _R for Data Science_ as well as some great slides found [here][https://ismayc.github.io/talks/ness-infer/slide_deck.html#1].
+
+Last week we worked on data visualization, and we learned that `ggplot2` works with a _grammar of graphics_ where we first specify a data source (and potentially global aesthetics) and then "layer" each geometric object, facetting, statistical transormation, or other options. As long as we have our working directory set to our class folder, then we should be able to generate the following graph once we have imported our data (I'm going to hide the ggplot code to test whether you can reproduce this graph).
+
+```{r import}
+library(tidyverse)
+cs_data <- read.csv("data/CSLex_Subset.csv")
+head(cs_data)
+```
+
+And now a graph:
+```{r graph, echo=FALSE}
+ggplot(data = cs_data, aes(x = Time.100, y = Target, color = Gender)) +
+  geom_point() +
+  geom_smooth(aes(linetype = Type)) +
+  facet_wrap(~Birth)
+```
+
+The code for the above plot is:
+
+```{r graph code, eval=FALSE}
+ggplot(data = cs_data, aes(x = Time.100, y = Target, color = Gender)) + #data source and global aesthetics
+  geom_point() + #add scatterplot
+  geom_smooth(aes(linetype = Type)) + #add predictor and linetype aesthetic
+  facet_wrap(~Birth) #facet by Birth
+```
+
+However, the data had to be in the right format in order for the graph command to work. Rarely is this the case. We might have to:
+
+* filter/sort our data
+* change the order of rows
+* pick certain variables to include
+* create new variables
+* summarize our values
+* collapse multiple columns into one or split one into multiple columns
+
+All of the above steps are common transformations. This week we'll focus on the first 5 (the 6th we'll work on in a different week) using hte `dplyr` package, which is included in the `tidyverse`. The above actions can be rewritten as `dplyr` functions:
+
+* `filter()` picks observations by their values
+* `arrange()` reorders rows
+* `select()` picks variables (columns) by their names
+* `mutate()` can create new variables 
+* `summarize()` summarizes multiple values into singular ones
+
+Often times, we will want to combine these actions with a grouping function, which in `tidyverse` is the `group_by()` command. Think of these functions as verbs with a similar argument structure. First, you'll **specify a dataset**, then you will **perform the action on a set of arguments**, and the action will **return a new dataset**. These functions can be chained together. 
+
+I consider this package to be a **core** feature of the power of the `tidyverse` and R Studio in helping young researchers become independent. Think of filtering, sorting, and pivot tables (all functions in Excel) on steroids. 
+
+## `filter()`
+
+During our first week, we learned two ways of subsetting data: 1) the indexing method and 2) the `subset()` function. This will be a newer, simpler way to do it. First, just to make our code output easier to manage, we are going to coerce our data frame into a _tibble_. Remember this is a special kind of data frame that is used in the `tidyverse`. We will learn much more about tibbles in a couple of weeks but for now, it's usefult to know that it only prints the first 10 rows of data instead of the entire dataset. 
+
+```{r tibble}
+cs_lex <- as_tibble(cs_data)
+cs_lex
+```
+
+With `filter()`, the first argument is the dataset and the next arguments are the conditionals by which you want to filter the data. We can for example only look at participants born in the US.
+
+```{r US birth}
+filter(cs_lex, Birth == "US")
+```
+
+We can combine and filter by US birth as well as only feminine conditions.
+
+```{r US and fem}
+filter(cs_lex, Birth == "US", Gender == "Feminine")
+```
+
+### Comparisons
+This function makes life easy if we want to select specific values but sometimes we need to add different kinds of comparison operators. Just remember that some of the comparisons require numbers (`>, <, <=, >=`), and always remember: **`==` is for values where `=` is for arguments**. We also have a special symbol for _not equals_: `!=`. 
+
+```{r comparison}
+filter(cs_lex, Time.100 > 350)
+```
+```{r not}
+filter(cs_lex, Gender != "Feminine")
+```
+
+### Logical Operators
+There are several **Boolean** operators that we can use to combine with our conditions. If we only use the comma to separate conditions, then the operation is implicity "and". This figure from the chapter is really helpful for visualizing the logical operators. 
+
+![Figure 5.1][Images/Figure5_1.png]
+
+
