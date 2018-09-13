@@ -9,7 +9,7 @@ output:
 
 # Introduction
 
-These notes are primarily built from Chapter 5 in _R for Data Science_ as well as some great slides found [here][https://ismayc.github.io/talks/ness-infer/slide_deck.html#1].
+These notes are primarily built from Chapter 5 in _R for Data Science_ as well as some great slides found [here](https://ismayc.github.io/talks/ness-infer/slide_deck.html#1).
 
 Last week we worked on data visualization, and we learned that `ggplot2` works with a _grammar of graphics_ where we first specify a data source (and potentially global aesthetics) and then "layer" each geometric object, facetting, statistical transormation, or other options. As long as we have our working directory set to our class folder, then we should be able to generate the following graph once we have imported our data (I'm going to hide the ggplot code to test whether you can reproduce this graph).
 
@@ -19,7 +19,7 @@ library(tidyverse)
 ```
 
 ```
-## ── Attaching packages ─────────────────────────────────────────────────── tidyverse 1.2.1 ──
+## ── Attaching packages ────────────────────────────────────────────────────────────────────────────── tidyverse 1.2.1 ──
 ```
 
 ```
@@ -30,7 +30,7 @@ library(tidyverse)
 ```
 
 ```
-## ── Conflicts ────────────────────────────────────────────────────── tidyverse_conflicts() ──
+## ── Conflicts ───────────────────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
 ## ✖ dplyr::filter() masks stats::filter()
 ## ✖ dplyr::lag()    masks stats::lag()
 ```
@@ -226,7 +226,7 @@ filter(cs_lex, Gender != "Feminine")
 There are several **Boolean** operators that we can use to combine with our conditions. If we only use the comma to separate conditions, then the operation is implicity "and". This figure from the chapter is really helpful for visualizing the logical operators. 
 
 
-![Figure 5.1][Images/Figure5_1.png]
+![Figure 5.1 from _R for Data Science_](Images/Figure5_1.png)
 
 There are usually multiple ways to write filtering conditions with these locial operators. For example, we could get _Control_ and _Match_ conditions and not grab _Filler_ by either of these methods:
 
