@@ -47,14 +47,54 @@ Variation refers to how much the values of a variable changes from measurement t
 
 Let's get started with some data. First, set your working directory to our class folder and set up the `tidyverse` package.
 
-```{r set up, message = FALSE}
+
+```r
 library(tidyverse)
 ```
 
 Let's take a closer look at the CS_Lex dataset:
-```{r}
+
+```r
 cs <- read_csv("data/CSLex_Subset.csv")
+```
+
+```
+## Parsed with column specification:
+## cols(
+##   Subject = col_character(),
+##   Condition = col_integer(),
+##   Gender = col_character(),
+##   Type = col_character(),
+##   Birth = col_character(),
+##   Time.100 = col_integer(),
+##   Target = col_integer(),
+##   Distractor = col_integer(),
+##   Other = col_integer(),
+##   Saccade = col_integer(),
+##   Track_Loss = col_integer(),
+##   Bins = col_integer()
+## )
+```
+
+```r
 glimpse(cs)
+```
+
+```
+## Observations: 1,344
+## Variables: 12
+## $ Subject    <chr> "15", "15", "15", "15", "15", "15", "15", "15", "15...
+## $ Condition  <int> 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 4, ...
+## $ Gender     <chr> "Feminine", "Feminine", "Feminine", "Feminine", "Fe...
+## $ Type       <chr> "Control", "Control", "Control", "Control", "Contro...
+## $ Birth      <chr> "Latin", "Latin", "Latin", "Latin", "Latin", "Latin...
+## $ Time.100   <int> 50, 150, 250, 350, 450, 550, 650, 750, 50, 150, 250...
+## $ Target     <int> 364, 336, 507, 597, 615, 657, 719, 802, 295, 400, 3...
+## $ Distractor <int> 233, 267, 70, 182, 286, 263, 29, 0, 269, 283, 263, ...
+## $ Other      <int> 174, 207, 228, 84, 24, 0, 46, 100, 280, 281, 325, 4...
+## $ Saccade    <int> 161, 177, 101, 137, 75, 80, 173, 42, 156, 36, 68, 4...
+## $ Track_Loss <int> 68, 13, 94, 0, 0, 0, 33, 56, 0, 0, 0, 0, 0, 0, 0, 0...
+## $ Bins       <int> 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 100...
 ```
 
 Until now, I haven't given you much information on this data set (on purpose). But now I'm going to explain the structure of the datset. This datset is from a visual world eye-tracking study that consists of 12 variables with the following charactersists:
@@ -78,58 +118,116 @@ Is this data set tidy? Take 5 mins to discuss with your neighbors.
 
 How we visualize distributions will depend on whether a variable is categorical or continuous. For categorical variables, use a barplot.
 
-```{r barplot}
+
+```r
 ggplot(cs, aes(x = Birth)) + geom_bar()
 ```
 
+![](4_ExploratoryDataAnalysis_Notes_files/figure-html/barplot-1.png)<!-- -->
+
 We see that we have more data from Latin-born participants, then US-born participants, and a few classified as "Other". We can also calculate these values using `count()`:
 
-```{r count}
+
+```r
 cs %>% 
   count(Birth)
 ```
 
+```
+## # A tibble: 3 x 2
+##   Birth     n
+##   <chr> <int>
+## 1 Latin   768
+## 2 Other    96
+## 3 US      480
+```
+
 We could also test to see if there are the same number of observations per participant.
 
-```{r participant}
+
+```r
 ggplot(cs, aes(x = Subject)) + geom_bar()
 ```
+
+![](4_ExploratoryDataAnalysis_Notes_files/figure-html/participant-1.png)<!-- -->
 
 The bars are all equivalent height, indicating that all subjects contributed the same amount of data (good for quality check).
 
 When dealing with a continuous variable, we would use a histogram instead, which arbitrarily bins the data. 
 
-```{r Target Distractor}
+
+```r
 ggplot(cs, aes(x = Target)) + geom_histogram()
+```
+
+```
+## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+```
+
+![](4_ExploratoryDataAnalysis_Notes_files/figure-html/Target Distractor-1.png)<!-- -->
+
+```r
 ggplot(cs, aes(x = Distractor)) + geom_histogram()
 ```
 
+```
+## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+```
+
+![](4_ExploratoryDataAnalysis_Notes_files/figure-html/Target Distractor-2.png)<!-- -->
+
 We can change the binwdith to more meaningful units.
 
-```{r binwidth}
+
+```r
 ggplot(cs, aes(x = Target)) + geom_histogram()
-ggplot(cs, aes(x = Target)) + geom_histogram(binwidth = 100)
-ggplot(cs, aes(x = Target)) + geom_histogram(binwidth = 200)
-ggplot(cs, aes(x = Target)) + geom_histogram(binwidth = 50)
+```
 
 ```
+## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+```
+
+![](4_ExploratoryDataAnalysis_Notes_files/figure-html/binwidth-1.png)<!-- -->
+
+```r
+ggplot(cs, aes(x = Target)) + geom_histogram(binwidth = 100)
+```
+
+![](4_ExploratoryDataAnalysis_Notes_files/figure-html/binwidth-2.png)<!-- -->
+
+```r
+ggplot(cs, aes(x = Target)) + geom_histogram(binwidth = 200)
+```
+
+![](4_ExploratoryDataAnalysis_Notes_files/figure-html/binwidth-3.png)<!-- -->
+
+```r
+ggplot(cs, aes(x = Target)) + geom_histogram(binwidth = 50)
+```
+
+![](4_ExploratoryDataAnalysis_Notes_files/figure-html/binwidth-4.png)<!-- -->
 
 Visualizations let us observe whethere there are any systematic or unusual patterns in the data. We can also see whether the data is clustering (useful for detecting patterns). Let's examine each person's distribution of Target fixations. 
 
-```{r Participant Target}
+
+```r
 ggplot(cs, aes(x = Target)) + 
   geom_histogram(binwidth = 200) + 
   facet_wrap(~Subject)
-
 ```
+
+![](4_ExploratoryDataAnalysis_Notes_files/figure-html/Participant Target-1.png)<!-- -->
 
 Maybe it would make more sense to see whether any participant had an unusual number of blinks.
 
-```{r Track loss}
+
+```r
 ggplot(cs, aes(x = Track_Loss)) + 
   geom_histogram(binwidth = 50) +
   facet_wrap(~Subject)
 ```
+
+![](4_ExploratoryDataAnalysis_Notes_files/figure-html/Track loss-1.png)<!-- -->
 
 ## Outliers
 
@@ -139,72 +237,141 @@ Outliers are observations that are unusual. When we get into the stats tutorial,
 
 Sometimes a dataset may include missing values (blank cells) or the researcher may introduce missing values to maintain a tidy dataset. You may be wondering why we wouldn't use 0 instead. In some cases this may be justified (e.g., you are counting the number of correct responses--if there are not any, then 0 would be an accurate description) but in other cases, 0 may adversely affect your data. For example, in our current dataset, let's assume that blinks above 200 represent outliers and we want to replace them with missing values. In R, these would be written as NAs. We can do this with the `ifelse()` command combined with mutate to add a new column to our dataset. Because I'm significantly changing a dataset, I often times save it to a new dataset just in case I need to traceback and change something. 
 
-```{r missing}
+
+```r
 cs2 <- cs %>% 
   mutate(cTrack_Loss = ifelse(Track_Loss > 200, NA, Track_Loss))
 ```
 
 Dealing with NAs can be really frustrating because it requires special actions. For example, if we try to get the mean value of the new variable, then we get an error. 
 
-```{r}
+
+```r
 mean(cs$Track_Loss)
+```
+
+```
+## [1] 9.517857
+```
+
+```r
 mean(cs2$cTrack_Loss)
+```
+
+```
+## [1] NA
 ```
 
 We can add an argument that tells R to explicitly not count NAs by using the additional argument `na.rm = TRUE`.
 
-```{r na.rm}
+
+```r
 mean(cs2$cTrack_Loss, na.rm = TRUE)
+```
+
+```
+## [1] 8.476831
 ```
 
 Notice that because we replaced values above 200 as NAs, that the overall mean shifted to a lower value. 
 
 If we want to "count" the number of NAs we have we will also have to consider using a special command `is.na()`. This is actually command that returns a logical variable that is either TRUE or FALSE. once we have this variable created, we can then plot the distribution of missing and non-missing values over time. 
 
-```{r missing distribution}
+
+```r
 cs3 <- cs2 %>% 
   mutate(missing_Track_Loss = is.na(cTrack_Loss))
 ggplot(data = cs3, aes(Time.100)) +
   geom_freqpoly(aes(color = missing_Track_Loss), binwidth = 100)
 ```
 
+![](4_ExploratoryDataAnalysis_Notes_files/figure-html/missing distribution-1.png)<!-- -->
+
 ## Covariation
 
 When we have a relationship between two variables, we may also explore covariation between variables. For some statistical tests, covariance is something that we would need to worry about or control (to be discussed at another lecture). In our data set, we may want to explore the distribution of Target looks by Gender. 
 
-```{r Gender}
+
+```r
 ggplot(cs, aes(x = Target)) +
   geom_freqpoly(aes(color = Gender))
 ```
 
+```
+## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+```
+
+![](4_ExploratoryDataAnalysis_Notes_files/figure-html/Gender-1.png)<!-- -->
+
 We see that they are fairly well matched which is great, but what happens when we look at condition type?
 
-```{r Type}
+
+```r
 ggplot(cs, aes(x = Target)) +
   geom_freqpoly(aes(color = Type))
 ```
+
+```
+## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+```
+
+![](4_ExploratoryDataAnalysis_Notes_files/figure-html/Type-1.png)<!-- -->
 
 We see that the fillers behave very differently, which given the context of our design (there were way more fillers that control and match conditions) makes sense. 
 
 When we want to compare two categorical variables, we can create a _contingency table_ which counts the number of unique combinations across variables. 
 
-```{r contingency}
+
+```r
 cs %>% 
   count(Gender, Type)
+```
+
+```
+## # A tibble: 6 x 3
+##   Gender    Type        n
+##   <chr>     <chr>   <int>
+## 1 Feminine  Control   224
+## 2 Feminine  Filler    224
+## 3 Feminine  Match     224
+## 4 Masculine Control   224
+## 5 Masculine Filler    224
+## 6 Masculine Match     224
 ```
 We see that our dataset is balanced, i.e. the same number of rows per unique combination. 
 What happens if we count the number of missing values of blinks per participant? 
 
-```{r ex 1}
+
+```r
 cs3 %>% 
   count(missing_Track_Loss, Subject) %>% 
   arrange(Subject)
 ```
 
+```
+## # A tibble: 33 x 3
+##    missing_Track_Loss Subject     n
+##    <lgl>              <chr>   <int>
+##  1 FALSE              03         48
+##  2 FALSE              06         48
+##  3 FALSE              07         48
+##  4 FALSE              09         48
+##  5 FALSE              11         46
+##  6 TRUE               11          2
+##  7 FALSE              12         47
+##  8 TRUE               12          1
+##  9 FALSE              14         48
+## 10 FALSE              15         48
+## # ... with 23 more rows
+```
+
 When we have two continous variables, we can use a scatterplot to explore relationships. Remember to use the jitter option and/or transparency when there are a lot of points. 
 
-```{r scatter}
+
+```r
 ggplot(cs, aes(x = Target, Distractor)) +
   geom_point(position = "jitter")
 ```
+
+![](4_ExploratoryDataAnalysis_Notes_files/figure-html/scatter-1.png)<!-- -->
 
