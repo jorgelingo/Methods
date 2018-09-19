@@ -1,0 +1,210 @@
+---
+title: "4_ExploratoryDataAnalysis"
+author: "Jorge Valdes"
+date: "9/19/2018"
+output: 
+  html_document:
+  keep_md: yes
+---
+
+# Introduction
+
+The materials for this class are built off of Chapter 7, Exploratory Data Analysis from the _R for Data Science_ e-book (Chapter 5 in the physical book). In experimental research, we normally take a **confirmatory** approach, more or less following these steps:
+
+1. Generate research questions
+2. State hypotheses
+3. Design study
+4. Analyze data to test whether hypotheses are confirmed or not
+5. Conduct follow-ups if necessary
+
+In other instances, it may be worthwhile to conduct **exploratory** analyses. Under this approach, we use the data to generate new questions and to further explore patterns in the data. The following steps are thus iterative:
+
+1. Generate new questions about your data
+2. Explore your data by visualizing, transforming, and modeling your data
+3. Use answers to the step above to refine and/or generate new questions
+
+The above steps are also highly important to check for data quality in your initial analyses. We can use them to identify any _outliers_ in our dataset or to track down any errors that may have been introduced into the experimental design (mispelled words, wrong pictures, wrong coding scheme, etc.). It happens! 
+
+As the chapter discusses, exploratory questions are a part of a creative process and through experience and exposure, you'll know what questions may be relevant for the method that you are using. There are, however, 2 classes of questions which are likely to be relevant (especially with human subjects data):
+
+1. What type of variation occurs within my variables?
+2. What type of covariation occurs between my variables? 
+
+Defining some additional terms (p. 83 from physical book):
+
+* _Variable_: a quantity, quality, or property that can be measured
+* _Value_: the state of a variable when it is measured. This may change from measurement to measurement
+* _Observation_ or _Case_: a set of measuresments made under similar conditions. An observation will normally have several values, each with different variables. 
+* _Tabular data_: a set of values, each associated with a variable and an observation. Tabular data is _tidy_ if each value is placed in its own cell, each variable in its own column, and each observation in its own row. 
+
+Up to now, we have mainly dealt with tidy data. This is usually not how the raw data looks. We will continue to work on getting data into tidy format. 
+
+# Variation
+
+Variation refers to how much the values of a variable changes from measurement to measurement. When you measure mutliple times, there is always some amount of error that can be included, which creates in differences in values. For our field specifically, we are utilizing repeated-measures designs where variation is a fundamental aspect of our measurements. We _know_ that only measuring a participant once would not be representative, so we make certain to get a number of mesaurements with variation already built in. There are several ways to visualize variation, with barplots/histograms and boxplots being amongst the most typical. 
+
+## Setting up
+
+Let's get started with some data. First, set your working directory to our class folder and set up the `tidyverse` package.
+
+```{r set up, message = FALSE}
+library(tidyverse)
+```
+
+Let's take a closer look at the CS_Lex dataset:
+```{r}
+cs <- read_csv("data/CSLex_Subset.csv")
+glimpse(cs)
+```
+
+Until now, I haven't given you much information on this data set (on purpose). But now I'm going to explain the structure of the datset. This datset is from a visual world eye-tracking study that consists of 12 variables with the following charactersists:
+
+* Subject: a variable that identifies the participants
+* Condition: a coding variable that identifies the unique conditions in the experiment (without respect to the experimental design). The unique values of this variable are `unique(cs$Condition)`
+* Gender: a factor of interest that identifies whether the a trial included a masculine or feminine definite article
+* Type: a factor of interest that identifies whether the trial was an experimental (match), control, or filler one
+* Birth: a variable that identifies whether the participant was born in the US or in Latin America
+* Time.100: a variable that identifies the time course of eye fixation data. It is an integer that starts at 50 and increases in increments of 100
+* Target: a variable that indicates the number of looks to the target in any 100 ms increment
+* Distractor: a variable that indicates the number of looks to the distractor in any 100 ms increment
+* Other: a variable that indicates the number of looks to outside regions in any 100 ms increment
+* Saccade: a variable that indicates the number of saccades (quick movements of the eye) in any 100 ms increment
+* Track_Loss: a variable that indicates the number of blinks in any 100 ms increment
+* Bins: a variable that adds up the number of data points in Target, Distractor, Other, Saccade, and Track_Loss per row
+
+Is this data set tidy? Take 5 mins to discuss with your neighbors. 
+
+## Distributions
+
+How we visualize distributions will depend on whether a variable is categorical or continuous. For categorical variables, use a barplot.
+
+```{r barplot}
+ggplot(cs, aes(x = Birth)) + geom_bar()
+```
+
+We see that we have more data from Latin-born participants, then US-born participants, and a few classified as "Other". We can also calculate these values using `count()`:
+
+```{r count}
+cs %>% 
+  count(Birth)
+```
+
+We could also test to see if there are the same number of observations per participant.
+
+```{r participant}
+ggplot(cs, aes(x = Subject)) + geom_bar()
+```
+
+The bars are all equivalent height, indicating that all subjects contributed the same amount of data (good for quality check).
+
+When dealing with a continuous variable, we would use a histogram instead, which arbitrarily bins the data. 
+
+```{r Target Distractor}
+ggplot(cs, aes(x = Target)) + geom_histogram()
+ggplot(cs, aes(x = Distractor)) + geom_histogram()
+```
+
+We can change the binwdith to more meaningful units.
+
+```{r binwidth}
+ggplot(cs, aes(x = Target)) + geom_histogram()
+ggplot(cs, aes(x = Target)) + geom_histogram(binwidth = 100)
+ggplot(cs, aes(x = Target)) + geom_histogram(binwidth = 200)
+ggplot(cs, aes(x = Target)) + geom_histogram(binwidth = 50)
+
+```
+
+Visualizations let us observe whethere there are any systematic or unusual patterns in the data. We can also see whether the data is clustering (useful for detecting patterns). Let's examine each person's distribution of Target fixations. 
+
+```{r Participant Target}
+ggplot(cs, aes(x = Target)) + 
+  geom_histogram(binwidth = 200) + 
+  facet_wrap(~Subject)
+
+```
+
+Maybe it would make more sense to see whether any participant had an unusual number of blinks.
+
+```{r Track loss}
+ggplot(cs, aes(x = Track_Loss)) + 
+  geom_histogram(binwidth = 50) +
+  facet_wrap(~Subject)
+```
+
+## Outliers
+
+Outliers are observations that are unusual. When we get into the stats tutorial, we'll discuss systematic ways to deal with them. However, if we are very certain that something is likely due to error, then you would want to trim or remove outliers. If data from one participant is adversely affected, then one should consider removing the participant. 
+
+## Missing Values
+
+Sometimes a dataset may include missing values (blank cells) or the researcher may introduce missing values to maintain a tidy dataset. You may be wondering why we wouldn't use 0 instead. In some cases this may be justified (e.g., you are counting the number of correct responses--if there are not any, then 0 would be an accurate description) but in other cases, 0 may adversely affect your data. For example, in our current dataset, let's assume that blinks above 200 represent outliers and we want to replace them with missing values. In R, these would be written as NAs. We can do this with the `ifelse()` command combined with mutate to add a new column to our dataset. Because I'm significantly changing a dataset, I often times save it to a new dataset just in case I need to traceback and change something. 
+
+```{r missing}
+cs2 <- cs %>% 
+  mutate(cTrack_Loss = ifelse(Track_Loss > 200, NA, Track_Loss))
+```
+
+Dealing with NAs can be really frustrating because it requires special actions. For example, if we try to get the mean value of the new variable, then we get an error. 
+
+```{r}
+mean(cs$Track_Loss)
+mean(cs2$cTrack_Loss)
+```
+
+We can add an argument that tells R to explicitly not count NAs by using the additional argument `na.rm = TRUE`.
+
+```{r na.rm}
+mean(cs2$cTrack_Loss, na.rm = TRUE)
+```
+
+Notice that because we replaced values above 200 as NAs, that the overall mean shifted to a lower value. 
+
+If we want to "count" the number of NAs we have we will also have to consider using a special command `is.na()`. This is actually command that returns a logical variable that is either TRUE or FALSE. once we have this variable created, we can then plot the distribution of missing and non-missing values over time. 
+
+```{r missing distribution}
+cs3 <- cs2 %>% 
+  mutate(missing_Track_Loss = is.na(cTrack_Loss))
+ggplot(data = cs3, aes(Time.100)) +
+  geom_freqpoly(aes(color = missing_Track_Loss), binwidth = 100)
+```
+
+## Covariation
+
+When we have a relationship between two variables, we may also explore covariation between variables. For some statistical tests, covariance is something that we would need to worry about or control (to be discussed at another lecture). In our data set, we may want to explore the distribution of Target looks by Gender. 
+
+```{r Gender}
+ggplot(cs, aes(x = Target)) +
+  geom_freqpoly(aes(color = Gender))
+```
+
+We see that they are fairly well matched which is great, but what happens when we look at condition type?
+
+```{r Type}
+ggplot(cs, aes(x = Target)) +
+  geom_freqpoly(aes(color = Type))
+```
+
+We see that the fillers behave very differently, which given the context of our design (there were way more fillers that control and match conditions) makes sense. 
+
+When we want to compare two categorical variables, we can create a _contingency table_ which counts the number of unique combinations across variables. 
+
+```{r contingency}
+cs %>% 
+  count(Gender, Type)
+```
+We see that our dataset is balanced, i.e. the same number of rows per unique combination. 
+What happens if we count the number of missing values of blinks per participant? 
+
+```{r ex 1}
+cs3 %>% 
+  count(missing_Track_Loss, Subject) %>% 
+  arrange(Subject)
+```
+
+When we have two continous variables, we can use a scatterplot to explore relationships. Remember to use the jitter option and/or transparency when there are a lot of points. 
+
+```{r scatter}
+ggplot(cs, aes(x = Target, Distractor)) +
+  geom_point(position = "jitter")
+```
+
