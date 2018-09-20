@@ -365,6 +365,8 @@ cs3 %>%
 ## # ... with 23 more rows
 ```
 
+Notice that not everyone has blinks above 200, which means that they only have aggregated values for FALSE. 
+
 When we have two continous variables, we can use a scatterplot to explore relationships. Remember to use the jitter option and/or transparency when there are a lot of points. 
 
 
