@@ -1,0 +1,8 @@
+\frametitle{Standard deviation of 10, Mean of 50}
+
+\begin{verbatim}
+## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
+\end{verbatim}
+
+\includegraphics{5_IntroStatsI_files/figure-beamer/unnamed-chunk-1-1.pdf}
+
