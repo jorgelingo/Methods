@@ -1,0 +1,116 @@
+---
+title: "6_Tibbles"
+author: "Jorge Valdes"
+date: "10/3/2018"
+output: 
+  html_document: 
+    keep_md: yes
+---
+
+# Introduction
+This week we will work with tibbles and we will begin to demonstrate some simple statistical tests that we can conduct with R. Stats tests will necessarily need to be something that you refer to on your own as this is not a course on statistics. 
+
+## Tibbles and data importing
+Tibbles are the specific type of data frame that are used with the `tidyverse`. They have some properties that are preferable to `data.frame`s, which are base R's version of organizing data tables. One advantage is that tibbles by default only print the first 10 rows of data, so that we don't overwhelm what is printed in the Console. 
+
+Up to now, we have mainly be using `read.csv()` to import a data frame and then changing into a tibble by using `as_tibble()`.
+
+```{r sample}
+library(tidyverse)
+sample <- read.csv("data/sample_data.csv")
+head(sample)
+sample2 <- as_tibble(sample)
+sample2
+```
+
+We can import data as a tibble by using `read_csv()` as a command.
+```{r sample tibble}
+sample3 <- read_csv("data/sample_data.csv")
+sample3
+```
+
+If you need to import a tab-delimited .txt file, you can use `read_tsv()` and if you need more flexibility, you can generally use `read_delim()`.
+
+One nice feature of data importing with `read_csv()` is that R will tell you how it understands the column classes. Note: there are some differences with how tibbles treat text columns but it is not a major problem. If you need to change how R is default understanding a variable class, you can use `parse_*()` functions. There are several kinds:
+
+  * `parse_logical()`
+  * `parse_integer()`
+  * `parse_double()`
+  * `parse_character()`
+  * `parse_factor()`
+
+Currently, our variable column "aux_type" is encoded as a character, so if I ask R to give me a summary, we won't see how many of each level we have:
+
+```{r}
+summary(sample3)
+```
+
+We can give the number of levels that we have in the column and ask R to check whether we have the right kinds of levels. This is especially helpful for catching typos when coding variables.
+
+```{r factors}
+aux <- c("E","H")
+parse_factor(sample3$aux_type, levels = aux)
+```
+
+We can also save directly to the same column to change the variable to a factor and then try summary again.
+
+```{r}
+sample3$aux_type <- parse_factor(sample3$aux_type, levels = aux)
+summary(sample3)
+```
+
+We've already seen some issues with character encoding. We are assuming that data files are saved with UTF-8 encoding but this is not always the case. If this is not the case, then we may have to do some reading to figure out what kind of encoding is used. 
+
+```{r encoding}
+reading <- read_csv("data/L2CS_Word8_Ps11_20.csv")
+reading2 <-  reading %>% 
+  select(file:TOTAL_DURATION)
+reading2
+head(reading2$sentence)
+head(parse_character(reading2$sentence, locale = locale(encoding = "Latin1")))
+
+```
+
+# Inferential Statistics
+
+Let's now get into practicing some very basic stats. We'll work with the sample dataset again.
+
+```{r}
+sample3
+```
+
+Let's say that we only wanted to work with the "correct" rows and wanted to compare the mean correct items between "estar" and "haber". This means that we are testing two means from the same group of people, so we will need to conduct a **paired t-test**. 
+
+First, let's limit to only correct items.
+
+```{r correct}
+sample_correct <- sample3 %>% 
+  filter(response_accuracy == "correct")
+sample_correct
+```
+
+Now, let's take a look at the documentation for t-tests.
+```{r}
+?t.test()
+```
+
+There are several default values. The main one that we want to override is the paired argument, which is currently set to FALSE. We want to change that to TRUE. Notice that there are 2 ways to specify t-tests. where each vector is specified in separate columns or using the "formula" method.
+
+```{r t-tests}
+t.test(sample_correct$count[sample_correct$aux_type == "E"], sample_correct$count[sample_correct$aux_type == "H"], paired = TRUE)
+
+#formula method
+t.test(count ~ aux_type, data = sample_correct, paired = TRUE)
+
+##just to see the difference, what happens if we don't changed paired argument?
+t.test(count ~ aux_type, data = sample_correct)
+```
+
+The below chunk is on demonstrating where means in the statistical outputs come from. In the case of 2-samples t-tests: it is the mean for each group. In the case of paired t-tests, then the mean is the difference between the two groups. 
+
+```{r}
+sample2
+mean(sample2$count[sample2$aux_type == "E" & sample2$response_accuracy == "correct"])
+mean(sample2$count[sample2$aux_type == "H"& sample2$response_accuracy == "correct"])
+```
+

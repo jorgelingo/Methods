@@ -1,0 +1,87 @@
+---
+title: "Workshop 1 write-up"
+author: "Jorge Valdes"
+date: "9/26/2018"
+output:
+  word_document: default
+  html_document: default
+---
+
+```{r import data}
+library(tidyverse)
+cs_reading <- read.csv("L2CS_Word8_Ps11_20.csv")
+str(cs_reading)
+```
+```{r}
+names(cs_reading)
+levels(cs_reading$sentence_type)
+```
+
+We have to identify the following columns for our new reduced dataset:
+* RECORDING_SESSION_LABEL
+* aux_type
+* switch_type
+* sentence_type
+* button_RT
+* response_accuracy
+* GAZE_DURATION
+* REGRESSION_PATH_DURATION
+* TOTAL_DURATION
+
+We will use the `select()` command to narrow our dataset. This will be saved to a new dataset. 
+
+```{r select dataset}
+cs_reading2 <- cs_reading %>% 
+  select(RECORDING_SESSION_LABEL, aux_type, switch_type, sentence_type, button_RT, response_accuracy, GAZE_DURATION, REGRESSION_PATH_DURATION, TOTAL_DURATION)
+head(cs_reading2)
+```
+
+We noticed that for Windows machines, there was an issue with how the column header for the first column was encoded. This involved a weird character. One way to check this is to use the `names()` command which lists just the column names (check the first column header name for any weird character). 
+
+```{r}
+names(cs_reading)
+```
+
+For Windows users, one quick solution is to manually rewrite the first column header. We can do this with the following code (the [1] means that we are rewriting the name of the first column header). This should then let one proceed with code as usual. 
+
+```{r}
+names(cs_reading)[1] <- "RECORDING_SESSION_LABEL"
+head(cs_reading)
+```
+
+We only want experimental sentences. We will use `filter()` to select just experimental sentences.
+
+```{r filter}
+cs_reading3 <- cs_reading2 %>% 
+  filter(sentence_type == "Experimental" & response_accuracy == "correct")
+head(cs_reading3)
+```
+
+Now we are going to summarize the data by the variables of interest, aux_type and switch_type. 
+
+```{r summarize}
+cs_summary <- cs_reading3 %>% 
+  group_by(aux_type, switch_type) %>% 
+  summarize(mGAZE_DURATION = mean(GAZE_DURATION), mREGRESSION_PATH_DURATION = mean(REGRESSION_PATH_DURATION), mTOTAL_DURATION = mean(TOTAL_DURATION), sdGAZE_DURATION = sd(GAZE_DURATION), sdREGRESSION_PATH_DURATION = sd(REGRESSION_PATH_DURATION), sdTOTAL_DURATION = sd(TOTAL_DURATION))
+cs_summary
+
+```
+
+We also collected button RT from the amount of time it took to answer the comprehension question. Now we will summarize and get the mean and sd of button_RT. We noticed in class that for some of us, the button_RT was not summarizing with mean. It turns out that the variable was considered a factor (instead of an integer), so we first had to change the class to an integer class using `as.integer()`. 
+
+```{r}
+cs_reading3$button_RT <- as.integer(cs_reading3$button_RT)
+
+buttonrt_summary <- cs_reading3 %>% 
+  group_by(aux_type, switch_type) %>% 
+  summarize(mbuttonRT = mean(button_RT), sdbuttonRT = sd(button_RT))
+buttonrt_summary
+```
+
+let's graph mean button press RTs very quickly.
+
+```{r}
+ggplot(buttonrt_summary, aes(aux_type, mbuttonRT, fill = switch_type)) +
+  geom_bar(stat = "identity", position = "dodge")
+```
+
