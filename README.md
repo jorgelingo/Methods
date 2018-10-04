@@ -9,3 +9,4 @@ This is the github repository for the Experimental Methods course for Fall 2018.
 * I've added the fourth week notes on dplyr and data transformation.
 * I've added the fifth week notes on exploratory data analysis.
 * I've added the sixth week notes on descriptive statistics and a new dataset.
+* I've added the sevent week notes on Tibbles, data importing and very basic example of t-tests.
