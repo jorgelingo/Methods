@@ -14,7 +14,6 @@ This week we will learn a very important concept for the `tidyverse`: _tidy data
 The concept of tidy data is related to how we organize our data. It's ultimately up to us to organize our data. As humans, we are drawn to organizing data what's called **wide** format. We organize our data where each row represents a unique level in a grouping variable (like "Group" or "Participant") and then each column has values related to our conditions. Something like this.
 
 Participant | High Freq Cog RT | Low Freq Cog RT | High Freq NonCog RT | Low Freq NonCog RT 
-
 --------- | --------- | --------- | ---------  | --------- 
 P1 | 243 | 289 | 256 | 323
 P2 | 258 | 312 | 290 | 334
@@ -332,3 +331,123 @@ table5 %>%
 ## 6 China       2000  213766/1280428583
 ```
 
+## `recode` in `tidyverse`
+
+There is also a `recode()` function in the `tidyverse` that I didn't know about. It looks like it follows a similar syntax as the `car::recode` but may be simpler to write. Let's see if we can get a similar result using `dplyr::recode`. 
+
+
+```r
+fake_tidy2 <- fake %>% 
+  gather(2:5,key = "Condition", value = "RT") #here we are using the numeric position of columns to specify which columns need to be gathered
+fake_tidy2
+```
+
+```
+## # A tibble: 8 x 3
+##   Participant Condition           RT
+##   <chr>       <chr>            <dbl>
+## 1 P1          HighFreqCogRT      243
+## 2 P2          HighFreqCogRT      258
+## 3 P1          LowFreqCogRT       289
+## 4 P2          LowFreqCogRT       312
+## 5 P1          HighFreqNonCogRT   256
+## 6 P2          HighFreqNonCogRT   290
+## 7 P1          LowFreqNonCogRT    323
+## 8 P2          LowFreqNonCogRT    334
+```
+
+basically, we need to write each value to its new value. I haven't figured out a way to collapse more than one value into a single value. so this may be cumbersome. We will use `mutate()` since we want to create new variables.
+
+
+```r
+fake_tidy4 <- fake_tidy2 %>% 
+  mutate(CogStatus = dplyr::recode(Condition,
+    HighFreqCogRT = "Cognate",
+    LowFreqCogRT = "Cognate",
+    HighFreqNonCogRT = "Noncognate",
+    LowFreqNonCogRT = "Noncognate"
+  ), 
+  Frequency = dplyr::recode(Condition,
+    HighFreqCogRT = "High",
+    HighFreqNonCogRT = "High",
+    LowFreqCogRT = "Low",
+    LowFreqNonCogRT = "Low"
+  ))
+fake_tidy4
+```
+
+```
+## # A tibble: 8 x 5
+##   Participant Condition           RT CogStatus  Frequency
+##   <chr>       <chr>            <dbl> <chr>      <chr>    
+## 1 P1          HighFreqCogRT      243 Cognate    High     
+## 2 P2          HighFreqCogRT      258 Cognate    High     
+## 3 P1          LowFreqCogRT       289 Cognate    Low      
+## 4 P2          LowFreqCogRT       312 Cognate    Low      
+## 5 P1          HighFreqNonCogRT   256 Noncognate High     
+## 6 P2          HighFreqNonCogRT   290 Noncognate High     
+## 7 P1          LowFreqNonCogRT    323 Noncognate Low      
+## 8 P2          LowFreqNonCogRT    334 Noncognate Low
+```
+
+This method may be an easier way to avoid having to keep track of so many quotes and parentheses, although there may be more typing involved. 
+
+This worked. Now, we'll try one more method that I also found intuitive. This involves mapping functions that basically loop through values. We will learn mapping functions later, but this may be easy to use and extend.
+
+
+```r
+#First, extract names of levels in Condition column and save to variable
+name <- levels(as.factor(fake_tidy2$Condition)) #was only recognized as character class, so needed to change to factor
+name
+```
+
+```
+## [1] "HighFreqCogRT"    "HighFreqNonCogRT" "LowFreqCogRT"    
+## [4] "LowFreqNonCogRT"
+```
+Now we will need to create a new vector for each new column that codes the new values exactly in the same sequence as above.
+
+
+```r
+CogStatus <- c("Cognate", "Noncognate", "Cognate", "Noncognate")
+Frequency <- c("High", "High", "Low", "Low")
+```
+
+we can doublecheck that everything is coded as should be by using `cbind()`.
+
+
+```r
+cbind(name, CogStatus, Frequency)
+```
+
+```
+##      name               CogStatus    Frequency
+## [1,] "HighFreqCogRT"    "Cognate"    "High"   
+## [2,] "HighFreqNonCogRT" "Noncognate" "High"   
+## [3,] "LowFreqCogRT"     "Cognate"    "Low"    
+## [4,] "LowFreqNonCogRT"  "Noncognate" "Low"
+```
+
+Looks good, so now we will use `mutate()` to create our new variables in combination with `mapvalues()` from the `plyr` package (a predecesor to `tidyverse`), which will essentially match the original name with the new name. 
+
+
+```r
+fake_tidy3 <- fake_tidy2 %>% 
+  mutate(CognateStatus = plyr::mapvalues(Condition, from = name, to = CogStatus), FrequencyVal = plyr::mapvalues(Condition, from = name, to = Frequency))
+fake_tidy3
+```
+
+```
+## # A tibble: 8 x 5
+##   Participant Condition           RT CognateStatus FrequencyVal
+##   <chr>       <chr>            <dbl> <chr>         <chr>       
+## 1 P1          HighFreqCogRT      243 Cognate       High        
+## 2 P2          HighFreqCogRT      258 Cognate       High        
+## 3 P1          LowFreqCogRT       289 Cognate       Low         
+## 4 P2          LowFreqCogRT       312 Cognate       Low         
+## 5 P1          HighFreqNonCogRT   256 Noncognate    High        
+## 6 P2          HighFreqNonCogRT   290 Noncognate    High        
+## 7 P1          LowFreqNonCogRT    323 Noncognate    Low         
+## 8 P2          LowFreqNonCogRT    334 Noncognate    Low
+```
+This worked and may be easier to type. There are other methods as well out there. 

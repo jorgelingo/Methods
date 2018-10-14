@@ -130,8 +130,47 @@ $(document).ready(function () {
 <h1>Introduction</h1>
 <p>This week we will learn a very important concept for the <code>tidyverse</code>: <em>tidy data</em>. These notes come from the chapter on tidy data from the <em>R for Data Science</em> book by Wickham and Grolemund.</p>
 <p>The concept of tidy data is related to how we organize our data. It’s ultimately up to us to organize our data. As humans, we are drawn to organizing data what’s called <strong>wide</strong> format. We organize our data where each row represents a unique level in a grouping variable (like “Group” or “Participant”) and then each column has values related to our conditions. Something like this.</p>
-<p>Participant | High Freq Cog RT | Low Freq Cog RT | High Freq NonCog RT | Low Freq NonCog RT</p>
-<p>——— | ——— | ——— | ——— | ——— P1 | 243 | 289 | 256 | 323 P2 | 258 | 312 | 290 | 334 … | … | … | … | …</p>
+<table style="width:69%;">
+<colgroup>
+<col width="13%"></col>
+<col width="13%"></col>
+<col width="13%"></col>
+<col width="13%"></col>
+<col width="13%"></col>
+</colgroup>
+<thead>
+<tr class="header">
+<th>Participant</th>
+<th>High Freq Cog RT</th>
+<th>Low Freq Cog RT</th>
+<th>High Freq NonCog RT</th>
+<th>Low Freq NonCog RT</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>P1</td>
+<td>243</td>
+<td>289</td>
+<td>256</td>
+<td>323</td>
+</tr>
+<tr class="even">
+<td>P2</td>
+<td>258</td>
+<td>312</td>
+<td>290</td>
+<td>334</td>
+</tr>
+<tr class="odd">
+<td>…</td>
+<td>…</td>
+<td>…</td>
+<td>…</td>
+<td>…</td>
+</tr>
+</tbody>
+</table>
 <p>This can be visually helpful or even cognitively useful for us humans. However, it may not be so helpful for data analysis and visualiztion. When using <code>ggplot2</code>, the commands that we use expect experimental variables to be contained in columns and the dependent variable should only be in one column. What is the problem here in our above example?</p>
 <div id="rules-of-tidy-data" class="section level2">
 <h2>Rules of Tidy Data</h2>
@@ -387,6 +426,83 @@ table2_spread</code></pre>
 ## 4 Brazil      2000  80488/174504898  
 ## 5 China       1999  212258/1272915272
 ## 6 China       2000  213766/1280428583</code></pre>
+</div>
+<div id="recode-in-tidyverse" class="section level2">
+<h2><code>recode</code> in <code>tidyverse</code></h2>
+<p>There is also a <code>recode()</code> function in the <code>tidyverse</code> that I didn’t know about. It looks like it follows a similar syntax as the <code>car::recode</code> but may be simpler to write. Let’s see if we can get a similar result using <code>dplyr::recode</code>.</p>
+<pre class="r"><code>fake_tidy2 &lt;- fake %&gt;% 
+  gather(2:5,key = &quot;Condition&quot;, value = &quot;RT&quot;) #here we are using the numeric position of columns to specify which columns need to be gathered
+fake_tidy2</code></pre>
+<pre><code>## # A tibble: 8 x 3
+##   Participant Condition           RT
+##   &lt;chr&gt;       &lt;chr&gt;            &lt;dbl&gt;
+## 1 P1          HighFreqCogRT      243
+## 2 P2          HighFreqCogRT      258
+## 3 P1          LowFreqCogRT       289
+## 4 P2          LowFreqCogRT       312
+## 5 P1          HighFreqNonCogRT   256
+## 6 P2          HighFreqNonCogRT   290
+## 7 P1          LowFreqNonCogRT    323
+## 8 P2          LowFreqNonCogRT    334</code></pre>
+<p>basically, we need to write each value to its new value. I haven’t figured out a way to collapse more than one value into a single value. so this may be cumbersome. We will use <code>mutate()</code> since we want to create new variables.</p>
+<pre class="r"><code>fake_tidy4 &lt;- fake_tidy2 %&gt;% 
+  mutate(CogStatus = dplyr::recode(Condition,
+    HighFreqCogRT = &quot;Cognate&quot;,
+    LowFreqCogRT = &quot;Cognate&quot;,
+    HighFreqNonCogRT = &quot;Noncognate&quot;,
+    LowFreqNonCogRT = &quot;Noncognate&quot;
+  ), 
+  Frequency = dplyr::recode(Condition,
+    HighFreqCogRT = &quot;High&quot;,
+    HighFreqNonCogRT = &quot;High&quot;,
+    LowFreqCogRT = &quot;Low&quot;,
+    LowFreqNonCogRT = &quot;Low&quot;
+  ))
+fake_tidy4</code></pre>
+<pre><code>## # A tibble: 8 x 5
+##   Participant Condition           RT CogStatus  Frequency
+##   &lt;chr&gt;       &lt;chr&gt;            &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;    
+## 1 P1          HighFreqCogRT      243 Cognate    High     
+## 2 P2          HighFreqCogRT      258 Cognate    High     
+## 3 P1          LowFreqCogRT       289 Cognate    Low      
+## 4 P2          LowFreqCogRT       312 Cognate    Low      
+## 5 P1          HighFreqNonCogRT   256 Noncognate High     
+## 6 P2          HighFreqNonCogRT   290 Noncognate High     
+## 7 P1          LowFreqNonCogRT    323 Noncognate Low      
+## 8 P2          LowFreqNonCogRT    334 Noncognate Low</code></pre>
+<p>This method may be an easier way to avoid having to keep track of so many quotes and parentheses, although there may be more typing involved.</p>
+<p>This worked. Now, we’ll try one more method that I also found intuitive. This involves mapping functions that basically loop through values. We will learn mapping functions later, but this may be easy to use and extend.</p>
+<pre class="r"><code>#First, extract names of levels in Condition column and save to variable
+name &lt;- levels(as.factor(fake_tidy2$Condition)) #was only recognized as character class, so needed to change to factor
+name</code></pre>
+<pre><code>## [1] &quot;HighFreqCogRT&quot;    &quot;HighFreqNonCogRT&quot; &quot;LowFreqCogRT&quot;    
+## [4] &quot;LowFreqNonCogRT&quot;</code></pre>
+<p>Now we will need to create a new vector for each new column that codes the new values exactly in the same sequence as above.</p>
+<pre class="r"><code>CogStatus &lt;- c(&quot;Cognate&quot;, &quot;Noncognate&quot;, &quot;Cognate&quot;, &quot;Noncognate&quot;)
+Frequency &lt;- c(&quot;High&quot;, &quot;High&quot;, &quot;Low&quot;, &quot;Low&quot;)</code></pre>
+<p>we can doublecheck that everything is coded as should be by using <code>cbind()</code>.</p>
+<pre class="r"><code>cbind(name, CogStatus, Frequency)</code></pre>
+<pre><code>##      name               CogStatus    Frequency
+## [1,] &quot;HighFreqCogRT&quot;    &quot;Cognate&quot;    &quot;High&quot;   
+## [2,] &quot;HighFreqNonCogRT&quot; &quot;Noncognate&quot; &quot;High&quot;   
+## [3,] &quot;LowFreqCogRT&quot;     &quot;Cognate&quot;    &quot;Low&quot;    
+## [4,] &quot;LowFreqNonCogRT&quot;  &quot;Noncognate&quot; &quot;Low&quot;</code></pre>
+<p>Looks good, so now we will use <code>mutate()</code> to create our new variables in combination with <code>mapvalues()</code> from the <code>plyr</code> package (a predecesor to <code>tidyverse</code>), which will essentially match the original name with the new name.</p>
+<pre class="r"><code>fake_tidy3 &lt;- fake_tidy2 %&gt;% 
+  mutate(CognateStatus = plyr::mapvalues(Condition, from = name, to = CogStatus), FrequencyVal = plyr::mapvalues(Condition, from = name, to = Frequency))
+fake_tidy3</code></pre>
+<pre><code>## # A tibble: 8 x 5
+##   Participant Condition           RT CognateStatus FrequencyVal
+##   &lt;chr&gt;       &lt;chr&gt;            &lt;dbl&gt; &lt;chr&gt;         &lt;chr&gt;       
+## 1 P1          HighFreqCogRT      243 Cognate       High        
+## 2 P2          HighFreqCogRT      258 Cognate       High        
+## 3 P1          LowFreqCogRT       289 Cognate       Low         
+## 4 P2          LowFreqCogRT       312 Cognate       Low         
+## 5 P1          HighFreqNonCogRT   256 Noncognate    High        
+## 6 P2          HighFreqNonCogRT   290 Noncognate    High        
+## 7 P1          LowFreqNonCogRT    323 Noncognate    Low         
+## 8 P2          LowFreqNonCogRT    334 Noncognate    Low</code></pre>
+<p>This worked and may be easier to type. There are other methods as well out there.</p>
 </div>
 </div>
 
