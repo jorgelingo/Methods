@@ -159,7 +159,7 @@ ggplot(fake_tidy, aes(x = CogStatus, y = RT, color = Frequency)) +
   stat_summary(fun.y = mean, geom = "point")
 ```
 
-![](7_TidyNotes_files/figure-html/visualize fake data-1.png)<!-- -->
+![Tidy Notes graph 1](7_TidyNotes_files/figure-html/visualize fake data-1.png)<!-- -->
 
 The opposite of gathering is spreading. It follows a similar argument structure as gather but now we are splitting observations that are across multiple rows into separate columns. Take a look at `table2` included in the `tidyverse`.
 
