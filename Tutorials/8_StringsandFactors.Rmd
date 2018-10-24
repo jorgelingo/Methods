@@ -1,0 +1,301 @@
+---
+title: "8_StringsandFactors"
+author: "Jorge Valdes"
+date: "10/24/2018"
+output: 
+  html_document:
+    keep_md: yes
+---
+
+# Introduction
+
+The notes for this week are built from Chapters 11 and 12 from the physical copy of the _R for Data Science_ book by Wickham and Grolemund. This week we will be working on pattern matching, a very useful skill that comes in very handy, especially when a dataset has typos, hidden spaces, case mismatches, etc. It does, however, require some getting used to. Let's being by initializing our R session. In particular, we are going to be working on a set of character strings that have some sort of pattern or systematicity in them, which are referred to as _regular expressions_ or _regexps_ for short. Make sure to set your working directory and load in the `tidyverse` library. Additionally, we'll be working with the `stringr` package which needs to be loaded separately.
+
+```{r initialize}
+suppressMessages(library(tidyverse))
+library(stringr)
+```
+
+### Creating Strings
+
+Character strings are enclosed in quotes. We've seen examples of strings already with textual responses or even when we refer to the name of a column header. For the most part, we can enclose character strings without any problems. 
+
+```{r strings}
+ex1 <- "how do you do?"
+ex2 <- "good luck!"
+ex1
+ex2
+```
+
+For a couple of special characters, they will need to be represented in a different way, mainly using the "\". New lines are represented as "\n" and tabs are represented as "\t". To create a vector of characters, we would need to concatenate:
+
+```{r more_strings}
+string <- c("a", "b", "c")
+string
+string[3]
+```
+
+## Stringr package
+
+Commands within the `stringr` package begin with `str_`, making them easier to remember than base R commands. For example, we can count the number of characters in each element of a character vector with `str_length()`. 
+
+```{r character_count}
+str_length(c("Happy Birthday", "¿Cuántos años tienes?", "g"))
+```
+
+If you want to combine several strings into one string, you can use `str_c()`. This would be particularly useful if you had to concatenate codes for a Goldvarb analysis. 
+
+```{r concatenate}
+str_c("a", "b", "c", "_", "x", "y", "z")
+```
+
+If you need a separator between elements, then this can be specified in the `sep = ` argument. 
+
+```{r sep}
+str_c("H", "a", "p", "p", "y", sep = ".")
+```
+
+We can also subset strings, specifying by position which elements we want, with `start` and `end` arguments. positive numbers count from the left edge, negative numbers from the right edge. 
+
+```{r subset}
+colors <- c("red", "blue", "green")
+str_sub(colors, 1, 2)
+str_sub(colors, -2,-1)
+```
+
+##Matching Patterns
+
+This is the important part! With matching, we will be able to extract certain types of patterns, sub, etc. There are some special characters involved that specify how specific of a match we want. These are hard to remember at first but with practice they get better. We'll visualize the matches that we are complting using the `str_view()` and `str_view_all()` functions. 
+
+```{r match1}
+fruits <- c("apple", "banana", "pear")
+fruits
+#match "an"
+str_view(fruits, "an")
+```
+
+Notice this is an exact match and it matches the first instance of "an". If we use a "." it searches for any character except a new line. 
+
+```{r match2}
+str_view(fruits, ".a.")
+```
+
+There are special ways to handle special characters--but let's just stick to the basics for now. 
+
+We can also specify edges to search from. These are ferred to as anchors. To indicate the left edge, use "^", for the right edge, use "$". 
+
+```{r anchors}
+str_view(fruits, "^a")
+```
+Notice that this looks for an a from the beginning of a string. 
+
+```{r anchors2}
+str_view(fruits, "a$")
+```
+and note that this searches for an "a" from the end of the string. 
+
+We can combine both for more specificity.
+
+```{r anchors3}
+desserts <- c("apple pie", "apple", "apple tart")
+str_view(desserts, "^apple$")
+```
+
+###More specials
+
+Here are some additional special matches. 
+
+  * \d matches any digit
+  * \s matches any whitespace, including space, tab, newline
+  * [abc] matches a, b, or c
+  * [^abc] matches anything but a, b, or c
+  
+We can use the "or" operator (the vertical pipe, "|") to select between options. 
+
+```{r}
+str_view(c("grey", "gray", "groy"), "gr(e|a)y")
+```
+
+##Repetition
+We can also specify how many times a pattern can match with the following special characers.
+
+  * ?: 0 or 1
+  * +: 1 or more
+  * *: 0 or more (often referred to as wildcard character)
+  
+Treat these matches as literal. Following an example from the book:
+
+```{r long}
+x <- "1888 is the longest year in Roman numberals: MDCCCLXXXVIII"
+x
+```
+
+matching 0 or 1 "CCs":
+```{r}
+str_view(x, "CC?")
+```
+We found a "CC"" without a repetition so that matches the 0 criterion.
+
+```{r}
+str_view(x, "CC+")
+```
+Here, the match specifies a repetition of at least once, so the answer is now "CCC".
+
+```{r}
+str_view(x, "C[LX]+")
+```
+Here, we are looking for a sequence that begins with C, must contain an L and X, then the X must repeat at least once but can be more, so final answer is "CLXXX". These symbols can be used within patterns and parentheses can be used to group things together. 
+
+```{r}
+str_view(c("color","colour", "collar"), "colou?r")
+```
+```{r}
+str_view("banana", "ba(na)+")
+```
+
+We can specify precise repetition matches with curly braces {}
+
+  * {n}: exactly n
+  * {n,}: no or more
+  * {,m}: at most m
+  * {n,m}: between n and m
+  
+```{r}
+str_view(x,"C{2}")
+```
+search for "C" matched exactly twice. 
+
+```{r}
+str_view(x, "C{2,}")
+```
+match "C" at least twice
+
+## Match detection
+We've covered some basics on _regexps_. There are definitely more advanced topics, but now we'll focus on what sorts of things we can do with _regexps_. To find matches and provide a logical vector, we can use `str_detect()`:
+
+```{r detect}
+str_detect(fruits, "e")
+```
+i.e., does our string sequence contain an "e"?
+
+Because the logical class is treated as a binary variable, TRUE == 1 and FALSE == 0, so we can sum and calculate means. 
+
+```{r}
+#words is a dataset with 1000 common words
+#how many start with t? 
+
+sum(str_detect(words, "^t"))
+
+#what proportion of words end with a vowel?
+mean(str_detect(words, "[aeiou]$"))
+```
+
+So we can use `str_detect()` as a means to subset specific characteristics--imagine, how helpful this would with the database exercise that you conducted!
+
+```{r}
+str_subset(words, "x$") # search for all words ending in x
+```
+
+If instead, the words are in a column of a data frame, then we can directly use `str_detect()` with `filter()`. 
+
+```{r filter_detect}
+df <- tibble(word = words, i = seq_along(word))
+
+df %>% 
+  filter(str_detect(words, "x$"))
+```
+
+`str_count` instead tells you how many matches there are--something that can be useful for descriptives. 
+
+```{r count}
+str_count(fruits, "a")
+
+#on average how many vowels per word?
+mean(str_count(words, "[aeiou]"))
+```
+
+And we can use this with `mutate` in a data frame.
+
+```{r mutate}
+df %>% 
+  mutate(
+    vowels = str_count(word, "[aeiou]"),
+    consonants = str_count(word, "[^aeiou]")
+  )
+```
+
+*See exercises on p. 211*
+
+## Extracting matches
+
+We are going to use a more complex dataset (like a corpus) to show examples with match extraction. 
+
+```{r extract}
+length(sentences)
+head(sentences)
+```
+
+We can search for any sentences with colors in them. First, let's create a vector of color words.
+
+```{r}
+colors <- c("red", "orange", "yellow", "green", "blue", "purple")
+#to create a regular expression, we can collapse the vector into a singular expression with vertical pipes to indicate "or"
+color_match <- str_c(colors, collapse = "|")
+color_match
+```
+
+
+```{r}
+has_color <- str_subset(sentences, color_match)
+matches <- str_extract(has_color, color_match)
+head(matches)
+
+```
+
+This will only extract the first match. To get all matches, we'll need to use `str_extract_all()`, which returns a list (a more complex data structure).
+
+```{r}
+more <- sentences[str_count(sentences, color_match) > 1]
+str_view_all(more, color_match)
+
+str_extract_all(more, color_match)
+```
+
+### Grouped matches
+We can also group matches. This is helpful when maybe you only know one piece of your pattern. In this case, we'll extract nouns from the sentences data set but selecting words that follow "a" or "the". To do this, we'll need to figure out a creative way to select the next word. 
+
+```{r}
+noun <- "(a|the) ([^ ]+)"
+
+has_noun <- sentences %>% 
+  str_subset(noun) %>% 
+  head(10)
+
+has_noun %>% 
+  str_extract(noun)
+```
+
+### replacement
+I use this a lot whenever I notice any typos in my dataset. `str_replace()` will replace the first element. `str_replace_all()` will replace all matching elements. 
+
+```{r}
+x <- c("apple", "pear", "banana")
+str_replace(x, "[aeiou]", "-")
+str_replace_all(x, "[aeiou]", "-")
+```
+
+We can also do multiple replacements by enclosing with `c()`:
+
+```{r}
+z <- c("1 house", "2 cars", "3 people")
+str_replace_all(z, c("1" = "one", "2" = "two", "3" = "three"))
+```
+
+We can use `str_split()` to split strings into smaller elements, like the text-to-columns feature in Excel. 
+
+```{r}
+sentences %>% 
+  head(5) %>% 
+  str_split(" ")
+```
+
