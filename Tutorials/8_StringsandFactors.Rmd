@@ -262,7 +262,7 @@ str_extract_all(more, color_match)
 ```
 
 ### Grouped matches
-We can also group matches. This is helpful when maybe you only know one piece of your pattern. In this case, we'll extract nouns from the sentences data set but selecting words that follow "a" or "the". To do this, we'll need to figure out a creative way to select the next word. 
+We can also group matches together. This is helpful when maybe you only know one piece of your pattern. In this case, we'll extract nouns from the sentences data set but selecting words that follow "a" or "the". To do this, we'll need to figure out a creative way to select the next word. Here, we are specifiying that following "a" or "the", we want a sequence of at least 1 character that is not a space. 
 
 ```{r}
 noun <- "(a|the) ([^ ]+)"
@@ -272,10 +272,35 @@ has_noun <- sentences %>%
   head(10)
 
 has_noun %>% 
-  str_extract(noun)
+  str_extract(noun) #gives full match
+
+has_noun %>% 
+  str_match(noun) #this instead produces a matrix
 ```
 
-### replacement
+There is a similar function `extract()` from the `tidyr` package that works like `str_match()` but where it's all kept in a data frame and the results are placed in their own columns:
+
+```{r extract_tidy}
+tibble(sentence = sentences) %>% 
+  extract(
+    sentence, c("article", "noun"), #named columns
+    "(a|the) ([^ ])",
+    remove = FALSE #necessary to retain empty matches as well
+  )
+```
+
+
+### Backreferences
+Using the parentheses, we also create distinct groups, which can be matched by position using backreferencing. We use "\" with a number to establish the reference, but becase "\" is a special character, you need another "\" in front of it to be understood within the regular expression. This is known as _escaping_.  
+
+
+```{r}
+fruit <- c("banana", "coconut", "cucumber", "jujube", "papaya", "salal berry")
+str_view_all(fruit, "(..)\\1")
+```
+See exercises on p. 207.
+
+### Replacement
 I use this a lot whenever I notice any typos in my dataset. `str_replace()` will replace the first element. `str_replace_all()` will replace all matching elements. 
 
 ```{r}
@@ -291,11 +316,220 @@ z <- c("1 house", "2 cars", "3 people")
 str_replace_all(z, c("1" = "one", "2" = "two", "3" = "three"))
 ```
 
+With backreferencing, we can also make changes that are based on position. In the following example, we are switching the order of the 2nd and 3rd words.
+
+```{r swap}
+sentences %>% 
+  str_replace("([^ ]+) ([^ ]+) ([^ ]+)", "\\1 \\3 \\2") %>% 
+  head(5)
+```
+
 We can use `str_split()` to split strings into smaller elements, like the text-to-columns feature in Excel. 
 
 ```{r}
 sentences %>% 
   head(5) %>% 
   str_split(" ")
+```
+
+If you prefer for this to appear as a matrix (which could then be converted into a tiblle), then use the argument `simplify = TRUE`, which applies to other `stringr` functions. 
+
+```{r like_matrix}
+sentences %>% 
+  head(5) %>% 
+  str_split(" ", simplify = TRUE)
+```
+
+Instead of splitting by patterns, we can also split by characters, lines, sentences, and word boundaries using `boundary()`. 
+
+```{r boundary}
+i <- "This is a sentence. This is another sentence."
+str_view_all(i, boundary("word"))
+```
+```{r boundary2}
+str_split(i, " ")[[1]]
+
+str_split(i, boundary("word"))[[1]]
+```
+
+Some useful base R functions that use regexps. 
+```{r}
+## this is to search in global environment of R
+apropos("replace")
+## this is to search in directory
+head(dir(pattern = "\\.Rmd$"))
+```
+
+# Factors
+
+As we've discussed in class, _factors_ are a special class of characters that are treated as categorical variables (i.e., a limited and repeated number of values or categories). Notice that working within the `tidyverse` means that the default action with strings is to treat them as _characters_. However, there are some special `tidyverse`-like functions that we can use with the `forcats` package. This needs to be uploaded separately into your R session. 
+
+```{r}
+library(forcats)
+```
+
+We can create a factor by specifying that we want a factor and also including the possible _levels_. We can include the levels in the order that we want (if there is an inherent order), otherwise, the default behavior is to treat levels as in alphabetical order. 
+
+```{r factors}
+x1 <- c("Dec", "Apr", "Jan", "Mar", "Jon")
+```
+
+Of course, when creating factors (or reading in a variable that should be treated as factors), it's possible to accidentally have typos. When we specify our levels, anything that is not in the list will be treated as NA; we can also ask for the error to be specified by using `parse_factor()`. 
+
+```{r}
+#levels
+month_levels <- c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")
+
+#create factor
+y1 <- factor(x1, levels = month_levels)
+y1
+```
+
+Notice that our mispelled month "Jon" was changed to an NA. 
+
+```{r}
+y2 <- parse_factor(x1, levels = month_levels)
+```
+
+To access levels, just use `levels()`. 
+
+```{r}
+levels(y2)
+```
+
+We are going to practice some additional functions with a built-in dataset called `gss_cat`. 
+
+```{r}
+gss_cat
+```
+
+Remember that we can get an idea of the factors by using `count()` or by pltting with a bar chart. 
+
+```{r race_count}
+gss_cat %>% 
+  count(race)
+```
+
+```{r race_graph}
+ggplot(gss_cat, aes(race)) +
+  geom_bar()
+```
+
+If we want to visualize levels that didn't have any values (useful for exploratory purposes), then we can add the argument `drop = FALSE` within our scale. 
+
+```{r drop_graph}
+ggplot(gss_cat, aes(race)) +
+  geom_bar() +
+  scale_x_discrete(drop = FALSE)
+```
+
+There are 2 common operations that we will want to manipulate with factors:
+
+1. reordering the levels of the factor
+2. changing the values of levels
+
+### Reordering
+
+It is very common that for purposes of visualizations, we may need to reorder the levels. Example: let's plot the average number of hours watching TV across religions.
+
+```{r TV_religion}
+relig <- gss_cat %>% 
+  group_by(relig) %>% 
+  summarize(
+    age = mean(age, na.rm = TRUE),
+    tvhours = mean(tvhours, na.rm = TRUE),
+    n = n()
+  )
+
+ggplot(relig, aes(tvhours, relig)) +
+  geom_point()
+```
+
+This graph is not so easy to see. However, if we reorder the graph based on actual hours watched, it could improve the readability of the plot. We can use the `fct_reorder()` command to do this.
+
+```{r reorder_in_graph}
+ggplot(relig, aes(tvhours, fct_reorder(relig, tvhours))) +
+  geom_point()
+```
+
+Notice that the first argument was the factor and the second was how to reorder (which use the numeric values of tv watching). We could also simply reorder by using `mutate()` to change the order within the data frame itself. 
+
+```{r reorder_with_mutate}
+relig %>% 
+  mutate(relig = fct_reorder(relig, tvhours)) %>% 
+  ggplot(aes(tvhours, relig)) +
+  geom_point()
+```
+
+Let's compare another example. This time grouping by income.
+
+```{r income_age}
+rincome <- gss_cat %>% 
+  group_by(rincome) %>% 
+  summarize(
+    age = mean(age, na.rm = TRUE),
+    tvhours = mean(tvhours, na.rm = TRUE), 
+    n = n()
+  )
+
+ggplot(rincome, aes(age, fct_reorder(rincome, age))) +
+  geom_point()
+```
+
+Here, we similarly reorderd according to the the mean(age) of a person but now, this doesn't make too much sense, given that the factor (income) has an inherent value (i.e., it is an ordinal factor). We want to preserve the ordinal nature of this factor. We can use `relevel()` to do so, which also allows us to pull specific levels to the beginning of the factor. 
+
+```{r relevel}
+ggplot(rincome, aes(age, fct_relevel(rincome, "Not applicable"))) +
+  geom_point()
+```
+
+There are 2 more ways of reordering that are useful for graphs. `fct_reorder2()` does the reordering by largest x values. 
+
+```{r reorder2_ex}
+by_age <- gss_cat %>% 
+  filter(!is.na(age)) %>% 
+  group_by(age, marital) %>% 
+  count() %>% 
+  group_by(age) %>% 
+  mutate(sum = sum(n), prop = n/sum)
+
+ggplot(by_age, aes(age, prop, color = marital)) +
+  geom_line(na.rm = TRUE)
+
+ggplot(by_age, aes(age, prop, color = fct_reorder2(marital, age, prop))) +
+  geom_line() +
+  labs(color = "marital")
+```
+
+For bar plots, we can also use `fct_infreq()` which orders according to increasing frequency. This can be combined with `fct_rev()` to prsent in reverse order. 
+
+```{r reverse_freq}
+gss_cat %>% 
+  mutate(marital = marital %>% fct_infreq() %>% fct_rev()) %>% 
+  ggplot(aes(marital)) +
+  geom_bar()
+```
+
+### Modifying levels
+
+This is useful for recoding labels, which will often be necessary for presentations and publications. This also allows us to collapse various levels. Let's look at party id:
+
+```{r id}
+gss_cat %>% count(partyid)
+```
+
+The levels are inconsistent and highly abbreviated. We can change this with `fct_recode()`. 
+
+```{r rename}
+gss_cat %>% 
+  mutate(partyid = fct_recode(partyid,
+    "Republican, strong"  = "Strong republican",
+    "Republican, weak"  = "Not str republican",
+    "Independent, near rep" = "Ind,near rep",
+    "Independent, near dem" = "Ind,near dem",
+    "Democrat, weak" = "Not str democrat",
+    "Democrat, strong" = "Strong democrat"
+  )) %>% 
+  count(partyid)
 ```
 

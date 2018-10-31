@@ -134,8 +134,8 @@ fruits
 str_view(fruits, "an")
 ```
 
-<!--html_preserve--><div id="htmlwidget-75f15b1ade432080518b" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-75f15b1ade432080518b">{"x":{"html":"<ul>\n  <li>apple<\/li>\n  <li>b<span class='match'>an<\/span>ana<\/li>\n  <li>pear<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><!--/html_preserve-->
+<!--html_preserve--><div id="htmlwidget-37e5f9d0018349055b5d" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-37e5f9d0018349055b5d">{"x":{"html":"<ul>\n  <li>apple<\/li>\n  <li>b<span class='match'>an<\/span>ana<\/li>\n  <li>pear<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><!--/html_preserve-->
 
 Notice this is an exact match and it matches the first instance of "an". If we use a "." it searches for any character except a new line. 
 
@@ -144,8 +144,8 @@ Notice this is an exact match and it matches the first instance of "an". If we u
 str_view(fruits, ".a.")
 ```
 
-<!--html_preserve--><div id="htmlwidget-71edeb7da6fd93e6d4ae" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-71edeb7da6fd93e6d4ae">{"x":{"html":"<ul>\n  <li>apple<\/li>\n  <li><span class='match'>ban<\/span>ana<\/li>\n  <li>p<span class='match'>ear<\/span><\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><!--/html_preserve-->
+<!--html_preserve--><div id="htmlwidget-24a43ef05b79e9a3a4f3" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-24a43ef05b79e9a3a4f3">{"x":{"html":"<ul>\n  <li>apple<\/li>\n  <li><span class='match'>ban<\/span>ana<\/li>\n  <li>p<span class='match'>ear<\/span><\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><!--/html_preserve-->
 
 There are special ways to handle special characters--but let's just stick to the basics for now. 
 
@@ -156,8 +156,8 @@ We can also specify edges to search from. These are ferred to as anchors. To ind
 str_view(fruits, "^a")
 ```
 
-<!--html_preserve--><div id="htmlwidget-d942c33cd226242a0baf" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-d942c33cd226242a0baf">{"x":{"html":"<ul>\n  <li><span class='match'>a<\/span>pple<\/li>\n  <li>banana<\/li>\n  <li>pear<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><!--/html_preserve-->
+<!--html_preserve--><div id="htmlwidget-ebfaec44f6df47fb7b0f" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-ebfaec44f6df47fb7b0f">{"x":{"html":"<ul>\n  <li><span class='match'>a<\/span>pple<\/li>\n  <li>banana<\/li>\n  <li>pear<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><!--/html_preserve-->
 Notice that this looks for an a from the beginning of a string. 
 
 
@@ -165,8 +165,8 @@ Notice that this looks for an a from the beginning of a string.
 str_view(fruits, "a$")
 ```
 
-<!--html_preserve--><div id="htmlwidget-e09cbaa18b17e59fca39" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-e09cbaa18b17e59fca39">{"x":{"html":"<ul>\n  <li>apple<\/li>\n  <li>banan<span class='match'>a<\/span><\/li>\n  <li>pear<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><!--/html_preserve-->
+<!--html_preserve--><div id="htmlwidget-84abbae4e744858e2e2e" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-84abbae4e744858e2e2e">{"x":{"html":"<ul>\n  <li>apple<\/li>\n  <li>banan<span class='match'>a<\/span><\/li>\n  <li>pear<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><!--/html_preserve-->
 and note that this searches for an "a" from the end of the string. 
 
 We can combine both for more specificity.
@@ -177,8 +177,8 @@ desserts <- c("apple pie", "apple", "apple tart")
 str_view(desserts, "^apple$")
 ```
 
-<!--html_preserve--><div id="htmlwidget-a572d4e5d9a77b5a1275" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-a572d4e5d9a77b5a1275">{"x":{"html":"<ul>\n  <li>apple pie<\/li>\n  <li><span class='match'>apple<\/span><\/li>\n  <li>apple tart<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><!--/html_preserve-->
+<!--html_preserve--><div id="htmlwidget-81e1217cd3d9a9fdcb55" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-81e1217cd3d9a9fdcb55">{"x":{"html":"<ul>\n  <li>apple pie<\/li>\n  <li><span class='match'>apple<\/span><\/li>\n  <li>apple tart<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><!--/html_preserve-->
 
 ###More specials
 
@@ -196,8 +196,8 @@ We can use the "or" operator (the vertical pipe, "|") to select between options.
 str_view(c("grey", "gray", "groy"), "gr(e|a)y")
 ```
 
-<!--html_preserve--><div id="htmlwidget-e452794d0fdfc0b723cd" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-e452794d0fdfc0b723cd">{"x":{"html":"<ul>\n  <li><span class='match'>grey<\/span><\/li>\n  <li><span class='match'>gray<\/span><\/li>\n  <li>groy<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><!--/html_preserve-->
+<!--html_preserve--><div id="htmlwidget-d1a415015d9bb0086b00" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-d1a415015d9bb0086b00">{"x":{"html":"<ul>\n  <li><span class='match'>grey<\/span><\/li>\n  <li><span class='match'>gray<\/span><\/li>\n  <li>groy<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><!--/html_preserve-->
 
 ##Repetition
 We can also specify how many times a pattern can match with the following special characers.
@@ -224,8 +224,8 @@ matching 0 or 1 "CCs":
 str_view(x, "CC?")
 ```
 
-<!--html_preserve--><div id="htmlwidget-a8ea4c24af526ee1efb2" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-a8ea4c24af526ee1efb2">{"x":{"html":"<ul>\n  <li>1888 is the longest year in Roman numberals: MD<span class='match'>CC<\/span>CLXXXVIII<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><!--/html_preserve-->
+<!--html_preserve--><div id="htmlwidget-15f6e07da1cd58eff040" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-15f6e07da1cd58eff040">{"x":{"html":"<ul>\n  <li>1888 is the longest year in Roman numberals: MD<span class='match'>CC<\/span>CLXXXVIII<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><!--/html_preserve-->
 We found a "CC"" without a repetition so that matches the 0 criterion.
 
 
@@ -233,8 +233,8 @@ We found a "CC"" without a repetition so that matches the 0 criterion.
 str_view(x, "CC+")
 ```
 
-<!--html_preserve--><div id="htmlwidget-cf727453bac9657b1914" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-cf727453bac9657b1914">{"x":{"html":"<ul>\n  <li>1888 is the longest year in Roman numberals: MD<span class='match'>CCC<\/span>LXXXVIII<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><!--/html_preserve-->
+<!--html_preserve--><div id="htmlwidget-b5129cd6bc897230f08a" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-b5129cd6bc897230f08a">{"x":{"html":"<ul>\n  <li>1888 is the longest year in Roman numberals: MD<span class='match'>CCC<\/span>LXXXVIII<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><!--/html_preserve-->
 Here, the match specifies a repetition of at least once, so the answer is now "CCC".
 
 
@@ -242,8 +242,8 @@ Here, the match specifies a repetition of at least once, so the answer is now "C
 str_view(x, "C[LX]+")
 ```
 
-<!--html_preserve--><div id="htmlwidget-1450da85fec8804a94d3" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-1450da85fec8804a94d3">{"x":{"html":"<ul>\n  <li>1888 is the longest year in Roman numberals: MDCC<span class='match'>CLXXX<\/span>VIII<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><!--/html_preserve-->
+<!--html_preserve--><div id="htmlwidget-32211b4b6aac3d493254" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-32211b4b6aac3d493254">{"x":{"html":"<ul>\n  <li>1888 is the longest year in Roman numberals: MDCC<span class='match'>CLXXX<\/span>VIII<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><!--/html_preserve-->
 Here, we are looking for a sequence that begins with C, must contain an L and X, then the X must repeat at least once but can be more, so final answer is "CLXXX". These symbols can be used within patterns and parentheses can be used to group things together. 
 
 
@@ -251,15 +251,15 @@ Here, we are looking for a sequence that begins with C, must contain an L and X,
 str_view(c("color","colour", "collar"), "colou?r")
 ```
 
-<!--html_preserve--><div id="htmlwidget-f654a0674b186b82ff3b" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-f654a0674b186b82ff3b">{"x":{"html":"<ul>\n  <li><span class='match'>color<\/span><\/li>\n  <li><span class='match'>colour<\/span><\/li>\n  <li>collar<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><!--/html_preserve-->
+<!--html_preserve--><div id="htmlwidget-8a6959a7df1cbbd02450" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-8a6959a7df1cbbd02450">{"x":{"html":"<ul>\n  <li><span class='match'>color<\/span><\/li>\n  <li><span class='match'>colour<\/span><\/li>\n  <li>collar<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><!--/html_preserve-->
 
 ```r
 str_view("banana", "ba(na)+")
 ```
 
-<!--html_preserve--><div id="htmlwidget-cb813e2a436e41d93e6c" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-cb813e2a436e41d93e6c">{"x":{"html":"<ul>\n  <li><span class='match'>banana<\/span><\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><!--/html_preserve-->
+<!--html_preserve--><div id="htmlwidget-e6f8ac6433341d4fd5be" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-e6f8ac6433341d4fd5be">{"x":{"html":"<ul>\n  <li><span class='match'>banana<\/span><\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><!--/html_preserve-->
 
 We can specify precise repetition matches with curly braces {}
 
@@ -273,8 +273,8 @@ We can specify precise repetition matches with curly braces {}
 str_view(x,"C{2}")
 ```
 
-<!--html_preserve--><div id="htmlwidget-abc59d90bb068958d99a" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-abc59d90bb068958d99a">{"x":{"html":"<ul>\n  <li>1888 is the longest year in Roman numberals: MD<span class='match'>CC<\/span>CLXXXVIII<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><!--/html_preserve-->
+<!--html_preserve--><div id="htmlwidget-53c87d5f335a5bc840c2" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-53c87d5f335a5bc840c2">{"x":{"html":"<ul>\n  <li>1888 is the longest year in Roman numberals: MD<span class='match'>CC<\/span>CLXXXVIII<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><!--/html_preserve-->
 search for "C" matched exactly twice. 
 
 
@@ -282,8 +282,8 @@ search for "C" matched exactly twice.
 str_view(x, "C{2,}")
 ```
 
-<!--html_preserve--><div id="htmlwidget-7f232a50acb3c02eb97b" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-7f232a50acb3c02eb97b">{"x":{"html":"<ul>\n  <li>1888 is the longest year in Roman numberals: MD<span class='match'>CCC<\/span>LXXXVIII<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><!--/html_preserve-->
+<!--html_preserve--><div id="htmlwidget-01a7558e748cec02f648" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-01a7558e748cec02f648">{"x":{"html":"<ul>\n  <li>1888 is the longest year in Roman numberals: MD<span class='match'>CCC<\/span>LXXXVIII<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><!--/html_preserve-->
 match "C" at least twice
 
 ## Match detection
@@ -463,8 +463,8 @@ more <- sentences[str_count(sentences, color_match) > 1]
 str_view_all(more, color_match)
 ```
 
-<!--html_preserve--><div id="htmlwidget-bce6d4727fd86458e424" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-bce6d4727fd86458e424">{"x":{"html":"<ul>\n  <li>It is hard to erase <span class='match'>blue<\/span> or <span class='match'>red<\/span> ink.<\/li>\n  <li>The <span class='match'>green<\/span> light in the brown box flicke<span class='match'>red<\/span>.<\/li>\n  <li>The sky in the west is tinged with <span class='match'>orange<\/span> <span class='match'>red<\/span>.<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><!--/html_preserve-->
+<!--html_preserve--><div id="htmlwidget-893d634498ec93ffc555" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-893d634498ec93ffc555">{"x":{"html":"<ul>\n  <li>It is hard to erase <span class='match'>blue<\/span> or <span class='match'>red<\/span> ink.<\/li>\n  <li>The <span class='match'>green<\/span> light in the brown box flicke<span class='match'>red<\/span>.<\/li>\n  <li>The sky in the west is tinged with <span class='match'>orange<\/span> <span class='match'>red<\/span>.<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><!--/html_preserve-->
 
 ```r
 str_extract_all(more, color_match)
@@ -482,7 +482,7 @@ str_extract_all(more, color_match)
 ```
 
 ### Grouped matches
-We can also group matches. This is helpful when maybe you only know one piece of your pattern. In this case, we'll extract nouns from the sentences data set but selecting words that follow "a" or "the". To do this, we'll need to figure out a creative way to select the next word. 
+We can also group matches together. This is helpful when maybe you only know one piece of your pattern. In this case, we'll extract nouns from the sentences data set but selecting words that follow "a" or "the". To do this, we'll need to figure out a creative way to select the next word. Here, we are specifiying that following "a" or "the", we want a sequence of at least 1 character that is not a space. 
 
 
 ```r
@@ -493,7 +493,7 @@ has_noun <- sentences %>%
   head(10)
 
 has_noun %>% 
-  str_extract(noun)
+  str_extract(noun) #gives full match
 ```
 
 ```
@@ -501,7 +501,70 @@ has_noun %>%
 ##  [6] "the sun"    "the huge"   "the ball"   "the woman"  "a helps"
 ```
 
-### replacement
+```r
+has_noun %>% 
+  str_match(noun) #this instead produces a matrix
+```
+
+```
+##       [,1]         [,2]  [,3]     
+##  [1,] "the smooth" "the" "smooth" 
+##  [2,] "the sheet"  "the" "sheet"  
+##  [3,] "the depth"  "the" "depth"  
+##  [4,] "a chicken"  "a"   "chicken"
+##  [5,] "the parked" "the" "parked" 
+##  [6,] "the sun"    "the" "sun"    
+##  [7,] "the huge"   "the" "huge"   
+##  [8,] "the ball"   "the" "ball"   
+##  [9,] "the woman"  "the" "woman"  
+## [10,] "a helps"    "a"   "helps"
+```
+
+There is a similar function `extract()` from the `tidyr` package that works like `str_match()` but where it's all kept in a data frame and the results are placed in their own columns:
+
+
+```r
+tibble(sentence = sentences) %>% 
+  extract(
+    sentence, c("article", "noun"), #named columns
+    "(a|the) ([^ ])",
+    remove = FALSE #necessary to retain empty matches as well
+  )
+```
+
+```
+## # A tibble: 720 x 3
+##    sentence                                    article noun 
+##    <chr>                                       <chr>   <chr>
+##  1 The birch canoe slid on the smooth planks.  the     s    
+##  2 Glue the sheet to the dark blue background. the     s    
+##  3 It's easy to tell the depth of a well.      the     d    
+##  4 These days a chicken leg is a rare dish.    a       c    
+##  5 Rice is often served in round bowls.        <NA>    <NA> 
+##  6 The juice of lemons makes fine punch.       <NA>    <NA> 
+##  7 The box was thrown beside the parked truck. the     p    
+##  8 The hogs were fed chopped corn and garbage. <NA>    <NA> 
+##  9 Four hours of steady work faced us.         <NA>    <NA> 
+## 10 Large size in stockings is hard to sell.    <NA>    <NA> 
+## # ... with 710 more rows
+```
+
+
+### Backreferences
+Using the parentheses, we also create distinct groups, which can be matched by position using backreferencing. We use "\" with a number to establish the reference, but becase "\" is a special character, you need another "\" in front of it to be understood within the regular expression. This is known as _escaping_.  
+
+
+
+```r
+fruit <- c("banana", "coconut", "cucumber", "jujube", "papaya", "salal berry")
+str_view_all(fruit, "(..)\\1")
+```
+
+<!--html_preserve--><div id="htmlwidget-783bb5f22337527d5de1" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-783bb5f22337527d5de1">{"x":{"html":"<ul>\n  <li>b<span class='match'>anan<\/span>a<\/li>\n  <li><span class='match'>coco<\/span>nut<\/li>\n  <li><span class='match'>cucu<\/span>mber<\/li>\n  <li><span class='match'>juju<\/span>be<\/li>\n  <li><span class='match'>papa<\/span>ya<\/li>\n  <li>s<span class='match'>alal<\/span> berry<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><!--/html_preserve-->
+See exercises on p. 207.
+
+### Replacement
 I use this a lot whenever I notice any typos in my dataset. `str_replace()` will replace the first element. `str_replace_all()` will replace all matching elements. 
 
 
@@ -534,6 +597,23 @@ str_replace_all(z, c("1" = "one", "2" = "two", "3" = "three"))
 ## [1] "one house"    "two cars"     "three people"
 ```
 
+With backreferencing, we can also make changes that are based on position. In the following example, we are switching the order of the 2nd and 3rd words.
+
+
+```r
+sentences %>% 
+  str_replace("([^ ]+) ([^ ]+) ([^ ]+)", "\\1 \\3 \\2") %>% 
+  head(5)
+```
+
+```
+## [1] "The canoe birch slid on the smooth planks." 
+## [2] "Glue sheet the to the dark blue background."
+## [3] "It's to easy tell the depth of a well."     
+## [4] "These a days chicken leg is a rare dish."   
+## [5] "Rice often is served in round bowls."
+```
+
 We can use `str_split()` to split strings into smaller elements, like the text-to-columns feature in Excel. 
 
 
@@ -561,5 +641,371 @@ sentences %>%
 ## 
 ## [[5]]
 ## [1] "Rice"   "is"     "often"  "served" "in"     "round"  "bowls."
+```
+
+If you prefer for this to appear as a matrix (which could then be converted into a tiblle), then use the argument `simplify = TRUE`, which applies to other `stringr` functions. 
+
+
+```r
+sentences %>% 
+  head(5) %>% 
+  str_split(" ", simplify = TRUE)
+```
+
+```
+##      [,1]    [,2]    [,3]    [,4]      [,5]  [,6]    [,7]    
+## [1,] "The"   "birch" "canoe" "slid"    "on"  "the"   "smooth"
+## [2,] "Glue"  "the"   "sheet" "to"      "the" "dark"  "blue"  
+## [3,] "It's"  "easy"  "to"    "tell"    "the" "depth" "of"    
+## [4,] "These" "days"  "a"     "chicken" "leg" "is"    "a"     
+## [5,] "Rice"  "is"    "often" "served"  "in"  "round" "bowls."
+##      [,8]          [,9]   
+## [1,] "planks."     ""     
+## [2,] "background." ""     
+## [3,] "a"           "well."
+## [4,] "rare"        "dish."
+## [5,] ""            ""
+```
+
+Instead of splitting by patterns, we can also split by characters, lines, sentences, and word boundaries using `boundary()`. 
+
+
+```r
+i <- "This is a sentence. This is another sentence."
+str_view_all(i, boundary("word"))
+```
+
+<!--html_preserve--><div id="htmlwidget-2c415b4164deb39fcccd" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-2c415b4164deb39fcccd">{"x":{"html":"<ul>\n  <li><span class='match'>This<\/span> <span class='match'>is<\/span> <span class='match'>a<\/span> <span class='match'>sentence<\/span>. <span class='match'>This<\/span> <span class='match'>is<\/span> <span class='match'>another<\/span> <span class='match'>sentence<\/span>.<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><!--/html_preserve-->
+
+```r
+str_split(i, " ")[[1]]
+```
+
+```
+## [1] "This"      "is"        "a"         "sentence." "This"      "is"       
+## [7] "another"   "sentence."
+```
+
+```r
+str_split(i, boundary("word"))[[1]]
+```
+
+```
+## [1] "This"     "is"       "a"        "sentence" "This"     "is"      
+## [7] "another"  "sentence"
+```
+
+Some useful base R functions that use regexps. 
+
+```r
+## this is to search in global environment of R
+apropos("replace")
+```
+
+```
+## [1] "%+replace%"       "replace"          "replace_na"      
+## [4] "setReplaceMethod" "str_replace"      "str_replace_all" 
+## [7] "str_replace_na"   "theme_replace"
+```
+
+```r
+## this is to search in directory
+head(dir(pattern = "\\.Rmd$"))
+```
+
+```
+## [1] "0_IntroNotes.Rmd"                      
+## [2] "1_MarkdownNotes.Rmd"                   
+## [3] "2_ggplot2Notes.Rmd"                    
+## [4] "3_dplyrNotes.Rmd"                      
+## [5] "4_ExploratoryDataAnalysis_Notes_v2.Rmd"
+## [6] "5_IntroStatsI.Rmd"
+```
+
+# Factors
+
+As we've discussed in class, _factors_ are a special class of characters that are treated as categorical variables (i.e., a limited and repeated number of values or categories). Notice that working within the `tidyverse` means that the default action with strings is to treat them as _characters_. However, there are some special `tidyverse`-like functions that we can use with the `forcats` package. This needs to be uploaded separately into your R session. 
+
+
+```r
+library(forcats)
+```
+
+We can create a factor by specifying that we want a factor and also including the possible _levels_. We can include the levels in the order that we want (if there is an inherent order), otherwise, the default behavior is to treat levels as in alphabetical order. 
+
+
+```r
+x1 <- c("Dec", "Apr", "Jan", "Mar", "Jon")
+```
+
+Of course, when creating factors (or reading in a variable that should be treated as factors), it's possible to accidentally have typos. When we specify our levels, anything that is not in the list will be treated as NA; we can also ask for the error to be specified by using `parse_factor()`. 
+
+
+```r
+#levels
+month_levels <- c("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec")
+
+#create factor
+y1 <- factor(x1, levels = month_levels)
+y1
+```
+
+```
+## [1] Dec  Apr  Jan  Mar  <NA>
+## Levels: Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec
+```
+
+Notice that our mispelled month "Jon" was changed to an NA. 
+
+
+```r
+y2 <- parse_factor(x1, levels = month_levels)
+```
+
+```
+## Warning: 1 parsing failure.
+## row # A tibble: 1 x 4 col     row   col expected           actual expected   <int> <int> <chr>              <chr>  actual 1     5    NA value in level set Jon
+```
+
+To access levels, just use `levels()`. 
+
+
+```r
+levels(y2)
+```
+
+```
+##  [1] "Jan" "Feb" "Mar" "Apr" "May" "Jun" "Jul" "Aug" "Sep" "Oct" "Nov"
+## [12] "Dec"
+```
+
+We are going to practice some additional functions with a built-in dataset called `gss_cat`. 
+
+
+```r
+gss_cat
+```
+
+```
+## # A tibble: 21,483 x 9
+##     year marital         age race  rincome  partyid  relig  denom  tvhours
+##    <int> <fct>         <int> <fct> <fct>    <fct>    <fct>  <fct>    <int>
+##  1  2000 Never married    26 White $8000 t… Ind,nea… Prote… South…      12
+##  2  2000 Divorced         48 White $8000 t… Not str… Prote… Bapti…      NA
+##  3  2000 Widowed          67 White Not app… Indepen… Prote… No de…       2
+##  4  2000 Never married    39 White Not app… Ind,nea… Ortho… Not a…       4
+##  5  2000 Divorced         25 White Not app… Not str… None   Not a…       1
+##  6  2000 Married          25 White $20000 … Strong … Prote… South…      NA
+##  7  2000 Never married    36 White $25000 … Not str… Chris… Not a…       3
+##  8  2000 Divorced         44 White $7000 t… Ind,nea… Prote… Luthe…      NA
+##  9  2000 Married          44 White $25000 … Not str… Prote… Other        0
+## 10  2000 Married          47 White $25000 … Strong … Prote… South…       3
+## # ... with 21,473 more rows
+```
+
+Remember that we can get an idea of the factors by using `count()` or by pltting with a bar chart. 
+
+
+```r
+gss_cat %>% 
+  count(race)
+```
+
+```
+## # A tibble: 3 x 2
+##   race      n
+##   <fct> <int>
+## 1 Other  1959
+## 2 Black  3129
+## 3 White 16395
+```
+
+
+```r
+ggplot(gss_cat, aes(race)) +
+  geom_bar()
+```
+
+![](8_StringsandFactors_files/figure-html/race_graph-1.png)<!-- -->
+
+If we want to visualize levels that didn't have any values (useful for exploratory purposes), then we can add the argument `drop = FALSE` within our scale. 
+
+
+```r
+ggplot(gss_cat, aes(race)) +
+  geom_bar() +
+  scale_x_discrete(drop = FALSE)
+```
+
+![](8_StringsandFactors_files/figure-html/drop_graph-1.png)<!-- -->
+
+There are 2 common operations that we will want to manipulate with factors:
+
+1. reordering the levels of the factor
+2. changing the values of levels
+
+### Reordering
+
+It is very common that for purposes of visualizations, we may need to reorder the levels. Example: let's plot the average number of hours watching TV across religions.
+
+
+```r
+relig <- gss_cat %>% 
+  group_by(relig) %>% 
+  summarize(
+    age = mean(age, na.rm = TRUE),
+    tvhours = mean(tvhours, na.rm = TRUE),
+    n = n()
+  )
+
+ggplot(relig, aes(tvhours, relig)) +
+  geom_point()
+```
+
+![](8_StringsandFactors_files/figure-html/TV_religion-1.png)<!-- -->
+
+This graph is not so easy to see. However, if we reorder the graph based on actual hours watched, it could improve the readability of the plot. We can use the `fct_reorder()` command to do this.
+
+
+```r
+ggplot(relig, aes(tvhours, fct_reorder(relig, tvhours))) +
+  geom_point()
+```
+
+![](8_StringsandFactors_files/figure-html/reorder_in_graph-1.png)<!-- -->
+
+Notice that the first argument was the factor and the second was how to reorder (which use the numeric values of tv watching). We could also simply reorder by using `mutate()` to change the order within the data frame itself. 
+
+
+```r
+relig %>% 
+  mutate(relig = fct_reorder(relig, tvhours)) %>% 
+  ggplot(aes(tvhours, relig)) +
+  geom_point()
+```
+
+![](8_StringsandFactors_files/figure-html/reorder_with_mutate-1.png)<!-- -->
+
+Let's compare another example. This time grouping by income.
+
+
+```r
+rincome <- gss_cat %>% 
+  group_by(rincome) %>% 
+  summarize(
+    age = mean(age, na.rm = TRUE),
+    tvhours = mean(tvhours, na.rm = TRUE), 
+    n = n()
+  )
+
+ggplot(rincome, aes(age, fct_reorder(rincome, age))) +
+  geom_point()
+```
+
+![](8_StringsandFactors_files/figure-html/income_age-1.png)<!-- -->
+
+Here, we similarly reorderd according to the the mean(age) of a person but now, this doesn't make too much sense, given that the factor (income) has an inherent value (i.e., it is an ordinal factor). We want to preserve the ordinal nature of this factor. We can use `relevel()` to do so, which also allows us to pull specific levels to the beginning of the factor. 
+
+
+```r
+ggplot(rincome, aes(age, fct_relevel(rincome, "Not applicable"))) +
+  geom_point()
+```
+
+![](8_StringsandFactors_files/figure-html/relevel-1.png)<!-- -->
+
+There are 2 more ways of reordering that are useful for graphs. `fct_reorder2()` does the reordering by largest x values. 
+
+
+```r
+by_age <- gss_cat %>% 
+  filter(!is.na(age)) %>% 
+  group_by(age, marital) %>% 
+  count() %>% 
+  group_by(age) %>% 
+  mutate(sum = sum(n), prop = n/sum)
+
+ggplot(by_age, aes(age, prop, color = marital)) +
+  geom_line(na.rm = TRUE)
+```
+
+![](8_StringsandFactors_files/figure-html/reorder2_ex-1.png)<!-- -->
+
+```r
+ggplot(by_age, aes(age, prop, color = fct_reorder2(marital, age, prop))) +
+  geom_line() +
+  labs(color = "marital")
+```
+
+![](8_StringsandFactors_files/figure-html/reorder2_ex-2.png)<!-- -->
+
+For bar plots, we can also use `fct_infreq()` which orders according to increasing frequency. This can be combined with `fct_rev()` to prsent in reverse order. 
+
+
+```r
+gss_cat %>% 
+  mutate(marital = marital %>% fct_infreq() %>% fct_rev()) %>% 
+  ggplot(aes(marital)) +
+  geom_bar()
+```
+
+![](8_StringsandFactors_files/figure-html/reverse_freq-1.png)<!-- -->
+
+### Modifying levels
+
+This is useful for recoding labels, which will often be necessary for presentations and publications. This also allows us to collapse various levels. Let's look at party id:
+
+
+```r
+gss_cat %>% count(partyid)
+```
+
+```
+## # A tibble: 10 x 2
+##    partyid                n
+##    <fct>              <int>
+##  1 No answer            154
+##  2 Don't know             1
+##  3 Other party          393
+##  4 Strong republican   2314
+##  5 Not str republican  3032
+##  6 Ind,near rep        1791
+##  7 Independent         4119
+##  8 Ind,near dem        2499
+##  9 Not str democrat    3690
+## 10 Strong democrat     3490
+```
+
+The levels are inconsistent and highly abbreviated. We can change this with `fct_recode()`. 
+
+
+```r
+gss_cat %>% 
+  mutate(partyid = fct_recode(partyid,
+    "Republican, strong"  = "Strong republican",
+    "Republican, weak"  = "Not str republican",
+    "Independent, near rep" = "Ind,near rep",
+    "Independent, near dem" = "Ind,near dem",
+    "Democrat, weak" = "Not str democrat",
+    "Democrat, strong" = "Strong democrat"
+  )) %>% 
+  count(partyid)
+```
+
+```
+## # A tibble: 10 x 2
+##    partyid                   n
+##    <fct>                 <int>
+##  1 No answer               154
+##  2 Don't know                1
+##  3 Other party             393
+##  4 Republican, strong     2314
+##  5 Republican, weak       3032
+##  6 Independent, near rep  1791
+##  7 Independent            4119
+##  8 Independent, near dem  2499
+##  9 Democrat, weak         3690
+## 10 Democrat, strong       3490
 ```
 
