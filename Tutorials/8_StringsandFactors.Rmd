@@ -518,7 +518,7 @@ This is useful for recoding labels, which will often be necessary for presentati
 gss_cat %>% count(partyid)
 ```
 
-The levels are inconsistent and highly abbreviated. We can change this with `fct_recode()`. 
+The levels are inconsistent and highly abbreviated. We can change this with `fct_recode()`. You can indicate what will be changed and to what it will be changed. 
 
 ```{r rename}
 gss_cat %>% 
@@ -531,5 +531,53 @@ gss_cat %>%
     "Democrat, strong" = "Strong democrat"
   )) %>% 
   count(partyid)
+```
+
+Levels that are not explicitly included are left as is. To combine levels instead, we just assign the same name (although, be careful with typos!). 
+
+```{r rename2}
+gss_cat %>%
+  mutate(partyid = fct_recode(partyid,
+    "Republican, strong"    = "Strong republican",
+    "Republican, weak"      = "Not str republican",
+    "Independent, near rep" = "Ind,near rep",
+    "Independent, near dem" = "Ind,near dem",
+    "Democrat, weak"        = "Not str democrat",
+    "Democrat, strong"      = "Strong democrat",
+    "Other"                 = "No answer",
+    "Other"                 = "Don't know",
+    "Other"                 = "Other party"
+  )) %>%
+  count(partyid)
+```
+
+If there is a lot of collapsing that needs to be done, there is a special function that will handle this: `fct_collapse()`. 
+
+```{r collapse_ex}
+gss_cat %>%
+  mutate(partyid = fct_collapse(partyid,
+    other = c("No answer", "Don't know", "Other party"),
+    rep = c("Strong republican", "Not str republican"),
+    ind = c("Ind,near rep", "Independent", "Ind,near dem"),
+    dem = c("Not str democrat", "Strong democrat")
+  )) %>%
+  count(partyid)
+```
+
+If we want a basic way of collapsing for visualization, we can also use `fct_lump()`. This command will simply combine smaller groups so that whatever is remaining will still remain as the smallest group. We can try this with the current dataset. 
+
+```{r lump1}
+gss_cat %>%
+  mutate(relig = fct_lump(relig)) %>%
+  count(relig)
+```
+
+But we see that there are only 2 groups here because there are so many Protestant respondents. We can specify the number of groups we want as well:
+
+```{r lump2}
+gss_cat %>%
+  mutate(relig = fct_lump(relig, n = 10)) %>%
+  count(relig, sort = TRUE) %>%
+  print(n = Inf)
 ```
 
