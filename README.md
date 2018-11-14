@@ -11,3 +11,4 @@ This is the github repository for the Experimental Methods course for Fall 2018.
 * I've added the sixth week notes on descriptive statistics and a new dataset.
 * I've added the seventh week notes on Tibbles, data importing and very basic example of t-tests.
 * I've added the eighth week notes on tidying data. 
+* I've added the ninth week notes on strings and factors. There is also a new toy dataset. 
