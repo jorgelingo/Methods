@@ -1,0 +1,200 @@
+---
+title: "Purrr tutorial"
+author: "Jorge Valdés Kroff"
+date: "November 14, 2018"
+output: 
+  html_document:
+    keep_md: yes
+--- 
+# Introduction
+
+This is a simple tutorial based on Chapter 17 from *R for Data Science* by Hadley Wickham and Garrett Grolemund. 
+First, load in the `tidyverse` package.
+
+```{r library}
+library(tidyverse)
+```
+
+The `purrr` package is designed with a set of `map()` functions that are a friendlier version of *for* loops. So it's a good idea to get a basic sense of what *for* loops do. 
+We can create a very simple **tibble** with 4 columns of values.
+
+```{r basic tibble}
+df <- tibble(
+  a = rnorm(10),
+  b = rnorm(10),
+  c = rnorm(10),
+  d = rnorm(10)
+)
+print(df) #your values will look different than mine
+```
+
+We may want to compute the `mean` for each column. This would be fine to do for each individual column.
+
+```{r slow computation}
+mean(df$a)
+mean(df$b)
+mean(df$c)
+mean(df$d)
+
+```
+
+But we are repeating the same action multiple times. We can use a *for* loop to iterate this action for us. A *for* loop requires 3 pieces:
+
+  * An *output* vector where the results will be stored
+  * A *sequence*, `i`, which determines what is to be looped over
+  * The *body*, which is where the main action happens
+  
+Let's replace the above repeated code with a *for* loop.
+
+```{r for loop}
+results <- vector("double", ncol(df)) #create a vector that is of class "double", that is the length of the number of columns in **df**
+#now create the for loop
+for (i in seq_along(df)) { #here is the sequence; `seq_along() is a "safe" version of 1:length()
+  results[[i]] <- mean(df[[i]]) #here is the body
+}
+results
+```
+
+There are several variations on *for* loops, including what you loop over (e.g., indices, names, and elements), whether you know the length of the output (store individual results in list, then string together), whether you know the length of the sequence (use a *while* loop). 
+```{r for loop variations}
+#If you don't know the ouptput length (if you are randomly generating or sampling something), then you could save the results of each "run" to a list, then combine after the loop is done:
+means <- c(0, 5, 10) #create a vector of means
+list.output <- vector("list", length(means)) #output
+for (i in seq_along(means)) { #sequence
+  n <- sample(100, 1) #from 0:100, choose one random number
+  list.output[[i]] <- rnorm(n, means[[i]]) #generate a random normal distribution of n numbers, with mean from sequence
+}
+str(list.output) #check out structure of output
+output <- unlist(list.output) #combine together
+print(output)
+```
+*while* loops only run while some condition is met. 
+```{r while loop}
+#A simple while loop that shows us how many tries it takes to get three heads in a row
+flip <- function() sample(c("T", "H"), 1) #sample from "T"|"H" only once
+flips <- 0 
+nheads <- 0 #these are both outputs
+
+while (nheads < 3) { #sequence: continue looping while the number of flips results in "heads" 
+  if (flip() == "H") { #another conditional: if the result of `flip()` is "H", then do something
+    nheads <- nheads + 1 #add 1 to the nheads vector
+  } else { #else do this
+    nheads <- 0 #reset to 0
+  }
+  flips <- flips + 1 #add 1 to flips as we iterate through the prior conditional
+} #the while loop will stop once the first conditional is met
+flips #print the number of flips needed; your number will be different
+```
+*for* loops can be useful under certain situtations, but they are really opaque. The `map*()` functions were created as a simpler way do the same thing. The function name specifies the output:
+-`map()` makes lists
+-`map_lgl()` makes a logical vector
+-`map_int()` makes an integer vector
+-`map_dbl()` makes a double vector
+-`map_chr()` makes a character vector
+
+Each function takes a vector as input (1st argument), applies a function to each piece (2nd argument), then returns a new vector that is the same length and has the same names. The type of vector depends on the suffix of the function. Using the **df** that we created earlier, let's redo the computation for means for each column as well as some other descriptives
+```{r map intro}
+map_dbl(df, mean)
+map_dbl(df, median)
+map_dbl(df, sd)
+```
+This is pretty simple to understand compared to *for* loops and is less code intensive (less required). It gets even easier to read when combined with the pipe operator.
+```{r map with pipe}
+df %>% 
+  map_dbl(mean)
+```
+You can also pass on additional arguments in `map*()` functions, which can be useful
+```{r map with add args}
+df %>% 
+  map_dbl(mean, trim = 0.5)
+```
+Now we can apply the same principle to iterating more interesting functions over some grouping variable in a dataset. 
+```{r setup with lm}
+head(mtcars)
+str(mtcars)
+summary(mtcars)
+unique(mtcars$cyl)
+```
+notice that there are 3 unique values in $cyl, so we can run a separate linear regression on each value for cylinder.
+```{r lm example}
+models <- mtcars %>% 
+  split(.$cyl) %>% 
+  map(~lm(mpg ~ wt, data = .))
+summary(models)
+```
+Notice that we created a list that contains the ouptus in each element of the list
+```{r summaries}
+summary(models[[1]]) #to access each element, use [[]]
+summary(models[[2]])
+summary(models[[3]])
+```
+Or you can iterate here as well!
+```{r summary}
+models %>% 
+  map(summary)
+```
+You can also pull out specific information from your summary.
+```{r r.squared}
+models %>% 
+  map(summary) %>% 
+  map_dbl("r.squared")
+models %>% 
+  map(summary) %>% 
+  map("residuals")
+```
+We can also map over multiple arguments using `map2()` and `pmap()`. Let's generate a new df with 5 random normals centered around different means.
+```{r mu}
+mu <- list(5,10,25,50,100)
+mu.df <- mu %>% 
+  map(rnorm, n = 10) 
+str(mu.df)
+```
+What if we also wanted to vary sd? We could just use `map2()` which iterates over 2 vectors in parallel.
+```{r map2}
+sigma <- list(1, 3, 5, 2, .5)
+mu.sd.df <- map2(mu, sigma, rnorm, n = 10)
+str(mu.sd.df)
+```
+If you want to iterate over 3 or more arguments, then you can use `pmap()`. Let's vary the mean, sd, and the number of samples. `pmap()` takes a list of arguments.
+```{r pmap}
+m <- list(1,3,5,7,9)
+args1 <- list(m, mu, sigma)
+args1 %>% 
+  pmap(rnorm) %>% 
+  str()
+#arguments can be named as well to help clarify code
+args2 <- list(mean = mu, sd = sigma, n = m)
+args2 %>% 
+  pmap(rnorm) %>% 
+  str()
+head(args1)
+head(args2)
+```
+It may be an even better idea to save arguments to a data frame/tribble to keep things clean.
+```{r tibble example}
+params <- tibble(
+  mean = unlist(mu),
+  sd = unlist(sigma),
+  n = unlist(m)
+)
+params
+params %>% 
+  pmap(rnorm)
+```
+One last useful function is `walk()`. This is similar to `map()` but is used when you just want the action to iterate and don't necessarily care about the return value. This is helpful for plotting and saving items to file. Let's start with a simple example.
+```{r simple walk}
+x <- list(1, "a", 3)
+x %>% 
+  walk(print)
+```
+Let's generate a set of plots for each of the simple linear regression models we created earlier and save to a newly created "images" folder saved wherever you are now.
+```{r plots walk}
+dir.create("images")
+plots <- mtcars %>% 
+  split(.$cyl) %>% 
+  map(~ggplot(., aes(mpg, wt)) + geom_point())
+paths <- stringr::str_c(names(plots), ".pdf") #generate strings of names
+
+pwalk(list(paths, plots), ggsave, path = "images/")
+```
+

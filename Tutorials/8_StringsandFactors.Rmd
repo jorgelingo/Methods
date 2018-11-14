@@ -580,4 +580,3 @@ gss_cat %>%
   count(relig, sort = TRUE) %>%
   print(n = Inf)
 ```
-

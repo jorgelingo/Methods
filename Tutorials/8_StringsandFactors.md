@@ -134,8 +134,8 @@ fruits
 str_view(fruits, "an")
 ```
 
-<!--html_preserve--><div id="htmlwidget-37e5f9d0018349055b5d" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-37e5f9d0018349055b5d">{"x":{"html":"<ul>\n  <li>apple<\/li>\n  <li>b<span class='match'>an<\/span>ana<\/li>\n  <li>pear<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><!--/html_preserve-->
+<!--html_preserve--><div id="htmlwidget-aaabf7027f7b49b7f556" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-aaabf7027f7b49b7f556">{"x":{"html":"<ul>\n  <li>apple<\/li>\n  <li>b<span class='match'>an<\/span>ana<\/li>\n  <li>pear<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><!--/html_preserve-->
 
 Notice this is an exact match and it matches the first instance of "an". If we use a "." it searches for any character except a new line. 
 
@@ -144,8 +144,8 @@ Notice this is an exact match and it matches the first instance of "an". If we u
 str_view(fruits, ".a.")
 ```
 
-<!--html_preserve--><div id="htmlwidget-24a43ef05b79e9a3a4f3" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-24a43ef05b79e9a3a4f3">{"x":{"html":"<ul>\n  <li>apple<\/li>\n  <li><span class='match'>ban<\/span>ana<\/li>\n  <li>p<span class='match'>ear<\/span><\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><!--/html_preserve-->
+<!--html_preserve--><div id="htmlwidget-2daf845ccbeea788ba93" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-2daf845ccbeea788ba93">{"x":{"html":"<ul>\n  <li>apple<\/li>\n  <li><span class='match'>ban<\/span>ana<\/li>\n  <li>p<span class='match'>ear<\/span><\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><!--/html_preserve-->
 
 There are special ways to handle special characters--but let's just stick to the basics for now. 
 
@@ -156,8 +156,8 @@ We can also specify edges to search from. These are ferred to as anchors. To ind
 str_view(fruits, "^a")
 ```
 
-<!--html_preserve--><div id="htmlwidget-ebfaec44f6df47fb7b0f" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-ebfaec44f6df47fb7b0f">{"x":{"html":"<ul>\n  <li><span class='match'>a<\/span>pple<\/li>\n  <li>banana<\/li>\n  <li>pear<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><!--/html_preserve-->
+<!--html_preserve--><div id="htmlwidget-3d9ed80ff4bcb8185734" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-3d9ed80ff4bcb8185734">{"x":{"html":"<ul>\n  <li><span class='match'>a<\/span>pple<\/li>\n  <li>banana<\/li>\n  <li>pear<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><!--/html_preserve-->
 Notice that this looks for an a from the beginning of a string. 
 
 
@@ -165,8 +165,8 @@ Notice that this looks for an a from the beginning of a string.
 str_view(fruits, "a$")
 ```
 
-<!--html_preserve--><div id="htmlwidget-84abbae4e744858e2e2e" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-84abbae4e744858e2e2e">{"x":{"html":"<ul>\n  <li>apple<\/li>\n  <li>banan<span class='match'>a<\/span><\/li>\n  <li>pear<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><!--/html_preserve-->
+<!--html_preserve--><div id="htmlwidget-73f519bd7946dda30e41" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-73f519bd7946dda30e41">{"x":{"html":"<ul>\n  <li>apple<\/li>\n  <li>banan<span class='match'>a<\/span><\/li>\n  <li>pear<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><!--/html_preserve-->
 and note that this searches for an "a" from the end of the string. 
 
 We can combine both for more specificity.
@@ -177,8 +177,8 @@ desserts <- c("apple pie", "apple", "apple tart")
 str_view(desserts, "^apple$")
 ```
 
-<!--html_preserve--><div id="htmlwidget-81e1217cd3d9a9fdcb55" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-81e1217cd3d9a9fdcb55">{"x":{"html":"<ul>\n  <li>apple pie<\/li>\n  <li><span class='match'>apple<\/span><\/li>\n  <li>apple tart<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><!--/html_preserve-->
+<!--html_preserve--><div id="htmlwidget-3bb1504bcf6411adbc63" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-3bb1504bcf6411adbc63">{"x":{"html":"<ul>\n  <li>apple pie<\/li>\n  <li><span class='match'>apple<\/span><\/li>\n  <li>apple tart<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><!--/html_preserve-->
 
 ###More specials
 
@@ -196,8 +196,8 @@ We can use the "or" operator (the vertical pipe, "|") to select between options.
 str_view(c("grey", "gray", "groy"), "gr(e|a)y")
 ```
 
-<!--html_preserve--><div id="htmlwidget-d1a415015d9bb0086b00" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-d1a415015d9bb0086b00">{"x":{"html":"<ul>\n  <li><span class='match'>grey<\/span><\/li>\n  <li><span class='match'>gray<\/span><\/li>\n  <li>groy<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><!--/html_preserve-->
+<!--html_preserve--><div id="htmlwidget-ad619c26ea9e035998fb" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-ad619c26ea9e035998fb">{"x":{"html":"<ul>\n  <li><span class='match'>grey<\/span><\/li>\n  <li><span class='match'>gray<\/span><\/li>\n  <li>groy<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><!--/html_preserve-->
 
 ##Repetition
 We can also specify how many times a pattern can match with the following special characers.
@@ -224,8 +224,8 @@ matching 0 or 1 "CCs":
 str_view(x, "CC?")
 ```
 
-<!--html_preserve--><div id="htmlwidget-15f6e07da1cd58eff040" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-15f6e07da1cd58eff040">{"x":{"html":"<ul>\n  <li>1888 is the longest year in Roman numberals: MD<span class='match'>CC<\/span>CLXXXVIII<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><!--/html_preserve-->
+<!--html_preserve--><div id="htmlwidget-0854344ec9b0fd7fb9ef" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-0854344ec9b0fd7fb9ef">{"x":{"html":"<ul>\n  <li>1888 is the longest year in Roman numberals: MD<span class='match'>CC<\/span>CLXXXVIII<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><!--/html_preserve-->
 We found a "CC"" without a repetition so that matches the 0 criterion.
 
 
@@ -233,8 +233,8 @@ We found a "CC"" without a repetition so that matches the 0 criterion.
 str_view(x, "CC+")
 ```
 
-<!--html_preserve--><div id="htmlwidget-b5129cd6bc897230f08a" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-b5129cd6bc897230f08a">{"x":{"html":"<ul>\n  <li>1888 is the longest year in Roman numberals: MD<span class='match'>CCC<\/span>LXXXVIII<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><!--/html_preserve-->
+<!--html_preserve--><div id="htmlwidget-6f44919c6ff57f0d2be5" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-6f44919c6ff57f0d2be5">{"x":{"html":"<ul>\n  <li>1888 is the longest year in Roman numberals: MD<span class='match'>CCC<\/span>LXXXVIII<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><!--/html_preserve-->
 Here, the match specifies a repetition of at least once, so the answer is now "CCC".
 
 
@@ -242,8 +242,8 @@ Here, the match specifies a repetition of at least once, so the answer is now "C
 str_view(x, "C[LX]+")
 ```
 
-<!--html_preserve--><div id="htmlwidget-32211b4b6aac3d493254" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-32211b4b6aac3d493254">{"x":{"html":"<ul>\n  <li>1888 is the longest year in Roman numberals: MDCC<span class='match'>CLXXX<\/span>VIII<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><!--/html_preserve-->
+<!--html_preserve--><div id="htmlwidget-736a4aadef46c58db8de" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-736a4aadef46c58db8de">{"x":{"html":"<ul>\n  <li>1888 is the longest year in Roman numberals: MDCC<span class='match'>CLXXX<\/span>VIII<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><!--/html_preserve-->
 Here, we are looking for a sequence that begins with C, must contain an L and X, then the X must repeat at least once but can be more, so final answer is "CLXXX". These symbols can be used within patterns and parentheses can be used to group things together. 
 
 
@@ -251,15 +251,15 @@ Here, we are looking for a sequence that begins with C, must contain an L and X,
 str_view(c("color","colour", "collar"), "colou?r")
 ```
 
-<!--html_preserve--><div id="htmlwidget-8a6959a7df1cbbd02450" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-8a6959a7df1cbbd02450">{"x":{"html":"<ul>\n  <li><span class='match'>color<\/span><\/li>\n  <li><span class='match'>colour<\/span><\/li>\n  <li>collar<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><!--/html_preserve-->
+<!--html_preserve--><div id="htmlwidget-fc20fb168b5c1477966b" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-fc20fb168b5c1477966b">{"x":{"html":"<ul>\n  <li><span class='match'>color<\/span><\/li>\n  <li><span class='match'>colour<\/span><\/li>\n  <li>collar<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><!--/html_preserve-->
 
 ```r
 str_view("banana", "ba(na)+")
 ```
 
-<!--html_preserve--><div id="htmlwidget-e6f8ac6433341d4fd5be" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-e6f8ac6433341d4fd5be">{"x":{"html":"<ul>\n  <li><span class='match'>banana<\/span><\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><!--/html_preserve-->
+<!--html_preserve--><div id="htmlwidget-bdd91d710f0fca1af21d" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-bdd91d710f0fca1af21d">{"x":{"html":"<ul>\n  <li><span class='match'>banana<\/span><\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><!--/html_preserve-->
 
 We can specify precise repetition matches with curly braces {}
 
@@ -273,8 +273,8 @@ We can specify precise repetition matches with curly braces {}
 str_view(x,"C{2}")
 ```
 
-<!--html_preserve--><div id="htmlwidget-53c87d5f335a5bc840c2" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-53c87d5f335a5bc840c2">{"x":{"html":"<ul>\n  <li>1888 is the longest year in Roman numberals: MD<span class='match'>CC<\/span>CLXXXVIII<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><!--/html_preserve-->
+<!--html_preserve--><div id="htmlwidget-89e5128c74610b5dd190" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-89e5128c74610b5dd190">{"x":{"html":"<ul>\n  <li>1888 is the longest year in Roman numberals: MD<span class='match'>CC<\/span>CLXXXVIII<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><!--/html_preserve-->
 search for "C" matched exactly twice. 
 
 
@@ -282,8 +282,8 @@ search for "C" matched exactly twice.
 str_view(x, "C{2,}")
 ```
 
-<!--html_preserve--><div id="htmlwidget-01a7558e748cec02f648" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-01a7558e748cec02f648">{"x":{"html":"<ul>\n  <li>1888 is the longest year in Roman numberals: MD<span class='match'>CCC<\/span>LXXXVIII<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><!--/html_preserve-->
+<!--html_preserve--><div id="htmlwidget-0e915d3b64ebd1787ae1" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-0e915d3b64ebd1787ae1">{"x":{"html":"<ul>\n  <li>1888 is the longest year in Roman numberals: MD<span class='match'>CCC<\/span>LXXXVIII<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><!--/html_preserve-->
 match "C" at least twice
 
 ## Match detection
@@ -463,8 +463,8 @@ more <- sentences[str_count(sentences, color_match) > 1]
 str_view_all(more, color_match)
 ```
 
-<!--html_preserve--><div id="htmlwidget-893d634498ec93ffc555" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-893d634498ec93ffc555">{"x":{"html":"<ul>\n  <li>It is hard to erase <span class='match'>blue<\/span> or <span class='match'>red<\/span> ink.<\/li>\n  <li>The <span class='match'>green<\/span> light in the brown box flicke<span class='match'>red<\/span>.<\/li>\n  <li>The sky in the west is tinged with <span class='match'>orange<\/span> <span class='match'>red<\/span>.<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><!--/html_preserve-->
+<!--html_preserve--><div id="htmlwidget-42933662d5addda98e78" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-42933662d5addda98e78">{"x":{"html":"<ul>\n  <li>It is hard to erase <span class='match'>blue<\/span> or <span class='match'>red<\/span> ink.<\/li>\n  <li>The <span class='match'>green<\/span> light in the brown box flicke<span class='match'>red<\/span>.<\/li>\n  <li>The sky in the west is tinged with <span class='match'>orange<\/span> <span class='match'>red<\/span>.<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><!--/html_preserve-->
 
 ```r
 str_extract_all(more, color_match)
@@ -560,8 +560,8 @@ fruit <- c("banana", "coconut", "cucumber", "jujube", "papaya", "salal berry")
 str_view_all(fruit, "(..)\\1")
 ```
 
-<!--html_preserve--><div id="htmlwidget-783bb5f22337527d5de1" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-783bb5f22337527d5de1">{"x":{"html":"<ul>\n  <li>b<span class='match'>anan<\/span>a<\/li>\n  <li><span class='match'>coco<\/span>nut<\/li>\n  <li><span class='match'>cucu<\/span>mber<\/li>\n  <li><span class='match'>juju<\/span>be<\/li>\n  <li><span class='match'>papa<\/span>ya<\/li>\n  <li>s<span class='match'>alal<\/span> berry<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><!--/html_preserve-->
+<!--html_preserve--><div id="htmlwidget-a849eed9c4aebde59bca" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-a849eed9c4aebde59bca">{"x":{"html":"<ul>\n  <li>b<span class='match'>anan<\/span>a<\/li>\n  <li><span class='match'>coco<\/span>nut<\/li>\n  <li><span class='match'>cucu<\/span>mber<\/li>\n  <li><span class='match'>juju<\/span>be<\/li>\n  <li><span class='match'>papa<\/span>ya<\/li>\n  <li>s<span class='match'>alal<\/span> berry<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><!--/html_preserve-->
 See exercises on p. 207.
 
 ### Replacement
@@ -675,8 +675,8 @@ i <- "This is a sentence. This is another sentence."
 str_view_all(i, boundary("word"))
 ```
 
-<!--html_preserve--><div id="htmlwidget-2c415b4164deb39fcccd" style="width:960px;height:100%;" class="str_view html-widget"></div>
-<script type="application/json" data-for="htmlwidget-2c415b4164deb39fcccd">{"x":{"html":"<ul>\n  <li><span class='match'>This<\/span> <span class='match'>is<\/span> <span class='match'>a<\/span> <span class='match'>sentence<\/span>. <span class='match'>This<\/span> <span class='match'>is<\/span> <span class='match'>another<\/span> <span class='match'>sentence<\/span>.<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><!--/html_preserve-->
+<!--html_preserve--><div id="htmlwidget-5ed5241970799d4a01fa" style="width:960px;height:100%;" class="str_view html-widget"></div>
+<script type="application/json" data-for="htmlwidget-5ed5241970799d4a01fa">{"x":{"html":"<ul>\n  <li><span class='match'>This<\/span> <span class='match'>is<\/span> <span class='match'>a<\/span> <span class='match'>sentence<\/span>. <span class='match'>This<\/span> <span class='match'>is<\/span> <span class='match'>another<\/span> <span class='match'>sentence<\/span>.<\/li>\n<\/ul>"},"evals":[],"jsHooks":[]}</script><!--/html_preserve-->
 
 ```r
 str_split(i, " ")[[1]]
@@ -977,7 +977,7 @@ gss_cat %>% count(partyid)
 ## 10 Strong democrat     3490
 ```
 
-The levels are inconsistent and highly abbreviated. We can change this with `fct_recode()`. 
+The levels are inconsistent and highly abbreviated. We can change this with `fct_recode()`. You can indicate what will be changed and to what it will be changed. 
 
 
 ```r
@@ -1007,5 +1007,105 @@ gss_cat %>%
 ##  8 Independent, near dem  2499
 ##  9 Democrat, weak         3690
 ## 10 Democrat, strong       3490
+```
+
+Levels that are not explicitly included are left as is. To combine levels instead, we just assign the same name (although, be careful with typos!). 
+
+
+```r
+gss_cat %>%
+  mutate(partyid = fct_recode(partyid,
+    "Republican, strong"    = "Strong republican",
+    "Republican, weak"      = "Not str republican",
+    "Independent, near rep" = "Ind,near rep",
+    "Independent, near dem" = "Ind,near dem",
+    "Democrat, weak"        = "Not str democrat",
+    "Democrat, strong"      = "Strong democrat",
+    "Other"                 = "No answer",
+    "Other"                 = "Don't know",
+    "Other"                 = "Other party"
+  )) %>%
+  count(partyid)
+```
+
+```
+## # A tibble: 8 x 2
+##   partyid                   n
+##   <fct>                 <int>
+## 1 Other                   548
+## 2 Republican, strong     2314
+## 3 Republican, weak       3032
+## 4 Independent, near rep  1791
+## 5 Independent            4119
+## 6 Independent, near dem  2499
+## 7 Democrat, weak         3690
+## 8 Democrat, strong       3490
+```
+
+If there is a lot of collapsing that needs to be done, there is a special function that will handle this: `fct_collapse()`. 
+
+
+```r
+gss_cat %>%
+  mutate(partyid = fct_collapse(partyid,
+    other = c("No answer", "Don't know", "Other party"),
+    rep = c("Strong republican", "Not str republican"),
+    ind = c("Ind,near rep", "Independent", "Ind,near dem"),
+    dem = c("Not str democrat", "Strong democrat")
+  )) %>%
+  count(partyid)
+```
+
+```
+## # A tibble: 4 x 2
+##   partyid     n
+##   <fct>   <int>
+## 1 other     548
+## 2 rep      5346
+## 3 ind      8409
+## 4 dem      7180
+```
+
+If we want a basic way of collapsing for visualization, we can also use `fct_lump()`. This command will simply combine smaller groups so that whatever is remaining will still remain as the smallest group. We can try this with the current dataset. 
+
+
+```r
+gss_cat %>%
+  mutate(relig = fct_lump(relig)) %>%
+  count(relig)
+```
+
+```
+## # A tibble: 2 x 2
+##   relig          n
+##   <fct>      <int>
+## 1 Protestant 10846
+## 2 Other      10637
+```
+
+But we see that there are only 2 groups here because there are so many Protestant respondents. We can specify the number of groups we want as well:
+
+
+```r
+gss_cat %>%
+  mutate(relig = fct_lump(relig, n = 10)) %>%
+  count(relig, sort = TRUE) %>%
+  print(n = Inf)
+```
+
+```
+## # A tibble: 10 x 2
+##    relig                       n
+##    <fct>                   <int>
+##  1 Protestant              10846
+##  2 Catholic                 5124
+##  3 None                     3523
+##  4 Christian                 689
+##  5 Other                     458
+##  6 Jewish                    388
+##  7 Buddhism                  147
+##  8 Inter-nondenominational   109
+##  9 Moslem/islam              104
+## 10 Orthodox-christian         95
 ```
 
