@@ -139,27 +139,27 @@ $(document).ready(function () {
 )
 print(df) #your values will look different than mine</code></pre>
 <pre><code>## # A tibble: 10 x 4
-##          a       b       c       d
-##      &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;
-##  1 -0.998   0.562  -0.672  -2.09  
-##  2 -1.80    0.0863 -0.326  -0.296 
-##  3  0.617   0.265   1.15    0.606 
-##  4  0.940  -1.56   -0.448  -0.609 
-##  5 -0.981  -2.15    0.266  -0.971 
-##  6  0.204  -0.104   1.03    0.0753
-##  7 -0.655   0.679  -0.417  -1.29  
-##  8 -0.465  -0.313  -0.940   1.36  
-##  9  0.718  -0.855  -0.0293 -0.202 
-## 10  0.0750 -0.970  -1.17    2.53</code></pre>
+##          a      b       c      d
+##      &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt;
+##  1 -0.947  -1.16  -0.898   0.755
+##  2 -0.0105 -0.144 -0.701  -0.159
+##  3 -0.196  -1.75  -0.943   0.870
+##  4 -1.33    0.375  0.929  -0.542
+##  5  0.349   1.13  -0.579   0.443
+##  6  0.290   1.68  -1.10   -0.327
+##  7 -0.677  -1.23   0.268   0.979
+##  8 -0.265   2.19  -1.05   -1.49 
+##  9  0.153   2.15   0.0868  0.372
+## 10 -1.53   -1.03  -0.238   0.329</code></pre>
 <p>We may want to compute the <code>mean</code> for each column. This would be fine to do for each individual column.</p>
 <pre class="r"><code>mean(df$a)</code></pre>
-<pre><code>## [1] -0.234484</code></pre>
+<pre><code>## [1] -0.4164798</code></pre>
 <pre class="r"><code>mean(df$b)</code></pre>
-<pre><code>## [1] -0.4362017</code></pre>
+<pre><code>## [1] 0.2191901</code></pre>
 <pre class="r"><code>mean(df$c)</code></pre>
-<pre><code>## [1] -0.1556901</code></pre>
+<pre><code>## [1] -0.4223373</code></pre>
 <pre class="r"><code>mean(df$d)</code></pre>
-<pre><code>## [1] -0.08861142</code></pre>
+<pre><code>## [1] 0.1233153</code></pre>
 <p>But we are repeating the same action multiple times. We can use a <em>for</em> loop to iterate this action for us. A <em>for</em> loop requires 3 pieces:</p>
 <ul>
 <li>An <em>output</em> vector where the results will be stored</li>
@@ -173,7 +173,7 @@ for (i in seq_along(df)) { #here is the sequence; `seq_along() is a &quot;safe&q
   results[[i]] &lt;- mean(df[[i]]) #here is the body
 }
 results</code></pre>
-<pre><code>## [1] -0.23448399 -0.43620175 -0.15569013 -0.08861142</code></pre>
+<pre><code>## [1] -0.4164798  0.2191901 -0.4223373  0.1233153</code></pre>
 <p>There are several variations on <em>for</em> loops, including what you loop over (e.g., indices, names, and elements), whether you know the length of the output (store individual results in list, then string together), whether you know the length of the sequence (use a <em>while</em> loop).</p>
 <pre class="r"><code>#If you don't know the ouptput length (if you are randomly generating or sampling something), then you could save the results of each &quot;run&quot; to a list, then combine after the loop is done:
 means &lt;- c(0, 5, 10) #create a vector of means
@@ -184,50 +184,41 @@ for (i in seq_along(means)) { #sequence
 }
 str(list.output) #check out structure of output</code></pre>
 <pre><code>## List of 3
-##  $ : num [1:22] -1.024 0.645 -0.396 1.078 0.232 ...
-##  $ : num [1:80] 3.33 5.6 5.74 4.87 4.43 ...
-##  $ : num [1:93] 10.72 9.68 9.07 10.05 9.75 ...</code></pre>
+##  $ : num [1:64] 1.782 0.124 0.758 -0.913 0.402 ...
+##  $ : num [1:7] 5.21 4.34 5.85 5.18 4.13 ...
+##  $ : num [1:76] 10.04 10.27 9.66 10.67 9.39 ...</code></pre>
 <pre class="r"><code>output &lt;- unlist(list.output) #combine together
 print(output)</code></pre>
-<pre><code>##   [1] -1.02383501  0.64453858 -0.39640240  1.07806003  0.23184243
-##   [6] -1.17140565 -0.81882862 -3.01232903 -1.49636674  0.71777748
-##  [11]  1.01999988  0.33322627 -1.86301368  0.61208329 -0.13724988
-##  [16]  0.54197331 -0.23527762 -0.35877484  0.87768105  1.42881242
-##  [21]  0.43808117  0.03326921  3.32535623  5.59895680  5.73675680
-##  [26]  4.86766104  4.43374366  6.95050449  6.00695116  4.91123932
-##  [31]  6.12024203  5.93217389  5.91611093  5.37174798  6.01505346
-##  [36]  6.04103010  5.42035324  2.52239540  4.84976347  7.91422043
-##  [41]  4.84546470  6.08090868  4.56146558  4.33256848  5.32874599
-##  [46]  4.12070068  5.41931933  5.39727774  3.60617053  6.39213006
-##  [51]  5.17457220  5.09486836  3.22133607  4.86147899  5.50893296
-##  [56]  5.00108078  5.34011670  5.31735193  6.14614091  4.63293878
-##  [61]  5.94697445  6.08064981  5.92957031  4.33334851  4.89855475
-##  [66]  3.41282879  4.74124776  5.59610452  5.14519950  3.37243312
-##  [71]  6.39384959  5.18820563  5.03770636  6.46340174  6.37316354
-##  [76]  5.58535343  5.54562886  4.34438612  4.08506420  6.98872644
-##  [81]  5.07836939  5.61208739  4.84954173  4.41000510  5.61911499
-##  [86]  4.81604408  3.33503731  4.86845848  4.72862042  5.11344004
-##  [91]  6.44168287  5.23797391  5.95786609  5.84769555  2.58969097
-##  [96]  4.23416474  5.14011838  4.52939218  5.39826688  4.04596726
-## [101]  4.30947676  3.69631223 10.71670552  9.67724953  9.06590425
-## [106] 10.05389724  9.74999258  9.66202018  9.70137821 10.32462129
-## [111]  9.00062378 10.58000955 10.21306436  8.69789068  8.51530138
-## [116] 10.09812539 11.90756510 10.62118704  8.64550036 10.81367722
-## [121] 10.64062786  9.18023240 11.08646057  9.44928952  9.58726124
-## [126]  9.94154329 10.59055407  7.20293750  8.98702214  9.48812497
-## [131]  8.54299354  9.69916822  9.44161908 10.08764282  9.93987134
-## [136] 10.40199230 10.49864960 10.59048390 10.22835677 11.18357063
-## [141]  9.20915677 10.38027704  9.85671597  8.56007342 10.40826816
-## [146]  9.75354563 10.65781062 11.19391415 10.90732863 11.80821287
-## [151]  9.35300776 12.15794182 10.11571753 10.18789619 10.18344153
-## [156] 10.39437245  9.52430208  9.91620864  7.78613991  9.81361085
-## [161]  9.35182048  9.80137212 11.88516022 11.12205425 10.07630599
-## [166]  8.97163903  8.87875216  9.84731691  8.71925689  9.61463768
-## [171]  9.53754140 12.82172087 10.56108251 12.55565442 12.75791613
-## [176] 10.83389223 10.04375676  9.60977207 12.15932273  9.64083839
-## [181]  9.88809868 10.20334623 10.28927407  9.70275919  7.78102516
-## [186]  8.03566115 10.43743650 10.54228745  9.95439617 10.28257029
-## [191] 10.15086529 11.75029231  9.80656356 10.61272868 10.98571830</code></pre>
+<pre><code>##   [1]  1.78243605  0.12365888  0.75755775 -0.91285644  0.40181132
+##   [6]  0.14834383  1.60546457  0.08019467 -0.94246136  0.31256410
+##  [11]  0.55405952 -1.20841697  1.39008340  0.20511320 -1.71297179
+##  [16]  0.55210548  0.98716200  0.08314807 -1.05593838 -1.99871673
+##  [21]  1.57710550  0.22965609  0.77198590  1.14538687 -0.63110020
+##  [26]  0.34676825 -0.36809771 -0.13284421  0.08406078  0.16760110
+##  [31] -1.68091153 -0.33020352  1.23762066  0.33533362  0.22153448
+##  [36]  0.06638130 -0.87967035 -1.35066504  2.56766183  0.22170807
+##  [41]  1.19635356  0.73534641 -0.07631535  0.04468284  0.45027752
+##  [46] -0.28673338 -1.21213549 -0.57778324 -1.59777727  0.45291461
+##  [51] -1.56916378 -0.48256751  0.41575308 -0.70227807  1.56716803
+##  [56] -1.31757471  0.02328944 -1.35401964  1.69850071  0.36445800
+##  [61]  0.54705133 -0.93667869 -0.79358415 -0.14022846  5.21203305
+##  [66]  4.34317321  5.85210761  5.18045488  4.12802998  4.27342339
+##  [71]  4.64123101 10.03801353 10.26728300  9.66237176 10.66661766
+##  [76]  9.38521745 11.17994698  8.97618366 10.17589031  8.61864853
+##  [81]  8.26290010  8.69602160 10.30102372  7.97943079  8.74541334
+##  [86] 10.35169573 10.14741978 11.57142151  9.87667696 10.18086663
+##  [91]  9.50534980  9.80279219 10.24968979  8.41806283 10.59400778
+##  [96] 11.50610680  8.64983836 10.51308966  9.22671737  9.43914163
+## [101]  9.89561069 10.78761929  9.12322070 12.13384953 10.31038221
+## [106]  9.66505751  9.12171840 12.15425071  9.70477369  9.37444184
+## [111] 10.59649618  9.75826670 10.47469235  9.65150740 11.63164298
+## [116] 11.77768950 10.53641637  8.68623738  9.48784296  9.73234966
+## [121] 11.43788439 10.80841450  8.24728398  9.32459025  9.82749418
+## [126]  8.36697117  8.78162506  8.95999688 11.19557009 11.34562589
+## [131]  9.16987439 10.52930479  9.61052711 10.54977320  8.32225655
+## [136]  8.09686510  9.27013504  9.87521400  9.23444723 10.50825371
+## [141]  9.94398971  9.11049328 10.11534519 10.51520024  8.21367470
+## [146] 10.29419528 10.65451891</code></pre>
 <p><em>while</em> loops only run while some condition is met.</p>
 <pre class="r"><code>#A simple while loop that shows us how many tries it takes to get three heads in a row
 flip &lt;- function() sample(c(&quot;T&quot;, &quot;H&quot;), 1) #sample from &quot;T&quot;|&quot;H&quot; only once
@@ -243,7 +234,7 @@ while (nheads &lt; 3) { #sequence: continue looping while the number of flips re
   flips &lt;- flips + 1 #add 1 to flips as we iterate through the prior conditional
 } #the while loop will stop once the first conditional is met
 flips #print the number of flips needed; your number will be different</code></pre>
-<pre><code>## [1] 10</code></pre>
+<pre><code>## [1] 3</code></pre>
 <p><em>for</em> loops can be useful under certain situtations, but they are really opaque. The <code>map*()</code> functions were created as a simpler way do the same thing. The function name specifies the output:</p>
 <ul>
 <li><code>map()</code> makes lists</li>
@@ -254,24 +245,24 @@ flips #print the number of flips needed; your number will be different</code></p
 </ul>
 <p>Each function takes a vector as input (1st argument), applies a function to each piece (2nd argument), then returns a new vector that is the same length and has the same names. The type of vector depends on the suffix of the function. Using the <strong>df</strong> that we created earlier, let’s redo the computation for means for each column as well as some other descriptives.</p>
 <pre class="r"><code>map_dbl(df, mean)</code></pre>
-<pre><code>##           a           b           c           d 
-## -0.23448399 -0.43620175 -0.15569013 -0.08861142</code></pre>
+<pre><code>##          a          b          c          d 
+## -0.4164798  0.2191901 -0.4223373  0.1233153</code></pre>
 <pre class="r"><code>map_dbl(df, median)</code></pre>
 <pre><code>##          a          b          c          d 
-## -0.1949301 -0.2087079 -0.3717649 -0.2487687</code></pre>
+## -0.2307253  0.1154158 -0.6400018  0.3504480</code></pre>
 <pre class="r"><code>map_dbl(df, sd)</code></pre>
 <pre><code>##         a         b         c         d 
-## 0.8891860 0.9307796 0.7748810 1.3339100</code></pre>
+## 0.6725684 1.4973359 0.6705874 0.7614359</code></pre>
 <p>This is pretty simple to understand compared to <em>for</em> loops and is less code intensive (less required). It gets even easier to read when combined with the pipe operator.</p>
 <pre class="r"><code>df %&gt;% 
   map_dbl(mean)</code></pre>
-<pre><code>##           a           b           c           d 
-## -0.23448399 -0.43620175 -0.15569013 -0.08861142</code></pre>
+<pre><code>##          a          b          c          d 
+## -0.4164798  0.2191901 -0.4223373  0.1233153</code></pre>
 <p>You can also pass on additional arguments in <code>map*()</code> functions, which can be useful</p>
 <pre class="r"><code>df %&gt;% 
   map_dbl(mean, trim = 0.5)</code></pre>
 <pre><code>##          a          b          c          d 
-## -0.1949301 -0.2087079 -0.3717649 -0.2487687</code></pre>
+## -0.2307253  0.1154158 -0.6400018  0.3504480</code></pre>
 <p>Now we can apply the same principle to iterating more interesting functions over some grouping variable in a dataset.</p>
 <pre class="r"><code>head(mtcars)</code></pre>
 <pre><code>##                    mpg cyl disp  hp drat    wt  qsec vs am gear carb
@@ -493,21 +484,21 @@ mu.df &lt;- mu %&gt;%
   map(rnorm, n = 10) 
 str(mu.df)</code></pre>
 <pre><code>## List of 5
-##  $ : num [1:10] 5.96 6.73 4.27 5.87 5.96 ...
-##  $ : num [1:10] 8.88 9.93 9.5 10.55 11.7 ...
-##  $ : num [1:10] 26 25.5 25.3 25.1 24.6 ...
-##  $ : num [1:10] 50.5 49.7 48.4 50 49.7 ...
-##  $ : num [1:10] 99.7 100.5 101.8 100 98.9 ...</code></pre>
+##  $ : num [1:10] 3.99 3.04 3.26 5.11 3.35 ...
+##  $ : num [1:10] 7.9 10.27 9.35 10.19 11.7 ...
+##  $ : num [1:10] 23.4 23.1 24.4 25.2 23.7 ...
+##  $ : num [1:10] 50.5 48.1 49.5 49.9 48.8 ...
+##  $ : num [1:10] 100.3 99.5 100.2 99.4 98.2 ...</code></pre>
 <p>What if we also wanted to vary sd? We could just use <code>map2()</code> which iterates over 2 vectors in parallel.</p>
 <pre class="r"><code>sigma &lt;- list(1, 3, 5, 2, .5)
 mu.sd.df &lt;- map2(mu, sigma, rnorm, n = 10)
 str(mu.sd.df)</code></pre>
 <pre><code>## List of 5
-##  $ : num [1:10] 6.23 6.15 6.97 5.99 5.6 ...
-##  $ : num [1:10] 7.12 7.03 6.06 5.65 9.3 ...
-##  $ : num [1:10] 26.8 25.4 30.3 28.8 19.7 ...
-##  $ : num [1:10] 50.6 46.5 47 47.6 51.7 ...
-##  $ : num [1:10] 100.3 100.9 99.5 100.7 100.3 ...</code></pre>
+##  $ : num [1:10] 4.39 5.15 5.25 5.85 5.19 ...
+##  $ : num [1:10] 5.69 15.64 13.56 9.45 11.04 ...
+##  $ : num [1:10] 22.1 25.8 19.9 23.7 14 ...
+##  $ : num [1:10] 51.8 49.4 50.4 52.5 53.9 ...
+##  $ : num [1:10] 99.1 100.7 99.5 100.6 100.1 ...</code></pre>
 <p>If you want to iterate over 3 or more arguments, then you can use <code>pmap()</code>. Let’s vary the mean, sd, and the number of samples. <code>pmap()</code> takes a list of arguments.</p>
 <pre class="r"><code>m &lt;- list(1,3,5,7,9)
 args1 &lt;- list(m, mu, sigma)
@@ -515,22 +506,22 @@ args1 %&gt;%
   pmap(rnorm) %&gt;% 
   str()</code></pre>
 <pre><code>## List of 5
-##  $ : num 5.92
-##  $ : num [1:3] 7.99 12.39 9.3
-##  $ : num [1:5] 21.2 22.8 30.2 17.6 30.1
-##  $ : num [1:7] 51 47.8 50.1 47.8 49.2 ...
-##  $ : num [1:9] 100.7 100 99.9 100.2 100.5 ...</code></pre>
+##  $ : num 4.97
+##  $ : num [1:3] 8.1 10.61 5.71
+##  $ : num [1:5] 29.9 36.7 21.2 27.9 20
+##  $ : num [1:7] 48.7 50.2 51 52.9 48.4 ...
+##  $ : num [1:9] 100.8 100.2 100.2 99.7 99.6 ...</code></pre>
 <pre class="r"><code>#arguments can be named as well to help clarify code
 args2 &lt;- list(mean = mu, sd = sigma, n = m)
 args2 %&gt;% 
   pmap(rnorm) %&gt;% 
   str()</code></pre>
 <pre><code>## List of 5
-##  $ : num 4.38
-##  $ : num [1:3] 9.7 8.92 11.01
-##  $ : num [1:5] 17.6 24 27.8 18.4 28.9
-##  $ : num [1:7] 50.3 46.6 48.9 48.4 47.8 ...
-##  $ : num [1:9] 100 100.3 99.3 100 99.7 ...</code></pre>
+##  $ : num 4.06
+##  $ : num [1:3] 9.69 10.6 4.05
+##  $ : num [1:5] 23.2 21.9 23.4 15 23.8
+##  $ : num [1:7] 46.6 48.5 49.4 50.9 50 ...
+##  $ : num [1:9] 99.5 100.1 99.8 100.8 99.8 ...</code></pre>
 <pre class="r"><code>head(args1)</code></pre>
 <pre><code>## [[1]]
 ## [[1]][[1]]
@@ -649,20 +640,20 @@ params</code></pre>
 <pre class="r"><code>params %&gt;% 
   pmap(rnorm)</code></pre>
 <pre><code>## [[1]]
-## [1] 5.622602
+## [1] 4.95922
 ## 
 ## [[2]]
-## [1]  6.614666 12.018172  8.423588
+## [1] 9.574396 8.053715 4.820682
 ## 
 ## [[3]]
-## [1] 23.39542 20.31885 28.86876 26.60555 34.21429
+## [1] 19.45811 25.98377 29.64689 27.60200 30.93926
 ## 
 ## [[4]]
-## [1] 46.89838 53.89069 51.97102 51.89037 51.85242 50.75493 51.57053
+## [1] 50.82143 48.02567 47.53421 50.24934 51.05979 52.01367 50.32298
 ## 
 ## [[5]]
-## [1] 100.29427 100.74827  99.83460  99.77740 100.75862  99.63892  99.73319
-## [8]  99.79789  99.52779</code></pre>
+## [1]  98.95439  99.77792 100.15649  99.75290  99.77758 100.74639  99.76024
+## [8]  99.76460 100.19940</code></pre>
 <p>One last useful function is <code>walk()</code>. This is similar to <code>map()</code> but is used when you just want the action to iterate and don’t necessarily care about the return value. This is helpful for plotting and saving items to file. Let’s start with a simple example.</p>
 <pre class="r"><code>x &lt;- list(1, &quot;a&quot;, 3)
 x %&gt;% 
