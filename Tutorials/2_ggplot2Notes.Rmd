@@ -45,26 +45,26 @@ Generally speaking, `ggplot2` commands work on a _grammar of graphics_ and have 
 
 There is a catalog of aesthetics from which to choose from. An excellent resource is the ggplot2 documentation page as well as a cheatsheet.
 
-* [ggplot2 documentation][https://ggplot2.tidyverse.org/reference/]
-* [ggplot2 cheatsheet][https://github.com/rstudio/cheatsheets/blob/master/data-visualization-2.1.pdf]
+* [ggplot2 documentation](https://ggplot2.tidyverse.org/reference/)
+* [ggplot2 cheatsheet](https://github.com/rstudio/cheatsheets/blob/master/data-visualization-2.1.pdf)
 
 Playing with the same dataset, let's map a 3rd variable, `class` to color. 
 
-```{r mpg 3rd variable}
+```{r mpg_3rd_variable}
 ggplot(data = mpg) +
   geom_point(mapping = aes(x = displ, y = hwy, color = class))
 ```
 
 Notice that a legend is created for the 3rd variable and we can easily distinguish subgroups within our data. Make sure that the aesthetic that you are choosing makes sense with your data. 
 
-```{r bad graph}
+```{r bad_graph}
 ggplot(data = mpg) +
   geom_point(mapping = aes(x = class, y = hwy, color = displ))
 ```
 
 `ggplot2` cannot help you decide what graphs to produce, it will just attempt to graph what you ask it to. Sometimes the specific aesthetic may also create problems.
 
-```{r 3rd with size}
+```{r 3rd_with_size}
 ggplot(data = mpg) +
   geom_point(mapping = aes(x = displ, y = hwy, size = class))
 ```
@@ -73,7 +73,7 @@ Here, we get a warning, and we see that it is very hard to visualize the trends 
 
 Some other mapping options include _shape_, _alpha_ (for transparency), _linetype_, _linewidth_. 
 
-```{r some other examples}
+```{r some_other_examples}
 ggplot(data = mpg) +
   geom_point(mapping = aes(x = displ, y = hwy, alpha = class))
 ggplot(data = mpg) +
@@ -94,18 +94,18 @@ ggplot(data = mpg) +
 
 ### Geometric Objects (geoms)
 
-As we can see on the [ggplot2 documentation][https://ggplot2.tidyverse.org/reference/] there are a lot of options for different _geoms_ consider what type of variable you have. [Table 2.1][https://serialmentor.com/dataviz/aesthetic-mapping.html] of the _Fundamentals of Data Visualization_ e-book is a good reference for your consideration. Make sure you consider whether your data is continuous or discrete and if discrete, whether its ordered or unordered. 
+As we can see on the [ggplot2 documentation](https://ggplot2.tidyverse.org/reference/) there are a lot of options for different _geoms_ consider what type of variable you have. [Table 2.1](https://serialmentor.com/dataviz/aesthetic-mapping.html) of the _Fundamentals of Data Visualization_ e-book is a good reference for your consideration. Make sure you consider whether your data is continuous or discrete and if discrete, whether its ordered or unordered. 
 
 Follow the book, let's plot using `geom_smooth()` which produces a line with a confidence band.
 
-```{r geom smooth}
+```{r geom_smooth}
 ggplot(data = mpg) +
   geom_smooth(mapping = aes(x = displ, y = hwy))
 ```
 
 We can also layer different _geoms_ onto the same graph (this is powerful).
 
-```{r multiple layers}
+```{r multiple_layers}
 ggplot(data = mpg) +
   geom_point(mapping = aes(x = displ, y = hwy, color = drv)) +
   geom_smooth(mapping = aes(x = displ, y = hwy, linetype = drv))
@@ -113,7 +113,7 @@ ggplot(data = mpg) +
 
 Notice that if we are using (nearly) the same mapping, we can actually specify this at the top layer.
 
-```{r multiple layers 2}
+```{r multiple_layers_2}
 ggplot(data = mpg, aes(x = displ, y = hwy)) +
   geom_point(aes(color = class)) +
   geom_smooth()
@@ -141,7 +141,7 @@ ggplot(diamonds, aes(x = cut, y = carat)) +
 
 `ggplot2` can also compute summary statistics, and this is a call that I use a lot, because we often want to plot the mean of some category.
 
-```{r summary statistic}
+```{r summary_statistic}
 ggplot(data = diamonds, aes(x = cut, y = price)) +
   stat_summary(fun.y = mean, geom = "point")
 ```
@@ -150,7 +150,7 @@ For now, it will in most cases be perfectly fine to work with default graphs, bu
 
 First, notice that the aesthetic for different grouping variables can be _color_ (as before, but this is actually not so helpful) or _fill_ (which is more helpful). 
 
-```{r barcharts 2}
+```{r barcharts_2}
 ggplot(data = diamonds, aes(x = cut, color = cut)) +
   geom_bar()
 ggplot(data = diamonds, aes(x = cut, fill = cut)) +
@@ -160,7 +160,7 @@ ggplot(data = diamonds, aes(x = cut, fill = cut)) +
 
 Notice that we are using the two different aesthetics for the same variable, so it's not so helpful, but we can map it to a different variable. The default action is to produce a stacked barplot.
 
-```{r stacked bar}
+```{r stacked_bar}
 ggplot(diamonds, aes(x = cut, fill = clarity)) +
   geom_bar()
 ```

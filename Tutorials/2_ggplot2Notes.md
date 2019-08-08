@@ -17,20 +17,28 @@ library(tidyverse)
 ```
 
 ```
-## ── Attaching packages ─────────────────────────────────────────────────── tidyverse 1.2.1 ──
+## Registered S3 methods overwritten by 'ggplot2':
+##   method         from 
+##   [.quosures     rlang
+##   c.quosures     rlang
+##   print.quosures rlang
 ```
 
 ```
-## ✔ ggplot2 2.2.1     ✔ purrr   0.2.4
-## ✔ tibble  1.4.2     ✔ dplyr   0.7.4
-## ✔ tidyr   0.8.0     ✔ stringr 1.3.1
-## ✔ readr   1.1.1     ✔ forcats 0.3.0
+## -- Attaching packages --------
 ```
 
 ```
-## ── Conflicts ────────────────────────────────────────────────────── tidyverse_conflicts() ──
-## ✖ dplyr::filter() masks stats::filter()
-## ✖ dplyr::lag()    masks stats::lag()
+## v ggplot2 3.1.1     v purrr   0.3.2
+## v tibble  2.1.1     v dplyr   0.8.1
+## v tidyr   0.8.3     v stringr 1.4.0
+## v readr   1.3.1     v forcats 0.4.0
+```
+
+```
+## -- Conflicts -----------------
+## x dplyr::filter() masks stats::filter()
+## x dplyr::lag()    masks stats::lag()
 ```
 
 ```r
@@ -49,19 +57,19 @@ mpg
 
 ```
 ## # A tibble: 234 x 11
-##    manufacturer model    displ  year   cyl trans   drv     cty   hwy fl   
-##    <chr>        <chr>    <dbl> <int> <int> <chr>   <chr> <int> <int> <chr>
-##  1 audi         a4         1.8  1999     4 auto(l… f        18    29 p    
-##  2 audi         a4         1.8  1999     4 manual… f        21    29 p    
-##  3 audi         a4         2    2008     4 manual… f        20    31 p    
-##  4 audi         a4         2    2008     4 auto(a… f        21    30 p    
-##  5 audi         a4         2.8  1999     6 auto(l… f        16    26 p    
-##  6 audi         a4         2.8  1999     6 manual… f        18    26 p    
-##  7 audi         a4         3.1  2008     6 auto(a… f        18    27 p    
-##  8 audi         a4 quat…   1.8  1999     4 manual… 4        18    26 p    
-##  9 audi         a4 quat…   1.8  1999     4 auto(l… 4        16    25 p    
-## 10 audi         a4 quat…   2    2008     4 manual… 4        20    28 p    
-## # ... with 224 more rows, and 1 more variable: class <chr>
+##    manufacturer model displ  year   cyl trans drv     cty   hwy fl    class
+##    <chr>        <chr> <dbl> <int> <int> <chr> <chr> <int> <int> <chr> <chr>
+##  1 audi         a4      1.8  1999     4 auto~ f        18    29 p     comp~
+##  2 audi         a4      1.8  1999     4 manu~ f        21    29 p     comp~
+##  3 audi         a4      2    2008     4 manu~ f        20    31 p     comp~
+##  4 audi         a4      2    2008     4 auto~ f        21    30 p     comp~
+##  5 audi         a4      2.8  1999     6 auto~ f        16    26 p     comp~
+##  6 audi         a4      2.8  1999     6 manu~ f        18    26 p     comp~
+##  7 audi         a4      3.1  2008     6 auto~ f        18    27 p     comp~
+##  8 audi         a4 q~   1.8  1999     4 manu~ 4        18    26 p     comp~
+##  9 audi         a4 q~   1.8  1999     4 auto~ 4        16    25 p     comp~
+## 10 audi         a4 q~   2    2008     4 manu~ 4        20    28 p     comp~
+## # ... with 224 more rows
 ```
 
 ```r
@@ -105,8 +113,8 @@ Generally speaking, `ggplot2` commands work on a _grammar of graphics_ and have 
 
 There is a catalog of aesthetics from which to choose from. An excellent resource is the ggplot2 documentation page as well as a cheatsheet.
 
-* [ggplot2 documentation][https://ggplot2.tidyverse.org/reference/]
-* [ggplot2 cheatsheet][https://github.com/rstudio/cheatsheets/blob/master/data-visualization-2.1.pdf]
+* [ggplot2 documentation](https://ggplot2.tidyverse.org/reference/)
+* [ggplot2 cheatsheet](https://github.com/rstudio/cheatsheets/blob/master/data-visualization-2.1.pdf)
 
 Playing with the same dataset, let's map a 3rd variable, `class` to color. 
 
@@ -116,7 +124,7 @@ ggplot(data = mpg) +
   geom_point(mapping = aes(x = displ, y = hwy, color = class))
 ```
 
-![](2_ggplot2Notes_files/figure-html/mpg 3rd variable-1.png)<!-- -->
+![](2_ggplot2Notes_files/figure-html/mpg_3rd_variable-1.png)<!-- -->
 
 Notice that a legend is created for the 3rd variable and we can easily distinguish subgroups within our data. Make sure that the aesthetic that you are choosing makes sense with your data. 
 
@@ -126,7 +134,7 @@ ggplot(data = mpg) +
   geom_point(mapping = aes(x = class, y = hwy, color = displ))
 ```
 
-![](2_ggplot2Notes_files/figure-html/bad graph-1.png)<!-- -->
+![](2_ggplot2Notes_files/figure-html/bad_graph-1.png)<!-- -->
 
 `ggplot2` cannot help you decide what graphs to produce, it will just attempt to graph what you ask it to. Sometimes the specific aesthetic may also create problems.
 
@@ -140,7 +148,7 @@ ggplot(data = mpg) +
 ## Warning: Using size for a discrete variable is not advised.
 ```
 
-![](2_ggplot2Notes_files/figure-html/3rd with size-1.png)<!-- -->
+![](2_ggplot2Notes_files/figure-html/3rd_with_size-1.png)<!-- -->
 
 Here, we get a warning, and we see that it is very hard to visualize the trends in the data. 
 
@@ -152,7 +160,11 @@ ggplot(data = mpg) +
   geom_point(mapping = aes(x = displ, y = hwy, alpha = class))
 ```
 
-![](2_ggplot2Notes_files/figure-html/some other examples-1.png)<!-- -->
+```
+## Warning: Using alpha for a discrete variable is not advised.
+```
+
+![](2_ggplot2Notes_files/figure-html/some_other_examples-1.png)<!-- -->
 
 ```r
 ggplot(data = mpg) +
@@ -169,7 +181,7 @@ ggplot(data = mpg) +
 ## Warning: Removed 62 rows containing missing values (geom_point).
 ```
 
-![](2_ggplot2Notes_files/figure-html/some other examples-2.png)<!-- -->
+![](2_ggplot2Notes_files/figure-html/some_other_examples-2.png)<!-- -->
 
 ### Facets
 Faaceting can be useful to display subsets of your data rather than having everying jumbled onto one figure. Use `facet_wrap()` for adding one faceting variable and `facet_grid()` for more than one variable. In this case, we will need to use the `~` operator (formula in R speak) within the command.
@@ -193,7 +205,7 @@ ggplot(data = mpg) +
 
 ### Geometric Objects (geoms)
 
-As we can see on the [ggplot2 documentation][https://ggplot2.tidyverse.org/reference/] there are a lot of options for different _geoms_ consider what type of variable you have. [Table 2.1][https://serialmentor.com/dataviz/aesthetic-mapping.html] of the _Fundamentals of Data Visualization_ e-book is a good reference for your consideration. Make sure you consider whether your data is continuous or discrete and if discrete, whether its ordered or unordered. 
+As we can see on the [ggplot2 documentation](https://ggplot2.tidyverse.org/reference/) there are a lot of options for different _geoms_ consider what type of variable you have. [Table 2.1](https://serialmentor.com/dataviz/aesthetic-mapping.html) of the _Fundamentals of Data Visualization_ e-book is a good reference for your consideration. Make sure you consider whether your data is continuous or discrete and if discrete, whether its ordered or unordered. 
 
 Follow the book, let's plot using `geom_smooth()` which produces a line with a confidence band.
 
@@ -204,10 +216,10 @@ ggplot(data = mpg) +
 ```
 
 ```
-## `geom_smooth()` using method = 'loess'
+## `geom_smooth()` using method = 'loess' and formula 'y ~ x'
 ```
 
-![](2_ggplot2Notes_files/figure-html/geom smooth-1.png)<!-- -->
+![](2_ggplot2Notes_files/figure-html/geom_smooth-1.png)<!-- -->
 
 We can also layer different _geoms_ onto the same graph (this is powerful).
 
@@ -219,10 +231,10 @@ ggplot(data = mpg) +
 ```
 
 ```
-## `geom_smooth()` using method = 'loess'
+## `geom_smooth()` using method = 'loess' and formula 'y ~ x'
 ```
 
-![](2_ggplot2Notes_files/figure-html/multiple layers-1.png)<!-- -->
+![](2_ggplot2Notes_files/figure-html/multiple_layers-1.png)<!-- -->
 
 Notice that if we are using (nearly) the same mapping, we can actually specify this at the top layer.
 
@@ -234,10 +246,10 @@ ggplot(data = mpg, aes(x = displ, y = hwy)) +
 ```
 
 ```
-## `geom_smooth()` using method = 'loess'
+## `geom_smooth()` using method = 'loess' and formula 'y ~ x'
 ```
 
-![](2_ggplot2Notes_files/figure-html/multiple layers 2-1.png)<!-- -->
+![](2_ggplot2Notes_files/figure-html/multiple_layers_2-1.png)<!-- -->
 
 ### Statistical Transformations (_stats_)
 
@@ -288,7 +300,7 @@ ggplot(data = diamonds, aes(x = cut, y = price)) +
   stat_summary(fun.y = mean, geom = "point")
 ```
 
-![](2_ggplot2Notes_files/figure-html/summary statistic-1.png)<!-- -->
+![](2_ggplot2Notes_files/figure-html/summary_statistic-1.png)<!-- -->
 
 For now, it will in most cases be perfectly fine to work with default graphs, but down the line, you will want to adjust certain aspects/details. `ggplot2` allows you to do this, and it does require some effort at first. Just to give an indication, here we will play with position and barcharts. 
 
@@ -300,14 +312,14 @@ ggplot(data = diamonds, aes(x = cut, color = cut)) +
   geom_bar()
 ```
 
-![](2_ggplot2Notes_files/figure-html/barcharts 2-1.png)<!-- -->
+![](2_ggplot2Notes_files/figure-html/barcharts_2-1.png)<!-- -->
 
 ```r
 ggplot(data = diamonds, aes(x = cut, fill = cut)) +
   geom_bar()
 ```
 
-![](2_ggplot2Notes_files/figure-html/barcharts 2-2.png)<!-- -->
+![](2_ggplot2Notes_files/figure-html/barcharts_2-2.png)<!-- -->
 
 Notice that we are using the two different aesthetics for the same variable, so it's not so helpful, but we can map it to a different variable. The default action is to produce a stacked barplot.
 
@@ -317,7 +329,7 @@ ggplot(diamonds, aes(x = cut, fill = clarity)) +
   geom_bar()
 ```
 
-![](2_ggplot2Notes_files/figure-html/stacked bar-1.png)<!-- -->
+![](2_ggplot2Notes_files/figure-html/stacked_bar-1.png)<!-- -->
 
 For the most part, following what is typical in our field, we'll want to produced dodged bars. 
 
