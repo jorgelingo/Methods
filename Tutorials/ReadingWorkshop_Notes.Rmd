@@ -1,0 +1,101 @@
+---
+title: "Reading Data Workshop"
+author: "Jorge Valdes"
+date: "August 8, 2019"
+output: 
+  html_document:
+    keep_md: TRUE
+---
+
+# Introduction
+
+We are going to work on a real data set that is MESSY. We have a raw dataset that is extracted from an Eyelink eye-tracker from a reading experiment. First, because this is a new session, we will need to include the `tidyverse` packages.
+
+```{r library}
+library(tidyverse)
+```
+
+Next, we can read in the dataset that we want to use. Last time, we used `read.csv()` to read in a simple .csv file. This time, we want to use a similar command but one that was developed within the `tidyverse` and creates a _tibble_ instead of a base R _data frames_. The command is `read_csv()`. This will make working with the large dataset a little bit more manageable. The dataset is contained within the data folder, so pay attention to the directory command.
+
+```{r read_data}
+reading <- read_csv("data/L2CS_Word8_Ps11_20.csv")
+```
+
+As you can see from the __Global Environment__ pane, this dataset has a very large number of columns (it was extracted without much thought into what actual columns we would need). One quick way to see all of the column names is to use the `names()` command:
+
+```{r columns}
+names(reading)
+```
+
+This is eye-tracking reading data and contains a lot of samples of different ways to measure eye movements through word-defined interest areas. Prior to reading in this data file, the data was actually pre-processed once to create 3 new reading measures that are commonly used in psycholinguistics. These are the last 3: *GAZE_DURATION*, *REGRESSION_PATH_DURATION*, and *TOTAL_DURATION*. In addition, there are several user-definied variables that we will want. Here are the list of variables that we will want for our dataset:
+
+  * **RECORDING_SESSION_LABEL** (Participant)
+  * **aux_type** (Factor that indicates auxiliary: E = 'estar', H = 'haber')
+  * **switch_type** (Factor that indicates where switch occurs: at auxiliary or participle)
+  * **sentence_type** (Variable that identifies practice, experimental, or filler)
+  * **sentence** (Variable that contains sentences, can be used as Items column)
+  * **button_RT** (additional behavioral measure on RT for answering comprehension questions)
+  * **response_accuracy** (additional behavioral measure on accuracy of comprehension questions)
+  * **GAZE_DURATION**
+  * **REGRESSION_PATH_DURATION**
+  * **TOTAL_DURATION**
+  
+We can use select to narrow down the dataset to just these columns:
+
+```{r}
+summary(reading)
+```
+
+```{r}
+levels(as_factor(reading$RECORDING_SESSION_LABEL))
+```
+
+
+
+```{r select}
+reading_exp <- reading %>% 
+  select(RECORDING_SESSION_LABEL, aux_type, switch_type, sentence_type, sentence, button_RT, response_accuracy, GAZE_DURATION, REGRESSION_PATH_DURATION, TOTAL_DURATION)
+```
+
+We can now see in the _Global Environment_ pane that our dataset has been reduced to 10 columns--much more manageable! We want to get a sense of what our **levels** are for each of our **factors**. I'm going to show you a way of iterating over our columns to get our responses:
+
+```{r map_factors}
+reading_exp %>% 
+  select(RECORDING_SESSION_LABEL, aux_type, switch_type, sentence_type, response_accuracy) %>% 
+  map(as_factor) %>% 
+  map(levels)
+```
+
+The `map` functions allow us to iterate commands over different vectors. There is a lot more to learn from them but for now, all you need to know is that my loop created a list with the output for each vector in each element of the loop. Notice that we have some "." which usually means an empty cell. We can filter our data, so if we do this for only experimental items and only correct items, we'll get the limited dataset that we want. 
+
+```{r exp_correct_only}
+reading_exp_correct <- reading_exp %>% 
+  filter(sentence_type == "Experimental" & response_accuracy == "correct")
+```
+
+One more set of tricks that we hadn't learned until now: often times, it's a lot easier to `gather` our dependent variables into a single column, with an additional column that identifies the measure. This is a principle of tidying data. For `gather()`, we need to indicate what variables we are gathering (our DVs). We can then assign them a 'key' and indicate what the values represent. 
+
+```{r gather}
+head(reading_exp_correct)
+reading_exp_long <- reading_exp_correct %>% 
+  gather(GAZE_DURATION, REGRESSION_PATH_DURATION, TOTAL_DURATION, key = "DV", value = "RT")
+head(reading_exp_long)
+```
+
+OK, now it will be easy to calculate means and sd's based on our experimental design:
+
+```{r summarize}
+reading_summary <- reading_exp_long %>% 
+  group_by(aux_type, switch_type, DV) %>% 
+  summarize(meanRT = mean(RT), sdRT = sd(RT))
+reading_summary
+```
+
+Now let's graph with points
+
+```{r graph1}
+ggplot(reading_summary, aes(switch_type, meanRT, color = DV)) +
+  geom_point() +
+  facet_wrap(~aux_type)
+```
+
